@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Eyes_000.png-134fe9615155683969fffa36f22ce499.stex"
+path="res://.import/Arms_001.png-dcf8135d9a48024e276e25d5f3b02e0d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Character/Eyes/Eyes_000.png"
-dest_files=[ "res://.import/Eyes_000.png-134fe9615155683969fffa36f22ce499.stex" ]
+source_file="res://Assets/Character/Arms/Arms_001.png"
+dest_files=[ "res://.import/Arms_001.png-dcf8135d9a48024e276e25d5f3b02e0d.stex" ]
 
 [params]
 
