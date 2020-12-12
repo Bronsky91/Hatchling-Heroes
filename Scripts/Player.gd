@@ -9,6 +9,7 @@ var jumpForce : int = 300
 var gravity : int = 800
 var vel : Vector2 = Vector2()
 var grounded : bool = false
+var lives : int = 1
 
 #components
 onready var sprite = $Sprite
@@ -39,5 +40,10 @@ func _physics_process(delta):
 			sprite.flip_h = true
 		elif vel.x > 0:
 			sprite.flip_h = false
-		
+
+
+func take_damage():
+	lives -= 1
+	if lives < 1:
+		get_tree().reload_current_scene()
 
