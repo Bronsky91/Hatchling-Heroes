@@ -21,27 +21,27 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	# reset horizontal velocity
-	vel.x = 0
-	# movement inputs
-	if Input.is_action_pressed("move_left"):
-		vel.x -= speed
-	if Input.is_action_pressed("move_right"):
-		vel.x += speed
+	get_input()
 	# applying the velocity
 	vel = move_and_slide(vel, Vector2.UP)
 	# gravity
 	vel.y += gravity * delta
+	# reset horizontal velocity
+	vel.x = 0
+
+func get_input():
 	# jump input
 	if Input.is_action_pressed("jump") and is_on_floor():
 		vel.y -= jumpForce
-	# sprite direction
-		if vel.x < 0:
-			sprite.flip_h = true
-		elif vel.x > 0:
-			sprite.flip_h = false
-
-
+	# movement inputs
+	if Input.is_action_pressed("move_left"):
+		print('left')
+		vel.x -= speed
+		sprite.flip_h = true
+	if Input.is_action_pressed("move_right"):
+		vel.x += speed
+		sprite.flip_h = false
+		
 func take_damage():
 	lives -= 1
 	if lives < 1:
