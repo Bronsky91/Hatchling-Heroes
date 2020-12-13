@@ -56,7 +56,6 @@ func _get_transition(delta):
 			elif parent.velocity.x == 0:
 				return states.idle
 		states.jump:
-			print("wall direction: " + str(parent.wall_direction) + " and " + str(parent.wall_slide_cooldown.is_stopped()))
 			if parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
 			elif parent.is_flying:
@@ -88,7 +87,6 @@ func _get_transition(delta):
 
 func _enter_state(new_state, old_state):
 	var direction = "_left" if parent.facing < 0 else "_right"
-	print ("player direction: " + direction)
 	parent.get_node("StateLabel").text = states.keys()[new_state].to_lower() + direction
 	match new_state:
 		states.idle:

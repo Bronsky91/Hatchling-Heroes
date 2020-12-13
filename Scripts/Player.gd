@@ -78,7 +78,7 @@ func _handle_wall_slide_sticking():
 
 func _get_h_weight():
 	if is_on_floor():
-		return 0.2
+		return 1
 	else:
 		if move_direction == 0:
 			return 0.02
@@ -115,7 +115,6 @@ func _check_is_grounded(raycasts = self.raycasts):
 func _update_wall_direction():
 	var is_near_wall_left = _check_is_valid_wall(left_wall_raycast)
 	var is_near_wall_right = _check_is_valid_wall(right_wall_raycast)
-	print("left ray: " + str(is_near_wall_left) + ", right ray: " + str(is_near_wall_right))
 	if is_near_wall_left and is_near_wall_right:
 		wall_direction = move_direction
 	else:
@@ -141,47 +140,3 @@ func take_damage():
 	lives -= 1
 	if lives < 1:
 		get_tree().reload_current_scene()
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _physics_process(delta):
-#	get_input()
-#	# applying the velocity
-#	velocity = move_and_slide(velocity, Vector2.UP)
-#	# reset horizontal velocity
-#	velocity.x = 0
-
-#func get_input():	
-#	var sliding_left = false
-#	var sliding_right = false
-#
-#	# wall slide input
-#	if is_on_wall() and !is_on_floor():
-#		var wall_dir = wall_dir()
-#		if wall_dir == "left" and Input.is_action_pressed("move_left"):
-#			sliding_left = true
-#		elif wall_dir == "right" and Input.is_action_pressed("move_right"):
-#			sliding_right = true
-#		if velocity.y >= 0 and (sliding_left or sliding_right):
-#			velocity.y = min(velocity.y + wall_slide_acceleration, wall_slide_max_speed)
-#		else:
-#			velocity.y += gravity
-#
-#	# jump input
-#	if Input.is_action_just_pressed("jump"):
-#		if is_on_floor():
-#			velocity.y -= jumpForce
-#		elif sliding_left:
-#			velocity.x += jumpForce
-#			velocity.y -= jumpForce
-#		elif sliding_right:
-#			velocity.x -= jumpForce
-#			velocity.y -= jumpForce
-#
-#	# movement inputs
-#	if Input.is_action_pressed("move_left"):
-#		print('left')
-#		velocity.x -= speed
-#		sprite.flip_h = true
-#	if Input.is_action_pressed("move_right"):
-#		velocity.x += speed
-#		sprite.flip_h = false

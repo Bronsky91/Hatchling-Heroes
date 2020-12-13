@@ -22,7 +22,7 @@ func _on_nurture_pressed(type):
 	show_nurture_particle(type)
 	nurture_count_dict[type] += 1
 	print(nurture_count_dict)
-	
+
 func show_nurture_particle(type):
 	var new_particle = particle.instance()
 	new_particle.icon_type = type
