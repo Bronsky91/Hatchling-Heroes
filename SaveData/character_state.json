@@ -1,0 +1,26 @@
+{
+  "Arms": {
+    "palette_num": "003",
+    "texture_num": "001"
+  },
+  "Back": {
+    "palette_num": "003",
+    "texture_num": "001"
+  },
+  "Head": {
+    "palette_num": "003",
+    "texture_num": "001"
+  },
+  "Legs": {
+    "palette_num": "003",
+    "texture_num": "001"
+  },
+  "Tail": {
+    "palette_num": "003",
+    "texture_num": "001"
+  },
+  "Torso": {
+    "palette_num": "003",
+    "texture_num": "001"
+  }
+}

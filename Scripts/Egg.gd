@@ -3,7 +3,7 @@ extends Node2D
 signal nurture_pressed
 
 var particle = preload("res://Scenes/ParticleIcon.tscn")
-var countdown: int = 30
+var countdown: int = 1
 
 var nurture_count_dict = {
 	"Dark": 0,
@@ -42,6 +42,8 @@ func _on_Timer_timeout():
 		$Timer.stop()
 		$CountdownLabel.text = "It's Hatching!"
 		$EggSprite.play()
+		load_creature()
+		$CreatureBody.show()
 		return disable_nurture()
 	countdown -= 1
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
@@ -51,4 +53,35 @@ func disable_nurture():
 		button.disabled = true
 
 func _on_EggSprite_animation_finished():
-	$EggSprite.stop()
+	$EggSprite.hide()
+	$NameLabel.show()
+
+func _on_NameEdit_text_changed():
+		$EscapeButton.show()
+
+func _on_EscapeButton_button_up():
+	save_creature()
+	get_tree().change_scene("res://Scenes/Game.tscn")
+
+func load_creature():
+	for part in $CreatureBody.get_children():
+		if part is Sprite:
+			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + "001" + ".png") 
+
+func save_creature():
+	var creature_parts = ['Torso', 'Tail', 'Head', 'Legs', 'Arms', 'Back']
+
+	var f = File.new()
+	f.open("res://SaveData/character_state.json", File.READ)
+	var json = JSON.parse(f.get_as_text())
+	f.close()
+	var data = json.result
+
+	for part in creature_parts:
+		data[part].texture_num = '001'
+		data[part].palette_num = '003'
+
+	f = File.new()
+	f.open("res://SaveData/character_state.json", File.WRITE)
+	f.store_string(JSON.print(data, "  ", true))
+	f.close()
