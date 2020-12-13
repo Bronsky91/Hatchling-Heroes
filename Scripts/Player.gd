@@ -2,23 +2,26 @@ extends KinematicBody2D
 
 signal grounded_updated(is_grounded)
 
+var tile_size = 16
 var gravity = 800
 var velocity = Vector2()
-var move_speed = 10 * 16
+var move_speed = 10 * tile_size
 var move_direction
 var move_input_speed = 0
-var jump_height = 3 * 16
+var jump_height = 3 * tile_size
+var min_jump_height = tile_size / 2
 var max_jump_velocity
 var min_jump_velocity
-var min_jump_height = 2 * 16
 var facing = 1
 var wall_direction = 1
 
 var is_jumping = false
+var is_flying = false
 var is_grounded = false
 var is_sliding = false
 
 var lives = 1
+var can_fly = true
 
 onready var anim_player = $Body/AnimationPlayer
 onready var body = $Body
@@ -34,16 +37,17 @@ func _ready():
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
-	# set is_jumping to false if player is jumping and moving downward
-	if is_jumping and velocity.y >= 0:
+	# set is_jumping and is_flying to false if player is jumping/flying and moving downward
+	if (is_jumping or is_flying) and velocity.y >= 0:
 		is_jumping = false
+		is_flying = false
 
 func _cap_gravity_wall_slide():
-	var max_velocity = 16 * 10 if Input.is_action_pressed("move_down") else 16
+	var max_velocity = tile_size * 10 if Input.is_action_pressed("move_down") else tile_size
 	velocity.y = min(velocity.y, max_velocity)
 
 func _apply_movement():
-	var snap = Vector2.DOWN * 32 if !is_jumping else Vector2.ZERO
+	var snap = Vector2.DOWN * (tile_size * 2) if !is_jumping and !is_flying else Vector2.ZERO
 	
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
 	
@@ -56,14 +60,13 @@ func _apply_movement():
 func _update_move_direction():
 	move_direction = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
 
-func _handle_movement(var move_speed = self.move_speed):
+func _handle_movement(var speed = self.move_speed):
 	# Get movement keypresses, convert to integers, and then store in move_direction
 	move_input_speed = -Input.get_action_strength("move_left") + Input.get_action_strength("move_right")
 	# Lerp velocity.x towards the direction the player is pressing keys for, weighted based on if they're grounded or not
-	velocity.x = lerp(velocity.x, move_speed * move_input_speed, _get_h_weight())
+	velocity.x = lerp(velocity.x, speed * move_input_speed, _get_h_weight())
 	# Set sprite facing based on the last movement key pressed
 	if move_direction != 0:
-		$Body.scale.x = -move_direction
 		facing = move_direction
 
 func _handle_wall_slide_sticking():
@@ -88,9 +91,14 @@ func jump():
 	velocity.y = max_jump_velocity
 	is_jumping = true
 
-func variable_jump():
+func minimize_jump():
 	if velocity.y < min_jump_velocity:
 		velocity.y = min_jump_velocity
+
+func subsequent_jump():
+	if can_fly:
+		velocity.y = max_jump_velocity
+		is_flying = true
 
 func wall_jump():
 	velocity.y = max_jump_velocity
