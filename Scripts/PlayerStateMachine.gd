@@ -38,6 +38,7 @@ func _state_logic(delta):
 	parent._apply_movement()
 
 func _get_transition(delta):
+	var direction = "_left" if parent.facing < 0 else "_right"
 	match state:
 		states.idle:
 			if !parent.is_on_floor():
@@ -55,6 +56,8 @@ func _get_transition(delta):
 					return states.fall
 			elif parent.velocity.x == 0:
 				return states.idle
+			elif !parent.anim_player.current_animation.ends_with(direction):
+				return states.run
 		states.jump:
 			if parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
@@ -71,6 +74,8 @@ func _get_transition(delta):
 				return states.fall
 			elif parent.is_on_floor():
 				return states.idle
+			elif !parent.anim_player.current_animation.ends_with(direction):
+				return states.fly
 		states.fall:
 			if parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
