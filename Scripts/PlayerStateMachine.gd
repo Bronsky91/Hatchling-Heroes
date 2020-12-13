@@ -16,6 +16,11 @@ func _input(event):
 	elif state == states.jump:
 		if event.is_action_released("jump"):
 			parent.minimize_jump()
+		elif event.is_action_pressed("jump"):
+			parent.subsequent_jump()
+	elif state == states.fall:
+		if event.is_action_pressed("jump"):
+			parent.subsequent_jump()
 	elif state == states.wall_slide:
 		if event.is_action_pressed("jump"):
 			parent.wall_jump()
@@ -51,6 +56,15 @@ func _get_transition(delta):
 			elif parent.velocity.x == 0:
 				return states.idle
 		states.jump:
+			if parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
+				return states.wall_slide
+			elif parent.is_flying:
+				return states.fly
+			elif parent.velocity.y >= 0:
+				return states.fall
+			elif parent.is_on_floor():
+				return states.idle
+		states.fly:
 			if parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
 			elif parent.velocity.y >= 0:

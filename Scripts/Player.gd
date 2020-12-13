@@ -16,6 +16,7 @@ var facing = 1
 var wall_direction = 1
 
 var is_jumping = false
+var is_flying = false
 var is_grounded = false
 var is_sliding = false
 
@@ -36,16 +37,17 @@ func _ready():
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
-	# set is_jumping to false if player is jumping and moving downward
-	if is_jumping and velocity.y >= 0:
+	# set is_jumping and is_flying to false if player is jumping/flying and moving downward
+	if (is_jumping or is_flying) and velocity.y >= 0:
 		is_jumping = false
+		is_flying = false
 
 func _cap_gravity_wall_slide():
 	var max_velocity = tile_size * 10 if Input.is_action_pressed("move_down") else tile_size
 	velocity.y = min(velocity.y, max_velocity)
 
 func _apply_movement():
-	var snap = Vector2.DOWN * (tile_size * 2) if !is_jumping else Vector2.ZERO
+	var snap = Vector2.DOWN * (tile_size * 2) if !is_jumping and !is_flying else Vector2.ZERO
 	
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
 	
@@ -92,6 +94,11 @@ func jump():
 func minimize_jump():
 	if velocity.y < min_jump_velocity:
 		velocity.y = min_jump_velocity
+
+func subsequent_jump():
+	if can_fly:
+		velocity.y = max_jump_velocity
+		is_flying = true
 
 func wall_jump():
 	velocity.y = max_jump_velocity
