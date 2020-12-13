@@ -2,19 +2,15 @@ extends KinematicBody2D
 
 signal grounded_updated(is_grounded)
 
-const UP = Vector2(0,-1)
-const SLOPE_STOP_THRESHOLD = 64.0
-const WALL_JUMP_VELOCITY = Vector2(3 * 16, -int(2 * 16))
-
 var gravity = 800
 var velocity = Vector2()
 var move_speed = 10 * 16
 var move_direction
 var move_input_speed = 0
-var jump_height = 2 * 16
+var jump_height = 3 * 16
 var max_jump_velocity
 var min_jump_velocity
-var min_jump_height = 0.8 * 16
+var min_jump_height = 2 * 16
 var facing = 1
 var wall_direction = 1
 
@@ -38,25 +34,18 @@ func _ready():
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
-	#if is_sliding:
-		#_cap_gravity_wall_slide()
 	# set is_jumping to false if player is jumping and moving downward
 	if is_jumping and velocity.y >= 0:
 		is_jumping = false
 
 func _cap_gravity_wall_slide():
-	var max_velocity = 16 if !Input.is_action_pressed("down") else 2 * 16
+	var max_velocity = 16 * 10 if Input.is_action_pressed("move_down") else 16
 	velocity.y = min(velocity.y, max_velocity)
 
 func _apply_movement():
 	var snap = Vector2.DOWN * 32 if !is_jumping else Vector2.ZERO
 	
-	if move_direction == 0 and abs(velocity.x) < SLOPE_STOP_THRESHOLD:
-		velocity.x = 0
-	
-	var stop_on_slope = true if get_floor_velocity().x == 0 else false
-	
-	velocity = move_and_slide_with_snap(velocity, snap, UP)
+	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
 	
 	var was_grounded = is_grounded
 	is_grounded = is_on_floor()
@@ -74,7 +63,7 @@ func _handle_movement(var move_speed = self.move_speed):
 	velocity.x = lerp(velocity.x, move_speed * move_input_speed, _get_h_weight())
 	# Set sprite facing based on the last movement key pressed
 	if move_direction != 0:
-		$Body.scale.x = move_direction
+		$Body.scale.x = -move_direction
 		facing = move_direction
 
 func _handle_wall_slide_sticking():
@@ -104,9 +93,8 @@ func variable_jump():
 		velocity.y = min_jump_velocity
 
 func wall_jump():
-	var wall_jump_velocity = WALL_JUMP_VELOCITY
-	wall_jump_velocity.x *= -wall_direction
-	velocity = wall_jump_velocity
+	velocity.y = max_jump_velocity
+	velocity.x = (max_jump_velocity / 2) * wall_direction
 
 func _check_is_grounded(raycasts = self.raycasts):
 	# Loop through ground raycasts to determine if they're colliding with the ground
@@ -119,7 +107,6 @@ func _check_is_grounded(raycasts = self.raycasts):
 func _update_wall_direction():
 	var is_near_wall_left = _check_is_valid_wall(left_wall_raycast)
 	var is_near_wall_right = _check_is_valid_wall(right_wall_raycast)
-	
 	if is_near_wall_left and is_near_wall_right:
 		wall_direction = move_direction
 	else:

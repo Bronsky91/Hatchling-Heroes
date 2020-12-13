@@ -10,7 +10,6 @@ func _ready():
 
 func _input(event):
 	if state == states.idle or state == states.run:
-		# JUMP
 		if event.is_action_pressed("jump"):
 			parent.jump()
 	elif state == states.jump:
@@ -84,7 +83,6 @@ func _enter_state(new_state, old_state):
 			parent.anim_player.play("fall")
 		states.wall_slide:
 			parent.anim_player.play("wall_slide")
-			parent.body.scale.x = -parent.wall_direction
 
 func _exit_state(old_state, new_state):
 	match old_state:

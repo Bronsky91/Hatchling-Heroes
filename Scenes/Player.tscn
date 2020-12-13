@@ -213,7 +213,7 @@ enabled = true
 cast_to = Vector2( 0, 2 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 0.2
 one_shot = true
 
 [node name="WallSlideStickyTimer" type="Timer" parent="."]
