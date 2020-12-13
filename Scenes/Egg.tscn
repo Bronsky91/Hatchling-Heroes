@@ -84,43 +84,44 @@ script = ExtResource( 6 )
 position = Vector2( 201.543, 96.7764 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 17 )
-speed_scale = 2.0
 
 [node name="ParticleStart" type="Node2D" parent="EggSprite"]
 position = Vector2( -0.235977, 21.4731 )
 
-[node name="HatchButton" parent="." instance=ExtResource( 4 )]
+[node name="ButtonContainer" type="Node2D" parent="."]
+
+[node name="HatchButton" parent="ButtonContainer" instance=ExtResource( 4 )]
 position = Vector2( 200.044, 54.9178 )
 icon = "Light"
 
-[node name="HatchButton2" parent="." instance=ExtResource( 4 )]
+[node name="HatchButton2" parent="ButtonContainer" instance=ExtResource( 4 )]
 position = Vector2( 251.485, 76.6269 )
 icon = "Heat"
 
-[node name="HatchButton3" parent="." instance=ExtResource( 4 )]
+[node name="HatchButton3" parent="ButtonContainer" instance=ExtResource( 4 )]
 position = Vector2( 262.811, 122.405 )
 icon = "Slime"
 
-[node name="HatchButton4" parent="." instance=ExtResource( 4 )]
+[node name="HatchButton4" parent="ButtonContainer" instance=ExtResource( 4 )]
 position = Vector2( 250.069, 171.014 )
 icon = "Hate"
 
-[node name="HatchButton5" parent="." instance=ExtResource( 4 )]
+[node name="HatchButton5" parent="ButtonContainer" instance=ExtResource( 4 )]
 position = Vector2( 199.572, 190.836 )
 
-[node name="HatchButton6" parent="." instance=ExtResource( 4 )]
+[node name="HatchButton6" parent="ButtonContainer" instance=ExtResource( 4 )]
 position = Vector2( 152.85, 173.374 )
 icon = "Cold"
 
-[node name="HatchButton7" parent="." instance=ExtResource( 4 )]
+[node name="HatchButton7" parent="ButtonContainer" instance=ExtResource( 4 )]
 position = Vector2( 139.164, 122.877 )
 icon = "Crystal"
 
-[node name="HatchButton8" parent="." instance=ExtResource( 4 )]
+[node name="HatchButton8" parent="ButtonContainer" instance=ExtResource( 4 )]
 position = Vector2( 153.322, 76.155 )
 icon = "Love"
 
-[node name="RandomIcon" type="Button" parent="."]
+[node name="RandomIcon" type="Button" parent="ButtonContainer"]
 margin_left = 73.5644
 margin_top = 164.879
 margin_right = 117.565
@@ -135,4 +136,15 @@ __meta__ = {
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
-[connection signal="button_up" from="RandomIcon" to="." method="_on_RandomIcon_button_up"]
+
+[node name="CountdownLabel" type="Label" parent="."]
+margin_left = 233.609
+margin_top = 10.8546
+margin_right = 361.609
+margin_bottom = 24.8546
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="animation_finished" from="EggSprite" to="." method="_on_EggSprite_animation_finished"]
+[connection signal="button_up" from="ButtonContainer/RandomIcon" to="." method="_on_RandomIcon_button_up"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

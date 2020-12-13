@@ -3,6 +3,7 @@ extends Node2D
 signal nurture_pressed
 
 var particle = preload("res://Scenes/ParticleIcon.tscn")
+var countdown: int = 30
 
 var nurture_count_dict = {
 	"Dark": 0,
@@ -17,6 +18,7 @@ var nurture_count_dict = {
 
 func _ready():
 	connect("nurture_pressed", self, "_on_nurture_pressed")
+	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
 
 func _on_nurture_pressed(type):
 	show_nurture_particle(type)
@@ -34,3 +36,19 @@ func _on_RandomIcon_button_up():
 	var random_nurture = nurture_count_dict.keys()[randi() % 8]
 	show_nurture_particle(random_nurture)
 	nurture_count_dict[random_nurture] += 1
+
+func _on_Timer_timeout():
+	if countdown == 0:
+		$Timer.stop()
+		$CountdownLabel.text = "It's Hatching!"
+		$EggSprite.play()
+		return disable_nurture()
+	countdown -= 1
+	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
+
+func disable_nurture():
+	for button in $ButtonContainer.get_children():
+		button.disabled = true
+
+func _on_EggSprite_animation_finished():
+	$EggSprite.stop()
