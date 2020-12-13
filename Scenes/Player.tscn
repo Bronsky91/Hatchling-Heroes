@@ -865,16 +865,16 @@ __meta__ = {
 }
 
 [node name="LeftWallRaycast" type="RayCast2D" parent="."]
-position = Vector2( -5, 5 )
+position = Vector2( -8, 5 )
 rotation = 1.5708
 enabled = true
-cast_to = Vector2( 0, 2 )
+cast_to = Vector2( 0, 4 )
 
 [node name="RightWallRaycast" type="RayCast2D" parent="."]
 position = Vector2( 7, 5 )
 rotation = -1.5708
 enabled = true
-cast_to = Vector2( 0, 2 )
+cast_to = Vector2( 0, 4 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
 wait_time = 0.2

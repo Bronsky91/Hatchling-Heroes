@@ -115,6 +115,7 @@ func _check_is_grounded(raycasts = self.raycasts):
 func _update_wall_direction():
 	var is_near_wall_left = _check_is_valid_wall(left_wall_raycast)
 	var is_near_wall_right = _check_is_valid_wall(right_wall_raycast)
+	print("left ray: " + str(is_near_wall_left) + ", right ray: " + str(is_near_wall_right))
 	if is_near_wall_left and is_near_wall_right:
 		wall_direction = move_direction
 	else:
