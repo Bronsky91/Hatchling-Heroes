@@ -56,14 +56,13 @@ func _apply_movement():
 func _update_move_direction():
 	move_direction = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
 
-func _handle_movement(var move_speed = self.move_speed):
+func _handle_movement(var speed = self.move_speed):
 	# Get movement keypresses, convert to integers, and then store in move_direction
 	move_input_speed = -Input.get_action_strength("move_left") + Input.get_action_strength("move_right")
 	# Lerp velocity.x towards the direction the player is pressing keys for, weighted based on if they're grounded or not
-	velocity.x = lerp(velocity.x, move_speed * move_input_speed, _get_h_weight())
+	velocity.x = lerp(velocity.x, speed * move_input_speed, _get_h_weight())
 	# Set sprite facing based on the last movement key pressed
 	if move_direction != 0:
-		$Body.scale.x = -move_direction
 		facing = move_direction
 
 func _handle_wall_slide_sticking():

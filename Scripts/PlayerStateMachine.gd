@@ -71,18 +71,19 @@ func _get_transition(delta):
 	return null
 
 func _enter_state(new_state, old_state):
-	parent.get_node("StateLabel").text = states.keys()[new_state].capitalize()
+	var direction = "_left" if parent.facing < 0 else "_right"
+	parent.get_node("StateLabel").text = states.keys()[new_state].to_lower() + direction
 	match new_state:
 		states.idle:
-			parent.anim_player.play("idle")
+			parent.anim_player.play("idle" + direction)
 		states.run:
-			parent.anim_player.play("run")
+			parent.anim_player.play("run" + direction)
 		states.jump:
-			parent.anim_player.play("jump")
+			parent.anim_player.play("jump" + direction)
 		states.fall:
-			parent.anim_player.play("fall")
+			parent.anim_player.play("fall" + direction)
 		states.wall_slide:
-			parent.anim_player.play("wall_slide")
+			parent.anim_player.play("wall_slide" + direction)
 
 func _exit_state(old_state, new_state):
 	match old_state:
