@@ -5,6 +5,7 @@ func _ready():
 	add_state("run")
 	add_state("jump")
 	add_state("fall")
+	add_state("fly")
 	add_state("wall_slide")
 	call_deferred("set_state", states.idle)
 
@@ -14,7 +15,7 @@ func _input(event):
 			parent.jump()
 	elif state == states.jump:
 		if event.is_action_released("jump"):
-			parent.variable_jump()
+			parent.minimize_jump()
 	elif state == states.wall_slide:
 		if event.is_action_pressed("jump"):
 			parent.wall_jump()
@@ -82,6 +83,8 @@ func _enter_state(new_state, old_state):
 			parent.anim_player.play("jump" + direction)
 		states.fall:
 			parent.anim_player.play("fall" + direction)
+		states.fly:
+			parent.anim_player.play("fly" + direction)
 		states.wall_slide:
 			parent.anim_player.play("wall_slide" + direction)
 

@@ -2,15 +2,16 @@ extends KinematicBody2D
 
 signal grounded_updated(is_grounded)
 
+var tile_size = 16
 var gravity = 800
 var velocity = Vector2()
-var move_speed = 10 * 16
+var move_speed = 10 * tile_size
 var move_direction
 var move_input_speed = 0
-var jump_height = 3 * 16
+var jump_height = 3 * tile_size
+var min_jump_height = tile_size / 2
 var max_jump_velocity
 var min_jump_velocity
-var min_jump_height = 2 * 16
 var facing = 1
 var wall_direction = 1
 
@@ -19,6 +20,7 @@ var is_grounded = false
 var is_sliding = false
 
 var lives = 1
+var can_fly = true
 
 onready var anim_player = $Body/AnimationPlayer
 onready var body = $Body
@@ -39,11 +41,11 @@ func _apply_gravity(delta):
 		is_jumping = false
 
 func _cap_gravity_wall_slide():
-	var max_velocity = 16 * 10 if Input.is_action_pressed("move_down") else 16
+	var max_velocity = tile_size * 10 if Input.is_action_pressed("move_down") else tile_size
 	velocity.y = min(velocity.y, max_velocity)
 
 func _apply_movement():
-	var snap = Vector2.DOWN * 32 if !is_jumping else Vector2.ZERO
+	var snap = Vector2.DOWN * (tile_size * 2) if !is_jumping else Vector2.ZERO
 	
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
 	
@@ -87,7 +89,7 @@ func jump():
 	velocity.y = max_jump_velocity
 	is_jumping = true
 
-func variable_jump():
+func minimize_jump():
 	if velocity.y < min_jump_velocity:
 		velocity.y = min_jump_velocity
 
