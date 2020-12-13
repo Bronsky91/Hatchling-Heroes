@@ -27,3 +27,10 @@ func show_nurture_particle(type):
 	var new_particle = particle.instance()
 	new_particle.icon_type = type
 	$EggSprite/ParticleStart.add_child(new_particle)
+
+
+func _on_RandomIcon_button_up():
+	randomize()
+	var random_nurture = nurture_count_dict.keys()[randi() % 8]
+	show_nurture_particle(random_nurture)
+	nurture_count_dict[random_nurture] += 1
