@@ -41,7 +41,7 @@ func prepare_matrix():
 			matrix[x].append(TILE.NONE)
 
 func add_floor():
-	var buffer: int = rand_int(strip_min, strip_max)
+	var strip_buffer: int = rand_int(strip_min, strip_max)
 	var current_height: int = rand_int(ground_min, ground_max)
 	for x in range(map_size.x + 1):
 		# fixed ground height below player spawn
@@ -50,40 +50,16 @@ func add_floor():
 			for y in range(ground_min,map_size.y + 1):
 				matrix[x][y] = TILE.GROUND
 		else:
-			if buffer <= 0:
-				buffer = rand_int(strip_min, strip_max)
+			if strip_buffer <= 0:
+				strip_buffer = rand_int(strip_min, strip_max)
 				current_height = rand_int(ground_min, ground_max)
 			floor_line.append(current_height)
 			for y in range(current_height,map_size.y + 1):
 				matrix[x][y] = TILE.GROUND
-			buffer -= 1
-
-func add_lava():
-	var strip_buffer: int = rand_int(strip_min, strip_max)
-	var current_height: int = rand_int(ground_min + 2, map_size.y)
-	for x in range(map_size.x + 1):
-		if strip_buffer <= 0:
-			strip_buffer = rand_int(strip_min, strip_max)
-			current_height = rand_int(floor_line[x] + 2, map_size.y)
-		# ensure lava has 4 spaces of padding from any nearby floor top or water bottom
-		for i in range(0,4):
-			if x - i >= 0:
-				if floor_line[x - i] >= current_height - 4:
-					current_height = floor_line[x - i] + 4
-				if water_bottoms[x - i] >= current_height - 4:
-					current_height = water_bottoms[x - i] + 4
-			if x + i <= map_size.x:
-				if floor_line[x + i] >= current_height - 4:
-					current_height = floor_line[x + i] + 4
-				if water_bottoms[x + i] >= current_height - 4:
-					current_height = water_bottoms[x + i] + 4
-		lava_line.append(current_height)
-		for y in range(current_height, map_size.y + 1):
-			matrix[x][y] = TILE.LAVA
-		strip_buffer -= 1
+			strip_buffer -= 1
 
 func add_ceiling():
-	var buffer: int = rand_int(strip_min, strip_max)
+	var strip_buffer: int = rand_int(strip_min, strip_max)
 	var current_height: int = rand_int(ceiling_min, ceiling_max)
 	for x in range(map_size.x + 1):
 		# fixed ceiling height above player spawn
@@ -92,13 +68,13 @@ func add_ceiling():
 			matrix[x][0] = TILE.GROUND
 			continue
 		
-		if buffer <= 0:
-			buffer = rand_int(strip_min, strip_max)
+		if strip_buffer <= 0:
+			strip_buffer = rand_int(strip_min, strip_max)
 			current_height = rand_int(ceiling_min, ceiling_max)
 		ceiling_line.append(current_height)
 		for y in range(0, current_height + 1):
 			matrix[x][y] = TILE.GROUND
-		buffer -= 1
+		strip_buffer -= 1
 
 func add_water():
 	var strip_start: int = 0
@@ -123,6 +99,33 @@ func add_water():
 						matrix[i][j] = TILE.WATER
 			strip_start = x
 			strip_height = floor_line[x]
+
+func add_lava():
+	var strip_buffer: int = rand_int(strip_min, strip_max)
+	var current_height: int = rand_int(ground_min + 2, map_size.y)
+	for x in range(map_size.x + 1):
+		# ensure bottom tile is always lava no matter what
+		matrix[x][map_size.y] = TILE.LAVA
+		
+		if strip_buffer <= 0:
+			strip_buffer = rand_int(strip_min, strip_max)
+			current_height = rand_int(floor_line[x] + 2, map_size.y)
+		# ensure lava has 4 spaces of padding from any nearby floor top or water bottom
+		for i in range(0,4):
+			if x - i >= 0:
+				if floor_line[x - i] >= current_height - 4:
+					current_height = floor_line[x - i] + 4
+				if water_bottoms[x - i] >= current_height - 4:
+					current_height = water_bottoms[x - i] + 4
+			if x + i <= map_size.x:
+				if floor_line[x + i] >= current_height - 4:
+					current_height = floor_line[x + i] + 4
+				if water_bottoms[x + i] >= current_height - 4:
+					current_height = water_bottoms[x + i] + 4
+		lava_line.append(current_height)
+		for y in range(current_height, map_size.y + 1):
+			matrix[x][y] = TILE.LAVA
+		strip_buffer -= 1
 
 func render_matrix():
 	for x in range(map_size.x + 1):
