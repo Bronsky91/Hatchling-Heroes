@@ -15,6 +15,8 @@ var ceiling_line = []
 var floor_line = []
 var water_tops = []
 var water_bottoms = []
+var pit_tops = []
+var pit_bottoms = []
 var lava_line = []
 var tile_ground = preload("res://Scenes/TileGround.tscn")
 var tile_water = preload("res://Scenes/TileWater.tscn")
@@ -31,7 +33,7 @@ func generate_map():
 	prepare_matrix()
 	add_floor()
 	add_ceiling()
-	add_water()
+	add_water_and_pits()
 	add_lava()
 	render_matrix()
 
@@ -40,6 +42,8 @@ func prepare_matrix():
 		matrix.append([])
 		water_tops.append(int(0))
 		water_bottoms.append(int(0))
+		pit_tops.append(int(0))
+		pit_bottoms.append(int(0))
 		for y in range(map_size.y + 1):
 			matrix[x].append(TILE.NONE)
 
@@ -87,33 +91,41 @@ func add_ceiling():
 			matrix[x][y] = TILE.GROUND
 		strip_buffer -= 1
 
-func add_water():
+func add_water_and_pits():
 	var strip_start: int = 0
 	var strip_height: int = floor_line[0]
+	var is_strip_water: bool
 	var is_first_strip: bool = true
 	for x in range(1, map_size.x + 1):
 		# if floor elevation has changed, check how long the past strip was
 		if floor_line[x] != strip_height:
 			var strip_len = x - 1 - strip_start
-			# if longer than 3 tiles, %50 to replace last strip with water
+			# if longer than 3 tiles, %50 to replace last strip with water or pit
 			# (always skip first strip however, as it will be the spawn area)
 			if strip_len >= 3 and is_first_strip:
 				is_first_strip = false
 			elif strip_len >= 4 and rand_int(1,2) == 1:
-				var water_len_min = strip_len - 4 if strip_len - 4 > 2 else 2
-				var water_len = rand_int(water_len_min, strip_len - 2)
-				var water_depth = rand_int(strip_height + 4, strip_height + 8)
-				var start_padding = rand_int(1, strip_len - water_len - 1)
-				for i in range(strip_start + start_padding, strip_start + water_len + 1):
-					water_tops[i] = strip_height
-					water_bottoms[i] = water_depth
-					# cleanup any spikes floating above where this new water is
+				is_strip_water = rand_int(1,2) == 1 # 50% chance to make this either water or a spike pit
+				var new_len_min = strip_len - 4 if strip_len - 4 > 2 else 2
+				var new_len = rand_int(new_len_min, strip_len - 2)
+				var new_depth = rand_int(strip_height + 4, strip_height + 8)
+				var start_padding = rand_int(1, strip_len - new_len - 1)
+				for i in range(strip_start + start_padding, strip_start + new_len + 1):
+					# cleanup any spikes floating above where this new water or pit is
 					if matrix[i][strip_height - 1] == TILE.SPIKE_UP:
 						matrix[i][strip_height - 1] = TILE.NONE
-					for j in range(strip_height, water_depth + 1):
-						matrix[i][j] = TILE.WATER
-					# add submerged spike to bottom of water
-					add_spike(Vector2(i,water_depth),Vector2.UP,true)
+					# make note of top and bottom heights of new water or pit
+					if is_strip_water:
+						water_tops[i] = strip_height
+						water_bottoms[i] = new_depth
+					else:
+						pit_tops[i] = strip_height
+						pit_bottoms[i] = new_depth
+					# fill in tiles as water or none to make a pit
+					for j in range(strip_height, new_depth + 1):
+						matrix[i][j] = TILE.WATER if is_strip_water else TILE.NONE
+					# add spike to bottom of water or pit
+					add_spike(Vector2(i,new_depth),Vector2.UP,is_strip_water)
 			strip_start = x
 			strip_height = floor_line[x]
 
@@ -134,11 +146,15 @@ func add_lava():
 					current_height = floor_line[x - i] + 4
 				if water_bottoms[x - i] >= current_height - 4:
 					current_height = water_bottoms[x - i] + 4
+				if pit_bottoms[x - i] >= current_height - 4:
+					current_height = pit_bottoms[x - i] + 4
 			if x + i <= map_size.x:
 				if floor_line[x + i] >= current_height - 4:
 					current_height = floor_line[x + i] + 4
 				if water_bottoms[x + i] >= current_height - 4:
 					current_height = water_bottoms[x + i] + 4
+				if pit_bottoms[x + i] >= current_height - 4:
+					current_height = pit_bottoms[x + i] + 4
 		lava_line.append(current_height)
 		for y in range(current_height, map_size.y + 1):
 			matrix[x][y] = TILE.LAVA
