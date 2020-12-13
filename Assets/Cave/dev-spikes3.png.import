@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/dev-spikes.png-1f13d0be2daa8bc89656ae1624f391e6.stex"
+path="res://.import/dev-spikes3.png-38de9b3a3115f16b67c68a66ddf41935.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cave/dev-spikes.png"
-dest_files=[ "res://.import/dev-spikes.png-1f13d0be2daa8bc89656ae1624f391e6.stex" ]
+source_file="res://Assets/Cave/dev-spikes3.png"
+dest_files=[ "res://.import/dev-spikes3.png-38de9b3a3115f16b67c68a66ddf41935.stex" ]
 
 [params]
 
