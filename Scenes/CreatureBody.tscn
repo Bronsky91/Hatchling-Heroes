@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Resources/Materials/palette_swap.tres" type="Material" id=1]
 [ext_resource path="res://Assets/Character/Torso/Torso_001.png" type="Texture" id=2]
@@ -163,8 +163,8 @@ tracks/5/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-resource_name = "fly_left"
-length = 0.1
+resource_name = "wall_slide_right"
+length = 0.4
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Torso:frame")
@@ -173,10 +173,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 23 ]
+"values": [ 26, 27, 28, 29 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Tail:frame")
@@ -185,10 +185,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 23 ]
+"values": [ 26, 27, 28, 29 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Head:frame")
@@ -197,10 +197,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 23 ]
+"values": [ 26, 27, 28, 29 ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Legs:frame")
@@ -209,10 +209,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 23 ]
+"values": [ 26, 27, 28, 29 ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Arms:frame")
@@ -221,10 +221,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 23 ]
+"values": [ 26, 27, 28, 29 ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Back:frame")
@@ -233,10 +233,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 23 ]
+"values": [ 26, 27, 28, 29 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -845,6 +845,82 @@ tracks/5/keys = {
 "values": [ 22 ]
 }
 
+[sub_resource type="Animation" id=12]
+resource_name = "wall_slide_right"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Torso:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Tail:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Head:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Legs:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Arms:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Back:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+
 [node name="Body" type="Node2D"]
 
 [node name="Torso" type="Sprite" parent="."]
@@ -852,42 +928,42 @@ material = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 6
 hframes = 7
-frame = 23
+frame = 22
 
 [node name="Tail" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 3 )
 vframes = 6
 hframes = 7
-frame = 23
+frame = 22
 
 [node name="Head" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 4 )
 vframes = 6
 hframes = 7
-frame = 23
+frame = 22
 
 [node name="Legs" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 5 )
 vframes = 6
 hframes = 7
-frame = 23
+frame = 22
 
 [node name="Arms" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 6 )
 vframes = 6
 hframes = 7
-frame = 23
+frame = 22
 
 [node name="Back" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 7 )
 vframes = 6
 hframes = 7
-frame = 23
+frame = 22
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/fall_left = SubResource( 1 )
@@ -901,4 +977,4 @@ anims/jump_right = SubResource( 8 )
 anims/run_left = SubResource( 9 )
 anims/run_right = SubResource( 10 )
 anims/wall_slide_left = SubResource( 11 )
-anims/wall_slide_right = SubResource( 3 )
+anims/wall_slide_right = SubResource( 12 )

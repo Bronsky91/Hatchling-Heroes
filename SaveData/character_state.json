@@ -1,26 +1,26 @@
 {
   "Arms": {
-    "palette_name": "Bodycolor_008.png",
-    "texture_num": "001"
+    "palette_name": "Bodycolor_010.png",
+    "texture_num": "008"
   },
   "Back": {
-    "palette_name": "Bodycolor_007.png",
+    "palette_name": "Bodycolor_006.png",
     "texture_num": "001"
   },
   "Head": {
-    "palette_name": "Bodycolor_018.png",
-    "texture_num": "009"
+    "palette_name": "Bodycolor_016.png",
+    "texture_num": "003"
   },
   "Legs": {
-    "palette_name": "Bodycolor_005.png",
-    "texture_num": "006"
+    "palette_name": "Bodycolor_012.png",
+    "texture_num": "005"
   },
   "Tail": {
     "palette_name": "Bodycolor_003.png",
-    "texture_num": "004"
+    "texture_num": "001"
   },
   "Torso": {
-    "palette_name": "Bodycolor_008.png",
-    "texture_num": "001"
+    "palette_name": "Bodycolor_010.png",
+    "texture_num": "008"
   }
 }
