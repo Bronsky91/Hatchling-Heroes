@@ -57,13 +57,11 @@ func show_nurture_particle(type):
 	new_particle.icon_type = type
 	$EggSprite/ParticleStart.add_child(new_particle)
 
-
 func _on_RandomIcon_button_up():
 	randomize()
 	var random_nurture = nurture_percent_dict.keys()[randi() % 8]
 	show_nurture_particle(random_nurture)
 	calculate_nurture_percents(random_nurture)
-	save_creature()
 
 func _on_Timer_timeout():
 	if countdown == 0:

@@ -845,37 +845,37 @@ tracks/5/keys = {
 material = ExtResource( 1 )
 vframes = 6
 hframes = 7
-frame = 22
+frame = 30
 
 [node name="Tail" type="Sprite" parent="."]
 material = ExtResource( 1 )
 vframes = 6
 hframes = 7
-frame = 22
+frame = 30
 
 [node name="Head" type="Sprite" parent="."]
 material = ExtResource( 1 )
 vframes = 6
 hframes = 7
-frame = 22
+frame = 30
 
 [node name="Legs" type="Sprite" parent="."]
 material = ExtResource( 1 )
 vframes = 6
 hframes = 7
-frame = 22
+frame = 30
 
 [node name="Arms" type="Sprite" parent="."]
 material = ExtResource( 1 )
 vframes = 6
 hframes = 7
-frame = 22
+frame = 30
 
 [node name="Back" type="Sprite" parent="."]
 material = ExtResource( 1 )
 vframes = 6
 hframes = 7
-frame = 22
+frame = 30
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/fall_left = SubResource( 1 )
