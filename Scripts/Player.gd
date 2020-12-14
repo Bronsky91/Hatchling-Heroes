@@ -143,6 +143,11 @@ func take_damage():
 		get_tree().reload_current_scene()
 		
 func load_creature():
+	var f = File.new()
+	f.open("res://SaveData/character_state.json", File.READ)
+	var json = JSON.parse(f.get_as_text())
+	f.close()
+	var data = json.result
 	for part in $Body.get_children():
 		if part is Sprite:
-			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + "001" + ".png") 
+			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + data[part.name].texture_num + ".png") 
