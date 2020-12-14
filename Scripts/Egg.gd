@@ -87,6 +87,7 @@ func _on_NameEdit_text_changed():
 		$EscapeButton.show()
 
 func _on_EscapeButton_button_up():
+	save_creature_name($NameLabel/NameEdit.text)
 	get_tree().change_scene("res://Scenes/Game.tscn")
 
 func _on_EggSprite_frame_changed():
@@ -167,10 +168,27 @@ func save_creature():
 	f.store_string(JSON.print(data, "  ", true))
 	f.close()
 
+func save_creature_name(name: String):
+	var f = File.new()
+	f.open("res://SaveData/character_saves.json", File.READ_WRITE)
+	
+	var json
+	if f.is_open():
+		json = JSON.parse(f.get_as_text())
+	else:
+		json = JSON.parse("[]")
+	f.close()
+	
+	var save_array = json.result
+	save_array.append({
+		"creature_name": name,
+		"score": 0
+	})
+	
+	f.open("res://SaveData/character_saves.json", File.WRITE)
+	f.store_string(JSON.print(save_array, "  ", true))
+	f.close()
 
-func make_shaders_unique(sprite: Sprite):
-	var mat = sprite.get_material().duplicate()
-	sprite.set_material(mat)
 
 func get_random_palette():
 	var palettes = g.files_in_dir('res://Assets/Character/Palettes')
