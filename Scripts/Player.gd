@@ -32,6 +32,7 @@ onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	g.load_creature(body)
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
 
@@ -140,3 +141,4 @@ func take_damage():
 	lives -= 1
 	if lives < 1:
 		get_tree().reload_current_scene()
+

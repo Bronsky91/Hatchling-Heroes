@@ -24,6 +24,10 @@ config/name="Hatchling Heroes"
 run/main_scene="res://Scenes/Game.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+g="*res://Scripts/global.gd"
+
 [display]
 
 window/size/width=400

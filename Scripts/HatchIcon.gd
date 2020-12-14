@@ -15,6 +15,7 @@ var icon_dict = {
 export (String) var icon = "Dark"
 
 var mouse_hovering: bool = false
+var disabled = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,8 +23,8 @@ func _ready():
 
 
 func _unhandled_input(event):
-	if event.is_action_released("left_click") and mouse_hovering:
-		get_parent().emit_signal("nurture_pressed", icon)
+	if event.is_action_released("left_click") and mouse_hovering and not disabled:
+		get_node('../..').emit_signal("nurture_pressed", icon)
 
 
 func _on_Area2D_mouse_entered():

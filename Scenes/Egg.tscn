@@ -1,0 +1,190 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://Assets/UI/RandomIcon.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Egg/Egg_001.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/CreatureBody.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/HatchIcon.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/Egg.gd" type="Script" id=6]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 128, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 2 )
+region = Rect2( 128, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 2 )
+region = Rect2( 128, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 192, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=17]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Egg" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="CreatureBody" parent="." instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 196.736, 122.043 )
+scale = Vector2( 2, 2 )
+
+[node name="EggSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 201.543, 96.7764 )
+scale = Vector2( 2, 2 )
+frames = SubResource( 17 )
+
+[node name="ParticleStart" type="Node2D" parent="EggSprite"]
+position = Vector2( -0.235977, 21.4731 )
+
+[node name="ButtonContainer" type="Node2D" parent="."]
+
+[node name="HatchButton" parent="ButtonContainer" instance=ExtResource( 4 )]
+position = Vector2( 200.044, 54.9178 )
+icon = "Light"
+
+[node name="HatchButton2" parent="ButtonContainer" instance=ExtResource( 4 )]
+position = Vector2( 251.485, 76.6269 )
+icon = "Heat"
+
+[node name="HatchButton3" parent="ButtonContainer" instance=ExtResource( 4 )]
+position = Vector2( 262.811, 122.405 )
+icon = "Slime"
+
+[node name="HatchButton4" parent="ButtonContainer" instance=ExtResource( 4 )]
+position = Vector2( 250.069, 171.014 )
+icon = "Hate"
+
+[node name="HatchButton5" parent="ButtonContainer" instance=ExtResource( 4 )]
+position = Vector2( 199.572, 190.836 )
+
+[node name="HatchButton6" parent="ButtonContainer" instance=ExtResource( 4 )]
+position = Vector2( 152.85, 173.374 )
+icon = "Cold"
+
+[node name="HatchButton7" parent="ButtonContainer" instance=ExtResource( 4 )]
+position = Vector2( 139.164, 122.877 )
+icon = "Crystal"
+
+[node name="HatchButton8" parent="ButtonContainer" instance=ExtResource( 4 )]
+position = Vector2( 153.322, 76.155 )
+icon = "Love"
+
+[node name="RandomIcon" type="Button" parent="ButtonContainer"]
+margin_left = 73.5644
+margin_top = 164.879
+margin_right = 117.565
+margin_bottom = 202.879
+focus_mode = 0
+enabled_focus_mode = 0
+icon = ExtResource( 1 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="CountdownLabel" type="Label" parent="."]
+margin_left = 233.609
+margin_top = 10.8546
+margin_right = 361.609
+margin_bottom = 24.8546
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EscapeButton" type="Button" parent="."]
+visible = false
+margin_left = 268.574
+margin_top = 210.833
+margin_right = 387.574
+margin_bottom = 230.833
+text = "Escape the Cave!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameLabel" type="Label" parent="."]
+visible = false
+margin_left = 100.649
+margin_top = 214.012
+margin_right = 142.649
+margin_bottom = 228.012
+text = "Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameEdit" type="TextEdit" parent="NameLabel"]
+margin_left = 48.524
+margin_top = -4.60072
+margin_right = 153.524
+margin_bottom = 19.3993
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="animation_finished" from="EggSprite" to="." method="_on_EggSprite_animation_finished"]
+[connection signal="frame_changed" from="EggSprite" to="." method="_on_EggSprite_frame_changed"]
+[connection signal="button_up" from="ButtonContainer/RandomIcon" to="." method="_on_RandomIcon_button_up"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="button_up" from="EscapeButton" to="." method="_on_EscapeButton_button_up"]
+[connection signal="text_changed" from="NameLabel/NameEdit" to="." method="_on_NameEdit_text_changed"]
