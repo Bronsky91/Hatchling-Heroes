@@ -32,7 +32,7 @@ onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	load_creature()
+	g.load_creature(body)
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
 
@@ -141,13 +141,4 @@ func take_damage():
 	lives -= 1
 	if lives < 1:
 		get_tree().reload_current_scene()
-		
-func load_creature():
-	var f = File.new()
-	f.open("res://SaveData/character_state.json", File.READ)
-	var json = JSON.parse(f.get_as_text())
-	f.close()
-	var data = json.result
-	for part in $Body.get_children():
-		if part is Sprite:
-			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + data[part.name].texture_num + ".png") 
+

@@ -71,7 +71,7 @@ func _on_Timer_timeout():
 		$CountdownLabel.text = "It's Hatching!"
 		$EggSprite.play()
 		save_creature()
-		load_creature()
+		g.load_creature($CreatureBody)
 		return disable_nurture()
 	countdown -= 1
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
@@ -91,16 +91,6 @@ func _on_NameEdit_text_changed():
 func _on_EscapeButton_button_up():
 	get_tree().change_scene("res://Scenes/Game.tscn")
 
-func load_creature():
-	var f = File.new()
-	f.open("res://SaveData/character_state.json", File.READ)
-	var json = JSON.parse(f.get_as_text())
-	f.close()
-	var data = json.result
-	for part in $CreatureBody.get_children():
-		if part is Sprite:
-			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + data[part.name].texture_num + ".png") 
-
 func _on_EggSprite_frame_changed():
 	if $EggSprite.frame == 14:
 		$CreatureBody.show()
@@ -118,6 +108,7 @@ func save_creature():
 	#008 - Frog
 	#009 - Duck
 	#010 - Scorpion
+	
 	var nurture_options = {
 		"Dark": ['002', '003', '007'],
 		"Cold": ['006', '008', '009'],
@@ -128,25 +119,40 @@ func save_creature():
 		"Light": ['001', '008', '009'],
 		"Slime": ['004', '005', '006', '008'],
 	}
-
 	
 	var f = File.new()
 	f.open("res://SaveData/character_state.json", File.READ)
 	var json = JSON.parse(f.get_as_text())
 	f.close()
 	var data = json.result
-
+	
 	for part in creature_parts:
 		var nurture_for_part = find_nurture_based_on_thres()
 		randomize()
 		var creature_base = nurture_options[nurture_for_part][randi() % nurture_options[nurture_for_part].size()]
+		var random_part_color = get_random_palette()
 		if part == 'Torso':
 			# Do same for Arms
 			data['Arms'].texture_num = creature_base
+			data['Arms'].palette_name = random_part_color
 		data[part].texture_num = creature_base
-		#data[part].palette_num = creature_base
-
+		data[part].palette_name = random_part_color
+	
 	f = File.new()
 	f.open("res://SaveData/character_state.json", File.WRITE)
 	f.store_string(JSON.print(data, "  ", true))
 	f.close()
+
+
+func make_shaders_unique(sprite: Sprite):
+	var mat = sprite.get_material().duplicate()
+	sprite.set_material(mat)
+
+func get_random_palette():
+	var palettes = g.files_in_dir('res://Assets/Character/Palettes')
+	for p in palettes:
+		if '000' in p:
+			palettes.erase(p)
+	randomize()
+	var rand_palette = palettes[randi() % palettes.size()]
+	return rand_palette

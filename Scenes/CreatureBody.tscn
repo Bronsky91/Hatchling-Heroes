@@ -1,4 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Resources/Materials/palette_swap.tres" type="Material" id=1]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fall_left"
@@ -840,31 +842,37 @@ tracks/5/keys = {
 [node name="Body" type="Node2D"]
 
 [node name="Torso" type="Sprite" parent="."]
+material = ExtResource( 1 )
 vframes = 6
 hframes = 7
 frame = 22
 
 [node name="Tail" type="Sprite" parent="."]
+material = ExtResource( 1 )
 vframes = 6
 hframes = 7
 frame = 22
 
 [node name="Head" type="Sprite" parent="."]
+material = ExtResource( 1 )
 vframes = 6
 hframes = 7
 frame = 22
 
 [node name="Legs" type="Sprite" parent="."]
+material = ExtResource( 1 )
 vframes = 6
 hframes = 7
 frame = 22
 
 [node name="Arms" type="Sprite" parent="."]
+material = ExtResource( 1 )
 vframes = 6
 hframes = 7
 frame = 22
 
 [node name="Back" type="Sprite" parent="."]
+material = ExtResource( 1 )
 vframes = 6
 hframes = 7
 frame = 22
