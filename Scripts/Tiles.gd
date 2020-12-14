@@ -9,7 +9,7 @@ export var ceiling_max: int = 8
 export var ground_min: int = 15
 export var ground_max: int = 22
 
-enum TILE {NONE, GROUND, WATER, LAVA, SPIKE_UP, SPIKE_DOWN, SPIKE_WATER, PLATFORM = -1}
+enum TILE {NONE, GROUND, WATER, LAVA, SPIKE_UP, SPIKE_UP_A, SPIKE_UP_B, SPIKE_DOWN, SPIKE_DOWN_A, SPIKE_DOWN_B, SPIKE_WATER, SPIKE_WATER, SPIKE_WATER_A, SPIKE_WATER_B, PLATFORM = -1}
 var matrix = []
 var ceiling_line = []
 var floor_line = []
@@ -18,12 +18,22 @@ var water_bottoms = []
 var pit_tops = []
 var pit_bottoms = []
 var lava_line = []
-var tile_ground = preload("res://Scenes/TileGround.tscn")
-var tile_water = preload("res://Scenes/TileWater.tscn")
-var tile_lava = preload("res://Scenes/TileLava.tscn")
-var tile_spike = preload("res://Scenes/TileSpike.tscn")
-var tile_submerged_spike = preload("res://Scenes/TileSubmergedSpike.tscn")
-var tile_platform = preload("res://Scenes/TilePlatform.tscn")
+var tile_ground = preload("res://Scenes/Tiles/Ground.tscn")
+var tile_water = preload("res://Scenes/Tiles/Water.tscn")
+var tile_lava = preload("res://Scenes/Tiles/Lava.tscn")
+var tile_platform = preload("res://Scenes/Tiles/Platform_01.tscn")
+var tile_spike_u_01 = preload("res://Scenes/Tiles/SpikeU_01.tscn")
+var tile_spike_u_02 = preload("res://Scenes/Tiles/SpikeU_02.tscn")
+var tile_spike_u_03a = preload("res://Scenes/Tiles/SpikeU_03a.tscn")
+var tile_spike_u_03b = preload("res://Scenes/Tiles/SpikeU_03b.tscn")
+var tile_spike_d_01 = preload("res://Scenes/Tiles/SpikeD_01.tscn")
+var tile_spike_d_02 = preload("res://Scenes/Tiles/SpikeD_02.tscn")
+var tile_spike_d_03a = preload("res://Scenes/Tiles/SpikeD_03a.tscn")
+var tile_spike_d_03b = preload("res://Scenes/Tiles/SpikeD_03b.tscn")
+var tile_spike_w_01 = preload("res://Scenes/Tiles/SpikeW_01.tscn")
+var tile_spike_w_02 = preload("res://Scenes/Tiles/SpikeW_02.tscn")
+var tile_spike_w_03a = preload("res://Scenes/Tiles/SpikeW_03a.tscn")
+var tile_spike_w_03b = preload("res://Scenes/Tiles/SpikeW_03b.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -117,8 +127,8 @@ func add_water_and_pits():
 				# process calculated water / pit dimensions
 				for i in range(strip_start + start_padding, strip_start + new_len + 1):
 					# cleanup any spikes floating above where this new water or pit is
-					if matrix[i][strip_height - 1] == TILE.SPIKE_UP:
-						matrix[i][strip_height - 1] = TILE.NONE
+					matrix[i][strip_height - 1] = TILE.NONE
+					matrix[i][strip_height - 2] = TILE.NONE
 					# make note of top and bottom heights of new water or pit
 					if is_strip_water:
 						water_tops[i] = strip_height
@@ -166,25 +176,31 @@ func add_lava():
 		strip_buffer -= 1
 
 func can_spike_go_here(coord: Vector2):
-	# flag invalid if too close to existing spike
+	# flag invalid if too close to existing tile
 	for i in range(1,3):
-		if coord.x - i > 0:
-			if matrix[coord.x - i][coord.y] == TILE.SPIKE_UP:
-				return false
-		if coord.x + i < map_size.x:
-			if matrix[coord.x + i][coord.y] == TILE.SPIKE_UP:
-				return false
+		if coord.x - i > 0 and matrix[coord.x - i][coord.y] != TILE.NONE:
+			return false
+		if coord.x + i < map_size.x and matrix[coord.x + i][coord.y] != TILE.NONE:
+			return false
+		if coord.y - i > 0 and matrix[coord.x][coord.y - i] != TILE.NONE:
+			return false
 	#  or if first tile after climb
 	if coord.x > 0 and floor_line[coord.x - 1] - (coord.y + 1) > 1:
 		return false
 	return true
 
 func add_spike(coord: Vector2, facing: Vector2, submerged: bool):
-	match facing:
-		Vector2.UP:
-			matrix[coord.x][coord.y] = TILE.SPIKE_WATER if submerged else TILE.SPIKE_UP
-		Vector2.DOWN:
-			matrix[coord.x][coord.y] = TILE.SPIKE_WATER if submerged else TILE.SPIKE_DOWN
+	var spike_height = rand_int(1,2)
+	if facing == Vector2.UP and spike_height == 1:
+		matrix[coord.x][coord.y] = TILE.SPIKE_WATER if submerged else TILE.SPIKE_UP
+	elif facing == Vector2.UP and spike_height == 2:
+		matrix[coord.x][coord.y] = TILE.SPIKE_WATER_A if submerged else TILE.SPIKE_UP_A
+		matrix[coord.x][coord.y - 1] = TILE.SPIKE_WATER_B if submerged else TILE.SPIKE_UP_B
+	elif facing == Vector2.DOWN and spike_height == 1:
+		matrix[coord.x][coord.y] = TILE.SPIKE_DOWN
+	elif facing == Vector2.DOWN and spike_height == 2:
+		matrix[coord.x][coord.y] = TILE.SPIKE_DOWN_A
+		matrix[coord.x][coord.y + 1] = TILE.SPIKE_DOWN_B
 
 func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 	var platform_width = 3
@@ -199,7 +215,8 @@ func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 	matrix[platform_x][platform_y] = TILE.PLATFORM
 	
 	var gap_clearable: bool = false
-	while !gap_clearable:
+	var iteration_counter: int = 20
+	while !gap_clearable and iteration_counter > 0:
 		# check if gap is now clearable (4 away for elevation 2, 5 away for elevation 3, etc)
 		var distance_x = jumpable_stop - (platform_x + platform_width)
 		var distance_y = gap_height - platform_y
@@ -207,10 +224,10 @@ func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 			gap_clearable = true
 		else:
 			# not there yet, place new platform. viable options are:
-			# [up -1, right 4-6], [up 0, right 3-5], [up 1, right 3-5], [up 2, right 2-4], [up 3, right 2-3]
+			# [down 1, right 4-6], [up 0, right 3-5], [up 1, right 3-5], [up 2, right 2-4], [up 3, right 2-3]
 			# TODO: if no valid placements, rebuild cave
 			var valid_placement: bool = false
-			while !valid_placement:
+			while !valid_placement and iteration_counter > 0:
 				var new_y: int = rand_int(-1,3)
 				var new_x: int
 				match new_y:
@@ -227,11 +244,13 @@ func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 				new_x = platform_x + platform_width + new_x
 				new_y = platform_y - new_y
 				var is_valid = true
-				# ensure platform is not on or immediately below/above spikes
-				for i in range(new_x, new_x + platform_width + 1):
-					for j in range(0,3):
-						if i > 0 and j < map_size.y:
-							if matrix[i][j] == TILE.SPIKE_UP or matrix[i][j] == TILE.SPIKE_DOWN:
+				# ensure platform is not pressed up against anything
+				for x in range(new_x - 1, new_x + platform_width + 2):
+					if !is_valid:
+						break
+					for y in range(new_y - 1, new_y + 2):
+						if x > 0 and y < map_size.y:
+							if matrix[x][y] != TILE.NONE:
 								is_valid = false
 								break
 						else:
@@ -241,7 +260,15 @@ func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 					platform_x = new_x
 					platform_y = new_y
 					matrix[platform_x][platform_y] = TILE.PLATFORM
+					iteration_counter = 20
 					valid_placement = true
+				else:
+					iteration_counter -= 1
+					if iteration_counter == 0:
+						print("failed to find valid platform placement! gave up covering gap...")
+
+func is_tile_a_spike(x: int, y: int):
+	return TILE.keys()[matrix[x][y]].begins_with("SPIKE")
 
 func render_matrix():
 	for x in range(map_size.x + 1):
@@ -255,12 +282,23 @@ func render_matrix():
 				TILE.LAVA:
 					t = tile_lava.instance()
 				TILE.SPIKE_UP:
-					t = tile_spike.instance()
+					t = tile_spike_u_01.instance() if rand_int(1,2) == 1 else tile_spike_u_02.instance()
+				TILE.SPIKE_UP_A:
+					t = tile_spike_u_03a.instance()
+				TILE.SPIKE_UP_B:
+					t = tile_spike_u_03b.instance()
 				TILE.SPIKE_DOWN:
-					t = tile_spike.instance()
-					t.flip_upside_down()
+					t = tile_spike_d_01.instance() if rand_int(1,2) == 1 else tile_spike_d_02.instance()
+				TILE.SPIKE_DOWN_A:
+					t = tile_spike_d_03a.instance()
+				TILE.SPIKE_DOWN_B:
+					t = tile_spike_d_03b.instance()
 				TILE.SPIKE_WATER:
-					t = tile_submerged_spike.instance()
+					t = tile_spike_w_01.instance() if rand_int(1,2) == 1 else tile_spike_w_02.instance()
+				TILE.SPIKE_WATER_A:
+					t = tile_spike_w_03a.instance()
+				TILE.SPIKE_WATER_B:
+					t = tile_spike_w_03b.instance()
 				TILE.PLATFORM:
 					t = tile_platform.instance()
 			if t:
