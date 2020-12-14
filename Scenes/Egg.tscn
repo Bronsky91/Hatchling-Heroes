@@ -93,7 +93,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 400.949, 100.995 ), Vector2( -700, 100.995 ) ]
+"values": [ Vector2( 400.949, 100.995 ), Vector2( -710, 100.995 ) ]
 }
 
 [node name="Egg" type="Node2D"]
@@ -207,12 +207,12 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 400.949
+margin_left = -710.0
 margin_top = 100.995
-margin_right = 1028.95
+margin_right = 0.000183105
 margin_bottom = 135.999
 custom_fonts/font = ExtResource( 7 )
-text = "An Egg is nearly ready to hatch!"
+text = "Nurture your egg before it hatches!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
