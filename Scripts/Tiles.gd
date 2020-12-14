@@ -189,15 +189,13 @@ func add_spike(coord: Vector2, facing: Vector2, submerged: bool):
 func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 	var platform_width = 3
 	var jumpable_start = gap_start - 1 if matrix[gap_start - 1][gap_height - 1] == TILE.NONE else gap_start - 2
-	var jumpable_stop = gap_stop + 1 if matrix[gap_stop + 1][gap_height - 1] == TILE.NONE else gap_start + 2
-	print("add_platforms - gap_start:" + str(gap_start) + " gap_stop:" + str(gap_stop) + " gap_height:" + str(gap_height) + " jumpable_start:" + str(jumpable_start) + " jumpable_stop:" + str(jumpable_stop))
+	var jumpable_stop = gap_stop + 1 if matrix[gap_stop + 1][gap_height - 1] == TILE.NONE else gap_stop + 2
 	# start at first free ground tile preceding gap
 	# place first platform either [up 3, right 2-3] or [up 2, right 2-4]
 	var platform_y = rand_int(2,3)
 	var platform_x = rand_int(2,4) if platform_y == 2 else rand_int(2,3)
 	platform_x = gap_start + platform_x
 	platform_y = gap_height - platform_y
-	print("platform_x:" + str(platform_x) + " platform_y:" + str(platform_y))
 	matrix[platform_x][platform_y] = TILE.PLATFORM
 	
 	var gap_clearable: bool = false
@@ -205,20 +203,19 @@ func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 		# check if gap is now clearable (4 away for elevation 2, 5 away for elevation 3, etc)
 		var distance_x = jumpable_stop - (platform_x + platform_width)
 		var distance_y = gap_height - platform_y
-		print("distance_x:" + str(distance_x) + " distance_y:" + str(distance_y))
 		if distance_x - distance_y <= 2:
-			print("gap_clearable!")
 			gap_clearable = true
 		else:
-			print("gap not clearable!")
 			# not there yet, place new platform. viable options are:
-			# [up 0, right 3-5], [up 1, right 3-5], [up 2, right 2-4], [up 3, right 2-3]
+			# [up -1, right 4-6], [up 0, right 3-5], [up 1, right 3-5], [up 2, right 2-4], [up 3, right 2-3]
 			# TODO: if no valid placements, rebuild cave
 			var valid_placement: bool = false
 			while !valid_placement:
-				var new_y: int = rand_int(0,3)
+				var new_y: int = rand_int(-1,3)
 				var new_x: int
 				match new_y:
+					-1:
+						new_x = rand_int(4,6)
 					0:
 						new_x = rand_int(3,5)
 					1:
@@ -229,7 +226,6 @@ func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 						new_x = rand_int(2,3)
 				new_x = platform_x + platform_width + new_x
 				new_y = platform_y - new_y
-				print("new_x:" + str(new_x) + " new_y:" + str(new_y))
 				var is_valid = true
 				# ensure platform is not on or immediately below/above spikes
 				for i in range(new_x, new_x + platform_width + 1):
@@ -245,7 +241,6 @@ func add_platforms(gap_start: int, gap_stop: int, gap_height: int):
 					platform_x = new_x
 					platform_y = new_y
 					matrix[platform_x][platform_y] = TILE.PLATFORM
-					print("valid! -- placing platform at:" + str(platform_x) + "," + str(platform_y))
 					valid_placement = true
 
 func render_matrix():
@@ -267,7 +262,6 @@ func render_matrix():
 				TILE.SPIKE_WATER:
 					t = tile_submerged_spike.instance()
 				TILE.PLATFORM:
-					print("placing platform at: " + str(x) +","+str(y))
 					t = tile_platform.instance()
 			if t:
 				t.position = Vector2(x * 16, y * 16)
