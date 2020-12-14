@@ -3,7 +3,7 @@ extends Node2D
 signal nurture_pressed
 
 var particle = preload("res://Scenes/ParticleIcon.tscn")
-var countdown: int = 5
+var countdown: int = 15
 
 var nurture_percent_dict = {
 	"Cold": 0.125,
@@ -19,7 +19,7 @@ var nurture_percent_dict = {
 func _ready():
 	connect("nurture_pressed", self, "_on_nurture_pressed")
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
-	start()
+	#start()
 	disable_nurture()
 	
 func start():

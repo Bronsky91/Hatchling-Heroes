@@ -4,12 +4,16 @@ extends Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$AudioStreamPlayer.stream = load("res://Assets/Music/Main_Menu_Track_Game_Jam1.wav")
+	$AudioStreamPlayer.play()
 
 
 func _on_Start_button_up():
+	$AudioStreamPlayer.stream = load("res://Assets/Music/Egg_Creation_Menu.wav")
+	$AudioStreamPlayer.play()
 	$Title/Options.emit_signal("index_update", 0)
 	$Title.hide()
+	$Title/Options.disable_input = true
 	$Egg.start()
 	
 
