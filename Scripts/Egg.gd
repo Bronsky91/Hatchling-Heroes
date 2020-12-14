@@ -3,17 +3,17 @@ extends Node2D
 signal nurture_pressed
 
 var particle = preload("res://Scenes/ParticleIcon.tscn")
-var countdown: int = 1
+var countdown: int = 5
 
-var nurture_count_dict = {
-	"Dark": 0,
-	"Cold": 0,
-	"Hate": 0,
-	"Love": 0,
-	"Crystal": 0,
-	"Heat": 0,
-	"Light": 0,
-	"Slime": 0
+var nurture_percent_dict = {
+	"Dark": 0.125,
+	"Cold": 0.125,
+	"Hate": 0.125,
+	"Love": 0.125,
+	"Crystal": 0.125,
+	"Heat": 0.125,
+	"Light": 0.125,
+	"Slime": 0.125,
 }
 
 func _ready():
@@ -22,8 +22,25 @@ func _ready():
 
 func _on_nurture_pressed(type):
 	show_nurture_particle(type)
-	nurture_count_dict[type] += 1
-	print(nurture_count_dict)
+	calculate_nurture_percents(type)
+	
+func calculate_nurture_percents(type):
+	var incr = 0.01
+	var max_percent = 0.30
+	var min_percent = 0.05
+	for nurture_type in nurture_percent_dict.keys():
+		if nurture_type != type and nurture_percent_dict[type] + incr <= max_percent and nurture_percent_dict[type] - incr >= min_percent:
+			nurture_percent_dict[type] += incr
+			nurture_percent_dict[nurture_type] -= incr
+
+func calculate_thresholds():
+	var thres_dict = nurture_percent_dict
+	var last_thres: float = 0.0
+	for type in thres_dict.keys():
+		var thres_of_type: float = last_thres + nurture_percent_dict[type]
+		thres_dict[type] = thres_of_type
+		last_thres = thres_of_type
+	return thres_dict
 
 func show_nurture_particle(type):
 	var new_particle = particle.instance()
@@ -33,9 +50,9 @@ func show_nurture_particle(type):
 
 func _on_RandomIcon_button_up():
 	randomize()
-	var random_nurture = nurture_count_dict.keys()[randi() % 8]
+	var random_nurture = nurture_percent_dict.keys()[randi() % 8]
 	show_nurture_particle(random_nurture)
-	nurture_count_dict[random_nurture] += 1
+	# nurture_percent_dict[random_nurture] += 1
 
 func _on_Timer_timeout():
 	if countdown == 0:
@@ -43,12 +60,12 @@ func _on_Timer_timeout():
 		$CountdownLabel.text = "It's Hatching!"
 		$EggSprite.play()
 		load_creature()
-		$CreatureBody.show()
 		return disable_nurture()
 	countdown -= 1
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
 
 func disable_nurture():
+	$ButtonContainer.hide()
 	for button in $ButtonContainer.get_children():
 		button.disabled = true
 
@@ -68,9 +85,15 @@ func load_creature():
 		if part is Sprite:
 			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + "001" + ".png") 
 
-func save_creature():
-	var creature_parts = ['Torso', 'Tail', 'Head', 'Legs', 'Arms', 'Back']
+func _on_EggSprite_frame_changed():
+	if $EggSprite.frame == 14:
+		$CreatureBody.show()
 
+func save_creature():
+	## NOTE: Torsa and Arms are the SAME
+	var creature_parts = ['Torso', 'Arms', 'Tail', 'Head', 'Legs', 'Back']
+	var thresold_dict = calculate_thresholds()
+	
 	var f = File.new()
 	f.open("res://SaveData/character_state.json", File.READ)
 	var json = JSON.parse(f.get_as_text())
@@ -78,6 +101,8 @@ func save_creature():
 	var data = json.result
 
 	for part in creature_parts:
+		if part == 'Arms':
+			pass # Do same as Torso
 		data[part].texture_num = '001'
 		data[part].palette_num = '003'
 
