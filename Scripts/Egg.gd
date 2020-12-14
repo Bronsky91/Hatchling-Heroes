@@ -124,14 +124,14 @@ func save_creature():
 	f.close()
 	var data = json.result
 	## Same palette for each part
-	var random_part_color = get_random_palette()
+	# var random_part_color = get_random_palette()
 	##
 	for part in creature_parts:
 		var nurture_for_part = find_nurture_based_on_thres()
 		randomize()
 		var creature_base = nurture_options[nurture_for_part][randi() % nurture_options[nurture_for_part].size()]
 		## Different palette for each part
-		# var random_part_color = get_random_palette()
+		var random_part_color = get_random_palette()
 		##
 		if part == 'Torso':
 			# Do same for Arms
