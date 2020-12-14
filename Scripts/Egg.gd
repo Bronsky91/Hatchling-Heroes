@@ -118,11 +118,33 @@ func save_creature():
 		"Slime": ['004', '005', '006', '008'],
 	}
 	
-	var f = File.new()
-	f.open("res://SaveData/character_state.json", File.READ)
-	var json = JSON.parse(f.get_as_text())
-	f.close()
-	var data = json.result
+	var data = {
+	  "Arms": {
+		"palette_name": "",
+		"texture_num": ""
+	  },
+	  "Back": {
+		"palette_name": "",
+		"texture_num": ""
+	  },
+	  "Head": {
+		"palette_name": "",
+		"texture_num": ""
+	  },
+	  "Legs": {
+		"palette_name": "",
+		"texture_num": ""
+	  },
+	  "Tail": {
+		"palette_name": "",
+		"texture_num": ""
+	  },
+	  "Torso": {
+		"palette_name": "",
+		"texture_num": ""
+	  }
+	}
+	
 	## Same palette for each part
 	# var random_part_color = get_random_palette()
 	##
@@ -140,7 +162,7 @@ func save_creature():
 		data[part].texture_num = creature_base
 		data[part].palette_name = random_part_color
 	
-	f = File.new()
+	var f = File.new()
 	f.open("res://SaveData/character_state.json", File.WRITE)
 	f.store_string(JSON.print(data, "  ", true))
 	f.close()

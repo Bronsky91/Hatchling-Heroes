@@ -31,8 +31,8 @@ texture = ExtResource( 4 )
 
 [node name="Black" type="Sprite" parent="Backgorund"]
 modulate = Color( 1, 1, 1, 0.65098 )
-position = Vector2( 199.604, 121.235 )
-texture = ExtResource( 5 )
+position = Vector2( 198.604, 119.735 )
+texture = ExtResource( 8 )
 
 [node name="Title" type="Node2D" parent="."]
 
