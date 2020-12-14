@@ -1,7 +1,8 @@
 extends Node
 
 func _ready():
-	OS.set_window_maximized(true)
+	pass
+	#OS.set_window_maximized(true)
 
 func files_in_dir(path: String, keyword: String = "") -> Array:
 	var files = []

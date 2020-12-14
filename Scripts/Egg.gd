@@ -19,7 +19,19 @@ var nurture_percent_dict = {
 func _ready():
 	connect("nurture_pressed", self, "_on_nurture_pressed")
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
+	start()
+	disable_nurture()
+	
+func start():
+	show()
+	$Label/AnimationPlayer.play("Fly")
+	# TODO: Add music start
 
+func _on_AnimationPlayer_animation_finished(anim_name):
+	$Timer.start()
+	$CountdownLabel.show()
+	enable_nurture()
+	
 func _on_nurture_pressed(type):
 	show_nurture_particle(type)
 	calculate_nurture_percents(type)
@@ -78,6 +90,11 @@ func disable_nurture():
 	$ButtonContainer.hide()
 	for button in $ButtonContainer.get_children():
 		button.disabled = true
+		
+func enable_nurture():
+	$ButtonContainer.show()
+	for button in $ButtonContainer.get_children():
+		button.disabled = false
 
 func _on_EggSprite_animation_finished():
 	$EggSprite.hide()
@@ -198,3 +215,5 @@ func get_random_palette():
 	randomize()
 	var rand_palette = palettes[randi() % palettes.size()]
 	return rand_palette
+
+
