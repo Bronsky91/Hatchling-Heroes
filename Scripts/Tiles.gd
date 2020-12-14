@@ -19,7 +19,8 @@ var pit_tops = []
 var pit_bottoms = []
 var lava_line = []
 var tile_ground = preload("res://Scenes/Tiles/Ground.tscn")
-var tile_water = preload("res://Scenes/Tiles/Water.tscn")
+var tile_water_surface = preload("res://Scenes/Tiles/WaterSurface.tscn")
+var tile_water_fill = preload("res://Scenes/Tiles/WaterFill.tscn")
 var tile_lava = preload("res://Scenes/Tiles/Lava.tscn")
 var tile_platform = preload("res://Scenes/Tiles/Platform_01.tscn")
 var tile_spike_u_01 = preload("res://Scenes/Tiles/SpikeU_01.tscn")
@@ -278,7 +279,7 @@ func render_matrix():
 				TILE.GROUND:
 					t = tile_ground.instance()
 				TILE.WATER:
-					t = tile_water.instance()
+					t = tile_water_surface.instance() if water_tops[x] == y else tile_water_fill.instance()
 				TILE.LAVA:
 					t = tile_lava.instance()
 				TILE.SPIKE_UP:
