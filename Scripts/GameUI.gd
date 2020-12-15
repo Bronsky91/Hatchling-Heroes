@@ -16,6 +16,7 @@ func game_over():
 	$GameOverLabel.show()
 	$GameOverLabel/StartOver.disabled = false
 	$GameOverLabel/Exit.disabled = false
+	$BlackBG.show()
 	disabled_input = false
 	
 func _on_index_update(new_index):

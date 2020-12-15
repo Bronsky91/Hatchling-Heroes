@@ -52,7 +52,6 @@ func complete_level():
 	$ScoreTimer.stop()
 	$StateMachine.movement_disabled = true
 	$Body.z_index = 2
-	$Camera2D/BlackBackground.show()
 	UI.game_over()
 	# TODO: Game Success Screen -> Egg Creation
 	
