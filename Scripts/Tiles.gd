@@ -9,7 +9,7 @@ export var ceiling_max: int = 8
 export var ground_min: int = 15
 export var ground_max: int = 22
 
-enum TILE {NONE, GROUND, WATER, LAVA, SPIKE_UP, SPIKE_UP_A, SPIKE_UP_B, SPIKE_DOWN, SPIKE_DOWN_A, SPIKE_DOWN_B, SPIKE_WATER, SPIKE_WATER, SPIKE_WATER_A, SPIKE_WATER_B, PLATFORM = -1}
+enum TILE {NONE, GROUND_FLOOR, GROUND_CEIL, WATER, LAVA, SPIKE_UP, SPIKE_UP_A, SPIKE_UP_B, SPIKE_DOWN, SPIKE_DOWN_A, SPIKE_DOWN_B, SPIKE_WATER, SPIKE_WATER, SPIKE_WATER_A, SPIKE_WATER_B, PLATFORM = -1}
 var matrix = []
 var ceiling_line = []
 var floor_line = []
@@ -67,7 +67,7 @@ func add_floor():
 		if x < spawn_width:
 			floor_line.append(ground_min)
 			for y in range(ground_min,map_size.y + 1):
-				matrix[x][y] = TILE.GROUND
+				matrix[x][y] = TILE.GROUND_FLOOR
 		else:
 			if strip_buffer <= 0:
 				strip_buffer = rand_int(strip_min, strip_max)
@@ -79,7 +79,7 @@ func add_floor():
 					add_spike(Vector2(x,current_height - 1),Vector2.UP,false)
 			# fill in rest of floor with ground tiles
 			for y in range(current_height,map_size.y + 1):
-				matrix[x][y] = TILE.GROUND
+				matrix[x][y] = TILE.GROUND_FLOOR
 			strip_buffer -= 1
 
 func add_ceiling():
@@ -89,7 +89,7 @@ func add_ceiling():
 		# fixed ceiling height above player spawn
 		if x < spawn_width:
 			ceiling_line.append(int(0))
-			matrix[x][0] = TILE.GROUND
+			matrix[x][0] = TILE.GROUND_CEIL
 			continue
 		
 		if strip_buffer <= 0:
@@ -100,7 +100,7 @@ func add_ceiling():
 		if rand_int(1,3) == 1:
 			add_spike(Vector2(x,current_height + 1),Vector2.DOWN,false)
 		for y in range(0, current_height + 1):
-			matrix[x][y] = TILE.GROUND
+			matrix[x][y] = TILE.GROUND_CEIL
 		strip_buffer -= 1
 
 func add_water_and_pits():
@@ -130,6 +130,8 @@ func add_water_and_pits():
 					# cleanup any spikes floating above where this new water or pit is
 					matrix[i][strip_height - 1] = TILE.NONE
 					matrix[i][strip_height - 2] = TILE.NONE
+					# bump floor line down below bottom of new water or pit
+					floor_line[i] = new_depth + 1
 					# make note of top and bottom heights of new water or pit
 					if is_strip_water:
 						water_tops[i] = strip_height
@@ -276,8 +278,12 @@ func render_matrix():
 		for y in range(map_size.y + 1):
 			var t
 			match matrix[x][y]:
-				TILE.GROUND:
+				TILE.GROUND_FLOOR:
 					t = tile_ground.instance()
+					render_ground(t,x,y,true)
+				TILE.GROUND_CEIL:
+					t = tile_ground.instance()
+					render_ground(t,x,y,false)
 				TILE.WATER:
 					t = tile_water_surface.instance() if water_tops[x] == y else tile_water_fill.instance()
 				TILE.LAVA:
@@ -305,6 +311,60 @@ func render_matrix():
 			if t:
 				t.position = Vector2(x * 16, y * 16)
 				add_child(t)
+
+func render_ground(tile: Node2D,x: int, y: int, is_floor: bool):
+	 # mask: bleft,left,uleft,up,uright,right,bright,bot,rising,falling
+	var neighbors_bitmask: String = "0000000000"
+	var neighbor: int = TILE.GROUND_FLOOR if is_floor else TILE.GROUND_CEIL
+	
+	# if tile is near edge of map, keep its default fill tile
+	if x - 1 < 0 or y - 1 < 0 or x + 1 > map_size.x or y + 1 > map_size.y:
+		return
+	
+	# otherwise, check neighbors
+	if has_neighbor(x - 1, y + 1, neighbor):
+		neighbors_bitmask[0] = "1" # bottom left
+	if has_neighbor(x - 1, y, neighbor):
+		neighbors_bitmask[1] = "1" # left
+	if has_neighbor(x - 1, y - 1, neighbor):
+		neighbors_bitmask[2] = "1" # upper left
+	if has_neighbor(x, y - 1, neighbor):
+		neighbors_bitmask[3] = "1" # up
+	if has_neighbor(x + 1, y - 1, neighbor):
+		neighbors_bitmask[4] = "1" # upper right
+	if has_neighbor(x + 1, y, neighbor):
+		neighbors_bitmask[5] = "1" # right
+	if has_neighbor(x + 1, y + 1, neighbor):
+		neighbors_bitmask[6] = "1" # bottom right
+	if has_neighbor(x, y + 1, neighbor):
+		neighbors_bitmask[7] = "1" # bottom
+	# check for change in elevation if this is not a fill piece
+	if neighbors_bitmask != "1111111100":
+		if is_floor:
+			if floor_line[x - 1] > floor_line[x] and floor_line[x + 1] > floor_line[x]:
+				return # figure out what to do when single column of dirt
+			if floor_line[x + 1] > floor_line[x]:
+				neighbors_bitmask[9] = "1" # falling if next is lower
+			elif floor_line[x - 1] > floor_line[x]:
+				neighbors_bitmask[8] = "1" # rising if prev is lower
+		else:
+			if ceiling_line[x - 1] < ceiling_line[x] and ceiling_line[x + 1] < ceiling_line[x]:
+				return # figure out what to do when single column of dirt
+			if ceiling_line[x + 1] < ceiling_line[x]:
+				neighbors_bitmask[8] = "1" # rising if next is higher
+			elif ceiling_line[x - 1] < ceiling_line[x]:
+				neighbors_bitmask[9] = "1" # falling if prev is higher
+		tile.set_ground_sprite(is_floor, neighbors_bitmask)
+
+func has_neighbor(x: int, y: int, neighbor: int, match_water: bool = false, match_lava: bool = true):
+	if matrix[x][y] == neighbor:
+		return true
+	elif matrix[x][y] == TILE.WATER and match_water:
+		return true
+	elif matrix[x][y] == TILE.LAVA and match_lava:
+		return true
+	
+	return false
 
 func rand_int(min_value: int,max_value: int, inclusive_range = true):
 	if inclusive_range:
