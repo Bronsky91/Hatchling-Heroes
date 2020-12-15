@@ -6,8 +6,8 @@ func _ready():
 	# $AudioStreamPlayer.play()
 
 func _on_Start_button_up():
-	$AudioStreamPlayer.stream = load("res://Assets/Music/Egg_Creation_Menu.wav")
-	# $AudioStreamPlayer.play()
+	$AudioStreamPlayer.stream = load("res://Assets/Music/Egg_Creation_Menu2_lower.wav")
+	$AudioStreamPlayer.play()
 	get_node("Title/Options").emit_signal("index_update", 0)
 	$Title.hide()
 	$Title/Options.disable_input = true
@@ -23,6 +23,7 @@ func _on_Options_button_up():
 	get_node("Title/Options").emit_signal("index_update", 2)
 
 
-func _on_Button_button_up():
+func _on_Back_button_up():
 	$HighScores.hide()
 	$Title.show()
+

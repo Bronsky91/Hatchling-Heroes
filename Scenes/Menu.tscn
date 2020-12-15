@@ -170,7 +170,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="Title/Options"]
 position = Vector2( -55, 10 )
 frames = SubResource( 11 )
-frame = 5
+frame = 1
 speed_scale = 1.5
 playing = true
 
@@ -222,12 +222,14 @@ margin_right = 300.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 300, 140 )
 
-[node name="Button" type="Button" parent="HighScores"]
+[node name="Back" type="Button" parent="HighScores"]
 margin_left = 27.2109
 margin_top = 209.454
 margin_right = 79.2109
 margin_bottom = 230.454
+focus_mode = 0
 custom_fonts/font = ExtResource( 11 )
+enabled_focus_mode = 0
 text = "Back"
 flat = true
 __meta__ = {
@@ -243,4 +245,4 @@ __meta__ = {
 [connection signal="mouse_entered" from="Title/Options/HighScores" to="Title/Options" method="_on_HighScores_mouse_entered"]
 [connection signal="button_up" from="Title/Options/Options" to="." method="_on_Options_button_up"]
 [connection signal="mouse_entered" from="Title/Options/Options" to="Title/Options" method="_on_Options_mouse_entered"]
-[connection signal="button_up" from="HighScores/Button" to="." method="_on_Button_button_up"]
+[connection signal="button_up" from="HighScores/Back" to="." method="_on_Back_button_up"]
