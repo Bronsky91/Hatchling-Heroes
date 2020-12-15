@@ -47,7 +47,6 @@ texture = ExtResource( 4 )
 centered = false
 
 [node name="ParallaxLayer4" type="ParallaxLayer" parent="Level/ParallaxBackground"]
-visible = false
 motion_scale = Vector2( 0.75, 1 )
 motion_mirroring = Vector2( 400, 0 )
 
