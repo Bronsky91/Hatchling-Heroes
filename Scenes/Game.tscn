@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Tiles.gd" type="Script" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://Assets/Cave/Middleground_002.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Cave/Sky_Color.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Cave/Foreground_002.png" type="Texture" id=7]
+[ext_resource path="res://Resources/Fonts/ButtonFont.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Assets/UI/ArrowRight.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/GameUI.gd" type="Script" id=10]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -23,6 +26,38 @@ font_path = "res://Resources/Fonts/jupiterc.ttf"
 [sub_resource type="DynamicFont" id=4]
 size = 48
 font_data = SubResource( 3 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 9 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 9 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 9 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 9 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Game" type="Node"]
 
@@ -62,17 +97,16 @@ motion_mirroring = Vector2( 400, 0 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="ParallaxForeground" type="ParallaxBackground" parent="Level"]
-layer = 100
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Level/ParallaxForeground"]
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Level/ParallaxBackground"]
+motion_scale = Vector2( 0.75, 1 )
 motion_mirroring = Vector2( 400, 0 )
 
-[node name="Sprite" type="Sprite" parent="Level/ParallaxForeground/ParallaxLayer"]
+[node name="Sprite" type="Sprite" parent="Level/ParallaxBackground/ParallaxLayer4"]
 texture = ExtResource( 7 )
 centered = false
 
 [node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource( 10 )
 
 [node name="TimerLabel" type="Label" parent="UI"]
 margin_left = 323.205
@@ -86,15 +120,68 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="UI"]
-margin_left = 103.824
-margin_top = 51.6128
-margin_right = 266.824
-margin_bottom = 103.613
+[node name="GameOverLabel" type="Label" parent="UI"]
+visible = false
+margin_left = 119.716
+margin_top = 52.6722
+margin_right = 282.716
+margin_bottom = 104.672
 custom_fonts/font = SubResource( 4 )
 text = "GAME OVER"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="StartOver" type="Button" parent="UI/GameOverLabel"]
+margin_left = 43.7887
+margin_top = 97.3175
+margin_right = 119.789
+margin_bottom = 117.317
+focus_mode = 0
+custom_fonts/font = ExtResource( 8 )
+disabled = true
+enabled_focus_mode = 0
+text = "Start Over"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Exit" type="Button" parent="UI/GameOverLabel"]
+margin_left = 48.1985
+margin_top = 121.886
+margin_right = 128.198
+margin_bottom = 141.886
+focus_mode = 0
+custom_fonts/font = ExtResource( 8 )
+disabled = true
+enabled_focus_mode = 0
+text = "Exit Game"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
+position = Vector2( 30, 108 )
+frames = SubResource( 11 )
+frame = 1
+speed_scale = 1.5
+playing = true
+
+[node name="ArrowPositions" type="Control" parent="UI/GameOverLabel"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ArrowPosition1" type="Position2D" parent="UI/GameOverLabel/ArrowPositions"]
+position = Vector2( 30, 108 )
+
+[node name="ArrowPosition2" type="Position2D" parent="UI/GameOverLabel/ArrowPositions"]
+position = Vector2( 30, 133 )
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[connection signal="button_up" from="UI/GameOverLabel/StartOver" to="UI" method="_on_StartOver_button_up"]
+[connection signal="mouse_entered" from="UI/GameOverLabel/StartOver" to="UI" method="_on_StartOver_mouse_entered"]
+[connection signal="button_up" from="UI/GameOverLabel/Exit" to="UI" method="_on_Exit_button_up"]
+[connection signal="mouse_entered" from="UI/GameOverLabel/Exit" to="UI" method="_on_Exit_mouse_entered"]

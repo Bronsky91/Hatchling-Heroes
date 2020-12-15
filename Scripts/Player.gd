@@ -32,8 +32,9 @@ onready var left_wall_raycast = $LeftWallRaycast
 onready var right_wall_raycast = $RightWallRaycast
 onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
-onready var map_size_x = get_node('../Tiles').map_size.x #* 16
+onready var map_size_x = get_node('../Tiles').map_size.x * 16
 onready var score_timer_label = get_node('../../UI/TimerLabel')
+onready var UI = get_node('../../UI')
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -52,7 +53,7 @@ func complete_level():
 	$StateMachine.movement_disabled = true
 	$Body.z_index = 2
 	$Camera2D/BlackBackground.show()
-	$Camera2D/GameOver.show()
+	UI.game_over()
 	# TODO: Game Success Screen -> Egg Creation
 	
 func _on_ScoreTimer_timeout():

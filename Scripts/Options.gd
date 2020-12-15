@@ -35,3 +35,13 @@ func move_arrow_up():
 		emit_signal("index_update", current_index - 1)
 	else:
 		emit_signal("index_update", 2)
+
+func _on_Start_mouse_entered():
+	emit_signal("index_update", 0)
+	
+func _on_HighScores_mouse_entered():
+	emit_signal("index_update", 1)
+
+func _on_Options_mouse_entered():
+	emit_signal("index_update", 2)
+
