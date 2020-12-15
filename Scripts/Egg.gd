@@ -111,6 +111,15 @@ func _on_EggSprite_frame_changed():
 	if $EggSprite.frame == 14:
 		$CreatureBody.show()
 
+func save_creature_name(name):
+	var f = File.new()
+	f.open("res://SaveData/character_state.json", File.READ_WRITE)
+	var json = JSON.parse(f.get_as_text())
+	var data = json.result
+	data['Name'] = name
+	f.store_string(JSON.print(data, "  ", true))
+	f.close()
+	
 func save_creature():
 	## NOTE: Torsa and Arms are the SAME
 	var creature_parts = ['Torso', 'Tail', 'Head', 'Legs', 'Back']
@@ -137,7 +146,8 @@ func save_creature():
 	}
 	
 	var data = {
-	  "Arms": {
+	"Name": "",
+	"Arms": {
 		"palette_name": "",
 		"texture_num": ""
 	  },
@@ -184,28 +194,6 @@ func save_creature():
 	f.open("res://SaveData/character_state.json", File.WRITE)
 	f.store_string(JSON.print(data, "  ", true))
 	f.close()
-
-func save_creature_name(name: String):
-	var f = File.new()
-	f.open("res://SaveData/character_saves.json", File.READ_WRITE)
-	
-	var json
-	if f.is_open():
-		json = JSON.parse(f.get_as_text())
-	else:
-		json = JSON.parse("[]")
-	f.close()
-	
-	var save_array = json.result
-	save_array.append({
-		"creature_name": name,
-		"score": 0
-	})
-	
-	f.open("res://SaveData/character_saves.json", File.WRITE)
-	f.store_string(JSON.print(save_array, "  ", true))
-	f.close()
-
 
 func get_random_palette():
 	var palettes = g.files_in_dir('res://Assets/Character/Palettes')

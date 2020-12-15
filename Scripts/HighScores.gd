@@ -1,16 +1,17 @@
 extends Node2D
 
+var score_row = preload("res://Scenes/ScoreRow.tscn")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$GameJoltAPI.connect("api_scores_fetched", self, '_on_scores_fetched')
+	#$GameJoltAPI.add_score('6', 6, '', '', '??? BOI')
+	$GameJoltAPI.fetch_scores()
 
+func _on_scores_fetched(data):
+	var score_data = JSON.parse(data).result
+	for score in score_data.response.scores:
+		var new_score_row = score_row.instance()
+		new_score_row.get_node('Rank').text = score.score
+		new_score_row.get_node("CreatureName").text = score.guest
+		$ScrollContainer/VBoxContainer.add_child(new_score_row)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

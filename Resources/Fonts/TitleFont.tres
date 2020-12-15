@@ -5,5 +5,5 @@ antialiased = false
 font_path = "res://Resources/Fonts/jupiterc.ttf"
 
 [resource]
-size = 64
+size = 48
 font_data = SubResource( 1 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Assets/Cave/Sky_Color.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Cave/Background_001.png" type="Texture" id=2]
@@ -10,16 +10,24 @@
 [ext_resource path="res://Scripts/Menu.gd" type="Script" id=8]
 [ext_resource path="res://Scripts/HighScores.gd" type="Script" id=9]
 [ext_resource path="res://Assets/UI/ArrowRight.png" type="Texture" id=10]
-[ext_resource path="res://Resources/Fonts/MenuFont.tres" type="DynamicFont" id=11]
 [ext_resource path="res://Resources/Fonts/TitleFont.tres" type="DynamicFont" id=12]
+[ext_resource path="res://addons/gamejolt_api_v2/main.gd" type="Script" id=13]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
 font_path = "res://Resources/Fonts/Pixel NES.otf"
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=10]
 size = 18
 font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=11]
+antialiased = false
+font_path = "res://Resources/Fonts/Pixel NES.otf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 18
+font_data = SubResource( 11 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 10 )
@@ -78,16 +86,16 @@ texture = ExtResource( 4 )
 
 [node name="Black" type="Sprite" parent="Backgorund"]
 modulate = Color( 1, 1, 1, 0.65098 )
-position = Vector2( 201.98, 122.235 )
+position = Vector2( 199.821, 119.735 )
 texture = ExtResource( 5 )
 
 [node name="Title" type="Node2D" parent="."]
 
 [node name="Label" type="Label" parent="Title"]
-margin_left = 42.0
-margin_top = 15.5
-margin_right = 368.0
-margin_bottom = 83.5
+margin_left = 76.8972
+margin_top = 14.7387
+margin_right = 327.897
+margin_bottom = 82.7387
 custom_fonts/font = ExtResource( 12 )
 text = "Hatchling Heroes"
 __meta__ = {
@@ -109,12 +117,12 @@ anchor_left = -0.139
 anchor_top = -0.133
 anchor_right = 1.221
 anchor_bottom = 2.117
-margin_left = -32.521
-margin_top = -1.51
-margin_right = 32.519
-margin_bottom = -41.01
+margin_left = -32.021
+margin_top = 0.49
+margin_right = 33.019
+margin_bottom = -39.01
 focus_mode = 0
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = SubResource( 10 )
 enabled_focus_mode = 0
 text = "Start Game"
 flat = true
@@ -161,7 +169,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="Title/Options"]
 position = Vector2( -55, 10 )
 frames = SubResource( 9 )
-frame = 5
+frame = 1
 speed_scale = 1.5
 playing = true
 
@@ -184,15 +192,34 @@ visible = false
 script = ExtResource( 9 )
 
 [node name="Label" type="Label" parent="HighScores"]
-margin_left = 94.7679
-margin_top = 30.3407
-margin_right = 309.768
-margin_bottom = 65.3407
+margin_left = 118.42
+margin_top = 0.159105
+margin_right = 278.42
+margin_bottom = 52.1591
 custom_fonts/font = ExtResource( 12 )
 text = "Highscores"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GameJoltAPI" type="HTTPRequest" parent="HighScores"]
+script = ExtResource( 13 )
+private_key = "1cd3d9b8d85b27277ff44f7167c7094e"
+game_id = "565769"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HighScores"]
+margin_left = 95.0
+margin_top = 58.784
+margin_right = 395.0
+margin_bottom = 209.784
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HighScores/ScrollContainer"]
+margin_right = 300.0
+margin_bottom = 151.0
+rect_min_size = Vector2( 300, 151 )
 
 [node name="Options" type="Node2D" parent="."]
 
