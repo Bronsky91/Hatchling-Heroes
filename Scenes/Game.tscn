@@ -46,13 +46,11 @@ motion_mirroring = Vector2( 400, 0 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="ParallaxForeground" type="ParallaxBackground" parent="Level"]
-layer = 100
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Level/ParallaxForeground"]
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Level/ParallaxBackground"]
+motion_scale = Vector2( 0.75, 1 )
 motion_mirroring = Vector2( 400, 0 )
 
-[node name="Sprite" type="Sprite" parent="Level/ParallaxForeground/ParallaxLayer"]
+[node name="Sprite" type="Sprite" parent="Level/ParallaxBackground/ParallaxLayer4"]
 texture = ExtResource( 7 )
 centered = false
 
