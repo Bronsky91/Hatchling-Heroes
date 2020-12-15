@@ -80,11 +80,10 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CircleShape2D" id=19]
+[sub_resource type="CircleShape2D" id=18]
 radius = 2.13864
 
-[sub_resource type="Animation" id=18]
-resource_name = "Fly"
+[sub_resource type="Animation" id=19]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
@@ -118,7 +117,7 @@ position = Vector2( -0.985977, 15.9731 )
 [node name="EggCenter" type="Area2D" parent="EggSprite/ParticleStart"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EggSprite/ParticleStart/EggCenter"]
-shape = SubResource( 19 )
+shape = SubResource( 18 )
 
 [node name="IconThrowContainer" type="Node2D" parent="."]
 
@@ -228,7 +227,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Label"]
-anims/Fly = SubResource( 18 )
+anims/Fly = SubResource( 19 )
 [connection signal="animation_finished" from="EggSprite" to="." method="_on_EggSprite_animation_finished"]
 [connection signal="frame_changed" from="EggSprite" to="." method="_on_EggSprite_frame_changed"]
 [connection signal="area_entered" from="EggSprite/ParticleStart/EggCenter" to="." method="_on_EggCenter_area_entered"]
