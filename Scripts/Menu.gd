@@ -1,7 +1,5 @@
 extends Node
 
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AudioStreamPlayer.stream = load("res://Assets/Music/Main_Menu_Track_Game_Jam1.wav")

@@ -1,5 +1,7 @@
 extends StateMachine
 
+var movement_disabled = false
+
 func _ready():
 	add_state("idle")
 	add_state("run")
@@ -27,15 +29,16 @@ func _input(event):
 			set_state(states.jump)
 
 func _state_logic(delta):
-	parent._update_move_direction()
-	parent._update_wall_direction()
-	if state != states.wall_slide:
-		parent._handle_movement()
-	parent._apply_gravity(delta)
-	if state == states.wall_slide:
-		parent._cap_gravity_wall_slide()
-		parent._handle_wall_slide_sticking()
-	parent._apply_movement()
+	if not movement_disabled:
+		parent._update_move_direction()
+		parent._update_wall_direction()
+		if state != states.wall_slide:
+			parent._handle_movement()
+		parent._apply_gravity(delta)
+		if state == states.wall_slide:
+			parent._cap_gravity_wall_slide()
+			parent._handle_wall_slide_sticking()
+		parent._apply_movement()
 
 func _get_transition(delta):
 	var direction = "_left" if parent.facing < 0 else "_right"
