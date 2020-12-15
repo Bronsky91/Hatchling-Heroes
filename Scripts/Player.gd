@@ -22,6 +22,9 @@ var is_sliding = false
 
 var lives = 1
 var can_fly = true
+var level_complete = false
+
+var score = 0
 
 onready var anim_player = $Body/AnimationPlayer
 onready var body = $Body
@@ -29,12 +32,32 @@ onready var left_wall_raycast = $LeftWallRaycast
 onready var right_wall_raycast = $RightWallRaycast
 onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
+onready var map_size_x = get_node('../Tiles').map_size.x * 16
+onready var score_timer_label = get_node('../../UI/TimerLabel')
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	g.load_creature(body)
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+	
+func _physics_process(delta):
+	if position.x > map_size_x and not level_complete:
+		level_complete = true
+		add_score_to_board()
+		
+func _on_ScoreTimer_timeout():
+	score += 0.01
+	score_timer_label.text = str(score).pad_decimals(1)
+
+func add_score_to_board():
+	print(score)
+	var f = File.new()
+	f.open("res://SaveData/character_state.json", File.READ)
+	var json = JSON.parse(f.get_as_text())
+	f.close()
+	var data = json.result
+	$GameJoltAPI.add_score(str(score).pad_decimals(2), score, '', '', data['Name'], '', JSON.print(data))
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta

@@ -16,7 +16,7 @@ const PARAMETERS = {
 	trophy_fetch = ['*username=', '*user_token=', '*achieved=', '*trophy_id='],
 	trophy_add = ['*username=', '*user_token=', '*trophy_id='],
 	scores_fetch = ['*username=', '*user_token=', '*limit=', '*table_id='],
-	scores_add = ['*score=', '*sort=', '*username=', '*user_token=', '*guest=', '*table_id='],
+	scores_add = ['*score=', '*sort=', '*username=', '*user_token=', '*guest=', '*table_id=', '*extra_data='],
 	fetch_tables = [],
 	fetch_data = ['*key=', '*username=', '*user_token='],
 	set_data = ['*key=', '*data=', '*username=', '*user_token='],
@@ -120,10 +120,10 @@ func fetch_scores(username='', token='', limit=0, table_id=0):
 	request(url)
 	pass
 	
-func add_score(score, sort, username='', token='', guest='', table_id=0):
+func add_score(score, sort, username='', token='', guest='', table_id=0, extra_data=''):
 	if busy: return
 	busy = true
-	var url = compose_url('scores_add/scores_add/scores_added', [score, sort, username, token, guest, table_id])
+	var url = compose_url('scores_add/scores_add/scores_added', [score, sort, username, token, guest, table_id, extra_data])
 	request(url)
 	pass
 	

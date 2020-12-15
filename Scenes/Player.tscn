@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/PlayerStateMachine.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/CreatureBody.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/gamejolt_api_v2/main.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 8.34519
@@ -59,3 +60,13 @@ limit_left = -32
 limit_top = 0
 limit_right = 8032
 limit_bottom = 544
+
+[node name="GameJoltAPI" type="HTTPRequest" parent="."]
+script = ExtResource( 4 )
+private_key = "1cd3d9b8d85b27277ff44f7167c7094e"
+game_id = "565769"
+
+[node name="ScoreTimer" type="Timer" parent="."]
+wait_time = 0.01
+autostart = true
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
