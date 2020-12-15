@@ -22,3 +22,7 @@ func _on_HighScores_button_up():
 func _on_Options_button_up():
 	get_node("Title/Options").emit_signal("index_update", 2)
 
+
+func _on_Button_button_up():
+	$HighScores.hide()
+	$Title.show()
