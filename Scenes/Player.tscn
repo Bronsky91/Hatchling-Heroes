@@ -19,9 +19,6 @@ __meta__ = {
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 2 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-
 [node name="Body" parent="." instance=ExtResource( 3 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -55,3 +52,10 @@ one_shot = true
 [node name="WallSlideStickyTimer" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = -32
+limit_top = 0
+limit_right = 8032
+limit_bottom = 544
