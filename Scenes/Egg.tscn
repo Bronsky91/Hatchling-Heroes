@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Assets/UI/RandomIcon.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Egg/Egg_001.png" type="Texture" id=2]
@@ -80,6 +80,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="CircleShape2D" id=19]
+radius = 2.13864
+
 [sub_resource type="Animation" id=18]
 resource_name = "Fly"
 length = 4.0
@@ -110,7 +113,14 @@ scale = Vector2( 2, 2 )
 frames = SubResource( 17 )
 
 [node name="ParticleStart" type="Node2D" parent="EggSprite"]
-position = Vector2( -0.235977, 21.4731 )
+position = Vector2( -0.985977, 15.9731 )
+
+[node name="EggCenter" type="Area2D" parent="EggSprite/ParticleStart"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EggSprite/ParticleStart/EggCenter"]
+shape = SubResource( 19 )
+
+[node name="IconThrowContainer" type="Node2D" parent="."]
 
 [node name="ButtonContainer" type="Node2D" parent="."]
 
@@ -221,6 +231,7 @@ __meta__ = {
 anims/Fly = SubResource( 18 )
 [connection signal="animation_finished" from="EggSprite" to="." method="_on_EggSprite_animation_finished"]
 [connection signal="frame_changed" from="EggSprite" to="." method="_on_EggSprite_frame_changed"]
+[connection signal="area_entered" from="EggSprite/ParticleStart/EggCenter" to="." method="_on_EggCenter_area_entered"]
 [connection signal="button_up" from="ButtonContainer/RandomIcon" to="." method="_on_RandomIcon_button_up"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="button_up" from="EscapeButton" to="." method="_on_EscapeButton_button_up"]

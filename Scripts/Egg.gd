@@ -3,6 +3,8 @@ extends Node2D
 signal nurture_pressed
 
 var particle = preload("res://Scenes/ParticleIcon.tscn")
+var thrown_icon = preload('res://Scenes/ThrownIcon.tscn')
+
 var countdown: int = 15
 
 var nurture_percent_dict = {
@@ -32,7 +34,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	enable_nurture()
 	
 func _on_nurture_pressed(type):
-	show_nurture_particle(type)
+	throw_nurture_icon(type)
 	calculate_nurture_percents(type)
 	
 func calculate_nurture_percents(type):
@@ -63,6 +65,24 @@ func find_nurture_based_on_thres():
 			return type
 		last_thres = threshold_dict[type]
 
+func throw_nurture_icon(type):
+	var new_icon = thrown_icon.instance()
+	new_icon.position = find_type_button_position(type)
+	new_icon.texture = load('res://Assets/UI/'+type+'Icon.png')
+	new_icon.target_pos = $EggSprite/ParticleStart.global_position
+	new_icon.type = type
+	$IconThrowContainer.add_child(new_icon)
+	
+func _on_EggCenter_area_entered(area):
+	var icon = area.get_parent()
+	show_nurture_particle(icon.type)
+	icon.queue_free()
+	
+func find_type_button_position(type):
+	for button in $ButtonContainer.get_children():
+		if button.icon == type:
+			return button.position
+
 func show_nurture_particle(type):
 	var new_particle = particle.instance()
 	new_particle.icon_type = type
@@ -71,7 +91,7 @@ func show_nurture_particle(type):
 func _on_RandomIcon_button_up():
 	randomize()
 	var random_nurture = nurture_percent_dict.keys()[randi() % 8]
-	show_nurture_particle(random_nurture)
+	throw_nurture_icon(random_nurture)
 	calculate_nurture_percents(random_nurture)
 
 func _on_Timer_timeout():
@@ -202,5 +222,4 @@ func get_random_palette():
 	randomize()
 	var rand_palette = palettes[randi() % palettes.size()]
 	return rand_palette
-
 
