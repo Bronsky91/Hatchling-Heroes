@@ -2,7 +2,7 @@
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
-font_path = "res://Resources/Fonts/ka1.ttf"
+font_path = "res://Resources/Fonts/Pixel NES.otf"
 
 [resource]
 size = 10

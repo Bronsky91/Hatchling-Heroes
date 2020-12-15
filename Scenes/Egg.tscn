@@ -119,7 +119,7 @@ position = Vector2( 200.044, 54.9178 )
 icon = "Light"
 
 [node name="HatchButton2" parent="ButtonContainer" instance=ExtResource( 4 )]
-position = Vector2( 251.485, 76.6269 )
+position = Vector2( 250.985, 75.6269 )
 icon = "Heat"
 
 [node name="HatchButton3" parent="ButtonContainer" instance=ExtResource( 4 )]
@@ -161,11 +161,10 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="."]
 
 [node name="CountdownLabel" type="Label" parent="."]
-visible = false
-margin_left = 230.96
-margin_top = 9.79514
-margin_right = 382.96
-margin_bottom = 23.7951
+margin_left = 231.016
+margin_top = 6.0
+margin_right = 387.016
+margin_bottom = 23.0
 custom_fonts/font = ExtResource( 5 )
 text = "Seconds Remaining: 5"
 __meta__ = {
@@ -173,11 +172,10 @@ __meta__ = {
 }
 
 [node name="EscapeButton" type="Button" parent="."]
-visible = false
-margin_left = 257.0
-margin_top = 210.0
-margin_right = 395.0
-margin_bottom = 234.0
+margin_left = 260.416
+margin_top = 212.0
+margin_right = 394.416
+margin_bottom = 233.0
 custom_fonts/font = ExtResource( 5 )
 text = "Escape the Cave!"
 __meta__ = {
@@ -185,11 +183,10 @@ __meta__ = {
 }
 
 [node name="NameLabel" type="Label" parent="."]
-visible = false
 margin_left = 99.0
-margin_top = 214.0
-margin_right = 135.0
-margin_bottom = 228.0
+margin_top = 214.53
+margin_right = 139.0
+margin_bottom = 229.53
 custom_fonts/font = ExtResource( 5 )
 text = "Name:"
 __meta__ = {
@@ -197,19 +194,19 @@ __meta__ = {
 }
 
 [node name="NameEdit" type="TextEdit" parent="NameLabel"]
-margin_left = 46.9348
-margin_top = -4.071
-margin_right = 151.935
-margin_bottom = 19.929
+margin_left = 41.4703
+margin_top = -3.47028
+margin_right = 147.47
+margin_bottom = 17.5297
 custom_fonts/font = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = -710.0
+margin_left = 400.949
 margin_top = 100.995
-margin_right = 0.000183105
+margin_right = 1110.95
 margin_bottom = 135.999
 custom_fonts/font = ExtResource( 7 )
 text = "Nurture your egg before it hatches!"

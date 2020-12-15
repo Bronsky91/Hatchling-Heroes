@@ -15,10 +15,10 @@
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
-font_path = "res://Resources/Fonts/vermin_vibes_1989.ttf"
+font_path = "res://Resources/Fonts/Pixel NES.otf"
 
 [sub_resource type="DynamicFont" id=2]
-size = 22
+size = 18
 font_data = SubResource( 1 )
 
 [sub_resource type="AtlasTexture" id=3]
@@ -78,16 +78,16 @@ texture = ExtResource( 4 )
 
 [node name="Black" type="Sprite" parent="Backgorund"]
 modulate = Color( 1, 1, 1, 0.65098 )
-position = Vector2( 199.98, 121.735 )
+position = Vector2( 201.98, 122.235 )
 texture = ExtResource( 5 )
 
 [node name="Title" type="Node2D" parent="."]
 
 [node name="Label" type="Label" parent="Title"]
-margin_left = 29.5
-margin_top = 43.5
-margin_right = 373.5
-margin_bottom = 78.5
+margin_left = 42.0
+margin_top = 15.5
+margin_right = 368.0
+margin_bottom = 83.5
 custom_fonts/font = ExtResource( 12 )
 text = "Hatchling Heroes"
 __meta__ = {
@@ -109,10 +109,10 @@ anchor_left = -0.139
 anchor_top = -0.133
 anchor_right = 1.221
 anchor_bottom = 2.117
-margin_left = -29.3475
-margin_top = 2.27062
-margin_right = 14.6925
-margin_bottom = -39.2294
+margin_left = -32.521
+margin_top = -1.51
+margin_right = 32.519
+margin_bottom = -41.01
 focus_mode = 0
 custom_fonts/font = ExtResource( 11 )
 enabled_focus_mode = 0
@@ -127,10 +127,10 @@ anchor_left = -0.139
 anchor_top = -0.133
 anchor_right = 1.221
 anchor_bottom = 2.117
-margin_left = -30.873
-margin_top = 32.9032
-margin_right = 16.167
-margin_bottom = -8.59678
+margin_left = -32.373
+margin_top = 29.4032
+margin_right = 47.667
+margin_bottom = -10.0968
 focus_mode = 0
 custom_fonts/font = SubResource( 2 )
 enabled_focus_mode = 0
@@ -145,10 +145,10 @@ anchor_left = -0.139
 anchor_top = -0.133
 anchor_right = 1.221
 anchor_bottom = 2.117
-margin_left = -10.2656
-margin_top = 64.0971
-margin_right = -5.2256
-margin_bottom = 22.5971
+margin_left = -10.7656
+margin_top = 58.5971
+margin_right = 14.2744
+margin_bottom = 19.0971
 focus_mode = 0
 custom_fonts/font = SubResource( 2 )
 enabled_focus_mode = 0
@@ -161,7 +161,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="Title/Options"]
 position = Vector2( -55, 10 )
 frames = SubResource( 9 )
-frame = 4
+frame = 5
 speed_scale = 1.5
 playing = true
 
@@ -174,7 +174,7 @@ position = Vector2( -55, 10 )
 position = Vector2( -55, 41 )
 
 [node name="ArrowPosition3" type="Position2D" parent="Title/Options/ArrowPositions"]
-position = Vector2( -33, 72 )
+position = Vector2( -32.5, 71 )
 
 [node name="Egg" parent="." instance=ExtResource( 6 )]
 visible = false
