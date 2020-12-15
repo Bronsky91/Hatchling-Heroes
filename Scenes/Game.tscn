@@ -4,6 +4,7 @@
 [ext_resource path="res://Scripts/Tiles.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Rat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Music/Cave Music Game Jam1.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Cave/Background_002.png" type="Texture" id=4]
 
 [node name="Game" type="Node"]
 
@@ -17,6 +18,13 @@ script = ExtResource( 2 )
 
 [node name="Rat" parent="Level" instance=ExtResource( 3 )]
 position = Vector2( -128, 16 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Level"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Level/ParallaxBackground"]
+
+[node name="Sprite" type="Sprite" parent="Level/ParallaxBackground/ParallaxLayer"]
+texture = ExtResource( 4 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
