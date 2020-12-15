@@ -174,7 +174,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 11 )
-frame = 3
+frame = 1
 speed_scale = 1.5
 playing = true
 
@@ -191,7 +191,6 @@ position = Vector2( 30, 133 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
-autoplay = true
 [connection signal="button_up" from="UI/GameOverLabel/StartOver" to="UI" method="_on_StartOver_button_up"]
 [connection signal="mouse_entered" from="UI/GameOverLabel/StartOver" to="UI" method="_on_StartOver_mouse_entered"]
 [connection signal="button_up" from="UI/GameOverLabel/Exit" to="UI" method="_on_Exit_button_up"]
