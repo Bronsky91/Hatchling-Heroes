@@ -3,7 +3,7 @@ extends Node2D
 signal nurture_pressed
 
 var particle = preload("res://Scenes/ParticleIcon.tscn")
-var countdown: int = 5
+var countdown: int = 15
 
 var nurture_percent_dict = {
 	"Cold": 0.125,
@@ -19,7 +19,19 @@ var nurture_percent_dict = {
 func _ready():
 	connect("nurture_pressed", self, "_on_nurture_pressed")
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
+	#start()
+	disable_nurture()
+	
+func start():
+	show()
+	$Label/AnimationPlayer.play("Fly")
+	# TODO: Add music start
 
+func _on_AnimationPlayer_animation_finished(anim_name):
+	$Timer.start()
+	$CountdownLabel.show()
+	enable_nurture()
+	
 func _on_nurture_pressed(type):
 	show_nurture_particle(type)
 	calculate_nurture_percents(type)
@@ -78,6 +90,11 @@ func disable_nurture():
 	$ButtonContainer.hide()
 	for button in $ButtonContainer.get_children():
 		button.disabled = true
+		
+func enable_nurture():
+	$ButtonContainer.show()
+	for button in $ButtonContainer.get_children():
+		button.disabled = false
 
 func _on_EggSprite_animation_finished():
 	$EggSprite.hide()
@@ -94,6 +111,15 @@ func _on_EggSprite_frame_changed():
 	if $EggSprite.frame == 14:
 		$CreatureBody.show()
 
+func save_creature_name(name):
+	var f = File.new()
+	f.open("res://SaveData/character_state.json", File.READ_WRITE)
+	var json = JSON.parse(f.get_as_text())
+	var data = json.result
+	data['Name'] = name
+	f.store_string(JSON.print(data, "  ", true))
+	f.close()
+	
 func save_creature():
 	## NOTE: Torsa and Arms are the SAME
 	var creature_parts = ['Torso', 'Tail', 'Head', 'Legs', 'Back']
@@ -120,7 +146,8 @@ func save_creature():
 	}
 	
 	var data = {
-	  "Arms": {
+	"Name": "",
+	"Arms": {
 		"palette_name": "",
 		"texture_num": ""
 	  },
@@ -168,28 +195,6 @@ func save_creature():
 	f.store_string(JSON.print(data, "  ", true))
 	f.close()
 
-func save_creature_name(name: String):
-	var f = File.new()
-	f.open("res://SaveData/character_saves.json", File.READ_WRITE)
-	
-	var json
-	if f.is_open():
-		json = JSON.parse(f.get_as_text())
-	else:
-		json = JSON.parse("[]")
-	f.close()
-	
-	var save_array = json.result
-	save_array.append({
-		"creature_name": name,
-		"score": 0
-	})
-	
-	f.open("res://SaveData/character_saves.json", File.WRITE)
-	f.store_string(JSON.print(save_array, "  ", true))
-	f.close()
-
-
 func get_random_palette():
 	var palettes = g.files_in_dir('res://Assets/Character/Palettes')
 	for p in palettes:
@@ -198,3 +203,5 @@ func get_random_palette():
 	randomize()
 	var rand_palette = palettes[randi() % palettes.size()]
 	return rand_palette
+
+

@@ -1,0 +1,141 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Scripts/Options.gd" type="Script" id=1]
+[ext_resource path="res://Assets/UI/ArrowRight.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Fonts/TitleFont.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Resources/Fonts/MenuFont.tres" type="DynamicFont" id=4]
+
+[sub_resource type="DynamicFontData" id=1]
+antialiased = false
+font_path = "res://Resources/Fonts/vermin_vibes_1989.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 22
+font_data = SubResource( 1 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Title" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 29.5
+margin_top = 43.5
+margin_right = 373.5
+margin_bottom = 78.5
+custom_fonts/font = ExtResource( 3 )
+text = "Hatchling Heroes"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Control" parent="."]
+margin_left = 168.0
+margin_top = 115.0
+margin_right = 229.0
+margin_bottom = 145.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Button" parent="Options"]
+anchor_left = -0.139
+anchor_top = -0.133
+anchor_right = 1.221
+anchor_bottom = 2.117
+margin_left = -29.3475
+margin_top = 2.27062
+margin_right = 14.6925
+margin_bottom = -39.2294
+focus_mode = 0
+custom_fonts/font = ExtResource( 4 )
+enabled_focus_mode = 0
+text = "Start Game"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HighScores" type="Button" parent="Options"]
+anchor_left = -0.139
+anchor_top = -0.133
+anchor_right = 1.221
+anchor_bottom = 2.117
+margin_left = -30.873
+margin_top = 32.9032
+margin_right = 16.167
+margin_bottom = -8.59678
+focus_mode = 0
+custom_fonts/font = SubResource( 2 )
+enabled_focus_mode = 0
+text = "High Scores"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Button" parent="Options"]
+anchor_left = -0.139
+anchor_top = -0.133
+anchor_right = 1.221
+anchor_bottom = 2.117
+margin_left = -10.2656
+margin_top = 64.0971
+margin_right = -5.2256
+margin_bottom = 22.5971
+focus_mode = 0
+custom_fonts/font = SubResource( 2 )
+enabled_focus_mode = 0
+text = "Options"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arrow" type="AnimatedSprite" parent="Options"]
+position = Vector2( -55, 10 )
+frames = SubResource( 9 )
+frame = 1
+speed_scale = 1.5
+playing = true
+
+[node name="ArrowPositions" type="Node2D" parent="Options"]
+
+[node name="ArrowPosition" type="Position2D" parent="Options/ArrowPositions"]
+position = Vector2( -55, 10 )
+
+[node name="ArrowPosition2" type="Position2D" parent="Options/ArrowPositions"]
+position = Vector2( -55, 41 )
+
+[node name="ArrowPosition3" type="Position2D" parent="Options/ArrowPositions"]
+position = Vector2( -33, 72 )

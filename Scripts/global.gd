@@ -24,12 +24,16 @@ func make_shaders_unique(sprite: Sprite):
 	var mat = sprite.get_material().duplicate()
 	sprite.set_material(mat)
 	
-func load_creature(parent_node: Node2D):
-	var f = File.new()
-	f.open("res://SaveData/character_state.json", File.READ)
-	var json = JSON.parse(f.get_as_text())
-	f.close()
-	var data = json.result
+func load_creature(parent_node: Node2D, json_data=""):
+	var data
+	if json_data:
+		data = JSON.parse(json_data).result
+	else:
+		var f = File.new()
+		f.open("res://SaveData/character_state.json", File.READ)
+		var json = JSON.parse(f.get_as_text())
+		f.close()
+		data = json.result
 	for part in parent_node.get_children():
 		if part is Sprite:
 			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + data[part.name].texture_num + ".png")
