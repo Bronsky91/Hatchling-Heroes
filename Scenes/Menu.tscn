@@ -26,7 +26,7 @@ position = Vector2( 200.169, 119.518 )
 texture = ExtResource( 3 )
 
 [node name="Foreground_001" type="Sprite" parent="Backgorund"]
-position = Vector2( 200.412, 119.707 )
+position = Vector2( 199.51, 124.22 )
 texture = ExtResource( 4 )
 
 [node name="Black" type="Sprite" parent="Backgorund"]
