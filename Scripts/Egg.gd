@@ -25,7 +25,6 @@ func _ready():
 func start():
 	show()
 	$Label/AnimationPlayer.play("Fly")
-	# TODO: Add music start
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	$Timer.start()

@@ -7,7 +7,7 @@ func _ready():
 
 func _on_Start_button_up():
 	$AudioStreamPlayer.stream = load("res://Assets/Music/Egg_Creation_Menu.wav")
-	$AudioStreamPlayer.play()
+	# $AudioStreamPlayer.play()
 	get_node("Title/Options").emit_signal("index_update", 0)
 	$Title.hide()
 	$Title/Options.disable_input = true
