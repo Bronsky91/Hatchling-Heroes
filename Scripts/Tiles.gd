@@ -351,7 +351,9 @@ func render_ground(tile: Node2D,x: int, y: int, is_floor: bool):
 	if neighbors_bitmask != "1111111100":
 		if is_floor:
 			if floor_line[x - 1] > floor_line[x] and floor_line[x + 1] > floor_line[x]:
-				return # figure out what to do when single column of dirt
+				# flag as both rising and falling when single column of ground
+				neighbors_bitmask[8] = "1" # falling if next is lower
+				neighbors_bitmask[9] = "1" # falling if next is lower
 			if floor_line[x + 1] > floor_line[x]:
 				neighbors_bitmask[9] = "1" # falling if next is lower
 			elif floor_line[x - 1] > floor_line[x]:

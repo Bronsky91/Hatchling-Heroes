@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lava.png-af127131098ecdce45053d1b88890275.stex"
+path="res://.import/ground_floor_1101011111.png-ba9afb8af9660c8edaf3d05342d4c89f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cave/Tiles/lava.png"
-dest_files=[ "res://.import/lava.png-af127131098ecdce45053d1b88890275.stex" ]
+source_file="res://Assets/Cave/Tiles/ground_floor_1101011111.png"
+dest_files=[ "res://.import/ground_floor_1101011111.png-ba9afb8af9660c8edaf3d05342d4c89f.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
