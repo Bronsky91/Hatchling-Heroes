@@ -16,6 +16,7 @@ export (String) var icon = "Dark"
 
 var mouse_hovering: bool = false
 var disabled = false
+var random_hover = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

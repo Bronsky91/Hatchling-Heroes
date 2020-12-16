@@ -7,6 +7,8 @@ var thrown_icon = preload('res://Scenes/ThrownIcon.tscn')
 
 var countdown: int = 15
 
+var first_run = true
+
 var nurture_percent_dict = {
 	"Cold": 0.125,
 	"Crystal": 0.125,
@@ -22,20 +24,31 @@ func _ready():
 	connect("nurture_pressed", self, "_on_nurture_pressed")
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
 	#start()
-	disable_nurture()
+	# disable_nurture()
 	
 func start():
 	show()
-	$Label/AnimationPlayer.play("Fly")
-
-func _on_AnimationPlayer_animation_finished(anim_name):
-	$Timer.start()
-	$CountdownLabel.show()
 	enable_nurture()
 	
 func _on_nurture_pressed(type):
+	if first_run:
+		hide_tutorial(type)
 	throw_nurture_icon(type)
 	calculate_nurture_percents(type)
+	
+func hide_tutorial(type, random=false):
+	$Black.hide()
+	$Tutorial.hide()
+	for label in $ButtonLabels.get_children():
+		label.hide()
+	$Timer.start()
+	$CountdownLabel.show()
+	$ButtonLabels.first_run = false
+	first_run = false
+	if not random:
+		$ButtonLabels.show_label(type)
+	else:
+		$ButtonLabels.show_label('Random')
 	
 func calculate_nurture_percents(type):
 	var incr = 0.01
@@ -91,13 +104,16 @@ func show_nurture_particle(type):
 func _on_RandomIcon_button_up():
 	randomize()
 	var random_nurture = nurture_percent_dict.keys()[randi() % 8]
+	if first_run:
+		hide_tutorial(random_nurture, true)
 	throw_nurture_icon(random_nurture)
 	calculate_nurture_percents(random_nurture)
 
 func _on_Timer_timeout():
 	if countdown == 0:
 		$Timer.stop()
-		$CountdownLabel.text = "It's Hatching!"
+		$CountdownLabel.hide()
+		$HatchingText.show()
 		$EggSprite.play()
 		save_creature()
 		g.load_creature($CreatureBody)
@@ -111,7 +127,6 @@ func disable_nurture():
 		button.disabled = true
 		
 func enable_nurture():
-	$ButtonContainer.show()
 	for button in $ButtonContainer.get_children():
 		button.disabled = false
 

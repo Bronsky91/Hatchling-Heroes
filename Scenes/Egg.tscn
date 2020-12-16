@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Assets/UI/RandomIcon.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Egg/Egg_001.png" type="Texture" id=2]
@@ -6,7 +6,8 @@
 [ext_resource path="res://Scenes/HatchIcon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Resources/Fonts/ButtonFont.tres" type="DynamicFont" id=5]
 [ext_resource path="res://Scripts/Egg.gd" type="Script" id=6]
-[ext_resource path="res://Resources/Fonts/TitleFont.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Scripts/ButtonLabels.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Black.png" type="Texture" id=9]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -83,20 +84,25 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=18]
 radius = 2.13864
 
-[sub_resource type="Animation" id=19]
-length = 4.0
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 400.949, 100.995 ), Vector2( -710, 100.995 ) ]
-}
+[sub_resource type="DynamicFontData" id=20]
+antialiased = false
+font_path = "res://Resources/Fonts/Pixel NES.otf"
+
+[sub_resource type="DynamicFont" id=22]
+size = 10
+font_data = SubResource( 20 )
+
+[sub_resource type="DynamicFont" id=21]
+size = 10
+font_data = SubResource( 20 )
+
+[sub_resource type="DynamicFontData" id=23]
+antialiased = false
+font_path = "res://Resources/Fonts/jupiterc.ttf"
+
+[sub_resource type="DynamicFont" id=24]
+size = 32
+font_data = SubResource( 23 )
 
 [node name="Egg" type="Node2D"]
 script = ExtResource( 6 )
@@ -119,12 +125,27 @@ position = Vector2( -0.985977, 15.9731 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EggSprite/ParticleStart/EggCenter"]
 shape = SubResource( 18 )
 
-[node name="IconThrowContainer" type="Node2D" parent="."]
+[node name="Black" type="Sprite" parent="."]
+self_modulate = Color( 1, 1, 1, 0.760784 )
+position = Vector2( 199.692, 120.155 )
+texture = ExtResource( 9 )
+
+[node name="Tutorial" type="Label" parent="."]
+margin_left = 3.16304
+margin_top = 2.47938
+margin_right = 189.163
+margin_bottom = 29.4794
+custom_fonts/font = SubResource( 22 )
+text = "Click on nurture buttons
+to influence your egg"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ButtonContainer" type="Node2D" parent="."]
 
 [node name="HatchButton" parent="ButtonContainer" instance=ExtResource( 4 )]
-position = Vector2( 200.044, 54.9178 )
+position = Vector2( 200.044, 55.1827 )
 icon = "Light"
 
 [node name="HatchButton2" parent="ButtonContainer" instance=ExtResource( 4 )]
@@ -166,6 +187,8 @@ flat = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="IconThrowContainer" type="Node2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -215,19 +238,124 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-margin_left = 400.949
-margin_top = 100.995
-margin_right = 1110.95
-margin_bottom = 135.999
-custom_fonts/font = ExtResource( 7 )
-text = "Nurture your egg before it hatches!"
+[node name="ButtonLabels" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Label"]
-anims/Fly = SubResource( 19 )
+[node name="LoveLabel" type="Label" parent="ButtonLabels"]
+margin_left = 107.851
+margin_top = 58.307
+margin_right = 137.851
+margin_bottom = 70.307
+custom_fonts/font = SubResource( 21 )
+text = "Love"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CrystalLabel" type="Label" parent="ButtonLabels"]
+margin_left = 69.6876
+margin_top = 115.553
+margin_right = 122.688
+margin_bottom = 127.553
+custom_fonts/font = SubResource( 21 )
+text = "Crystal"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColdLabel" type="Label" parent="ButtonLabels"]
+margin_left = 125.811
+margin_top = 187.39
+margin_right = 156.811
+margin_bottom = 199.39
+custom_fonts/font = SubResource( 21 )
+text = "Cold"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DarkLabel" type="Label" parent="ButtonLabels"]
+margin_left = 184.179
+margin_top = 207.033
+margin_right = 216.179
+margin_bottom = 219.033
+custom_fonts/font = SubResource( 21 )
+text = "Dark"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HateLabel" type="Label" parent="ButtonLabels"]
+margin_left = 256.016
+margin_top = 181.778
+margin_right = 308.016
+margin_bottom = 193.778
+custom_fonts/font = SubResource( 21 )
+text = "Neglect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SlimeLabel" type="Label" parent="ButtonLabels"]
+margin_left = 280.149
+margin_top = 116.114
+margin_right = 317.149
+margin_bottom = 128.114
+custom_fonts/font = SubResource( 21 )
+text = "Slime"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HeatLabel" type="Label" parent="ButtonLabels"]
+margin_left = 264.996
+margin_top = 56.6234
+margin_right = 294.996
+margin_bottom = 68.6234
+custom_fonts/font = SubResource( 21 )
+text = "Heat"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LightLabel" type="Label" parent="ButtonLabels"]
+margin_left = 183.056
+margin_top = 28.5618
+margin_right = 220.056
+margin_bottom = 40.5618
+custom_fonts/font = SubResource( 21 )
+text = "Light"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RandomLabel" type="Label" parent="ButtonLabels"]
+margin_left = 51.7282
+margin_top = 159.89
+margin_right = 99.7282
+margin_bottom = 171.89
+custom_fonts/font = SubResource( 21 )
+text = "Random"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HatchingText" type="Label" parent="."]
+visible = false
+margin_left = 128.282
+margin_top = -0.200111
+margin_right = 274.282
+margin_bottom = 33.7999
+custom_fonts/font = SubResource( 24 )
+text = "It's Hatching!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="animation_finished" from="EggSprite" to="." method="_on_EggSprite_animation_finished"]
 [connection signal="frame_changed" from="EggSprite" to="." method="_on_EggSprite_frame_changed"]
 [connection signal="area_entered" from="EggSprite/ParticleStart/EggCenter" to="." method="_on_EggCenter_area_entered"]
@@ -235,4 +363,3 @@ anims/Fly = SubResource( 19 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="button_up" from="EscapeButton" to="." method="_on_EscapeButton_button_up"]
 [connection signal="text_changed" from="NameLabel/NameEdit" to="." method="_on_NameEdit_text_changed"]
-[connection signal="animation_finished" from="Label/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
