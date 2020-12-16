@@ -67,3 +67,9 @@ func dec2bin(var decimal_value):
 			binary_string = binary_string + "0"
 		count -= 1
 	return int(binary_string)
+
+func rand_int(min_value: int,max_value: int, inclusive_range = true):
+	if inclusive_range:
+		max_value += 1
+	var range_size = max_value - min_value
+	return (randi() % range_size) + min_value
