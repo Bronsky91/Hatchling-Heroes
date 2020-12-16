@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/WaterFilter.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Cave/Tiles/water_fill.png" type="Texture" id=2]
+[ext_resource path="res://Shaders/Water.shader" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 3 )
+shader_param/blue_tint = null
+shader_param/sprite_scale = null
+shader_param/scale_x = 0.67
+
+[node name="WaterFilter" type="Sprite"]
+material = SubResource( 1 )
+texture = ExtResource( 2 )
+centered = false
+script = ExtResource( 1 )

@@ -35,13 +35,13 @@ func _input(event):
 
 func _state_logic(delta):
 	if not movement_disabled:
+		parent._update_move_direction()
 		if state == states.swim or state == states.sink:
 			parent._handle_movement(parent.swim_speed_horizontal)
 			parent._apply_vertical_swim_velocity(delta)
 #			parent._handle_surfacing(delta)
 #			parent._update_swim_animations()
 		else:
-			parent._update_move_direction()
 			parent._update_wall_direction()
 			if state != states.wall_slide:
 				parent._handle_movement()
@@ -123,30 +123,32 @@ func _get_transition(delta):
 			elif parent.velocity.y < 0:
 				return states.jump
 		states.swim:
-			if !parent.is_in_water():
-				if parent.velocity.y < 0:
-					return states.jump
-				else:
-					return states.fall
-			else:
+			if parent.is_in_water():
 				if parent.velocity.y < 0:
 					return states.swim
 				else:
 					return states.sink
-			#elif (Input.is_action_pressed("move_up") or Input.is_action_pressed("jump")) and parent.can_jump_out_of_water():
-#				parent.velocity.y = parent.swim_jump_out_velocity
-#				return states.jump
+				
+				if !parent.anim_player.current_animation.ends_with(direction):
+					return states.swim
+			else:
+				if parent.velocity.y < 0:
+					return states.jump
+				else:
+					return states.fall
 		states.sink:
-			if !parent.is_in_water():
-				if parent.velocity.y < 0:
-					return states.jump
-				else:
-					return states.fall
-			else:
+			if parent.is_in_water():
 				if parent.velocity.y < 0:
 					return states.swim
 				else:
 					return states.sink
+				if !parent.anim_player.current_animation.ends_with(direction):
+					return states.sink
+			else:
+				if parent.velocity.y < 0:
+					return states.jump
+				else:
+					return states.fall
 		states.wall_slide:
 			if parent.is_on_floor():
 				return states.idle

@@ -16,7 +16,7 @@ var min_jump_velocity
 var facing = 1
 var wall_direction = 1
 var swim_up_speed = -3 * tile_size
-var passive_swim_up_speed = 1 * tile_size
+var passive_swim_y_speed = 2 * tile_size
 var swim_down_speed = 3 * tile_size
 var swim_speed_horizontal = 3 * tile_size
 var swim_jump_out_velocity = -5 * tile_size
@@ -157,7 +157,7 @@ func swim_jump():
 		velocity.y = (max_jump_velocity / 3) * 2
 
 func _apply_vertical_swim_velocity(delta):
-	velocity.y = lerp(velocity.y, passive_swim_up_speed, 0.075 * delta / (1/ideal_framerate))
+	velocity.y = lerp(velocity.y, passive_swim_y_speed, 0.075 * delta / (1/ideal_framerate))
 	
 
 #func _handle_surfacing(delta):
@@ -205,18 +205,6 @@ func can_jump_out_of_water():
 	var space_state = get_world_2d().direct_space_state
 	var results = space_state.intersect_point(swim_level.global_position + Vector2.UP * 32.0, 1, [], g.collision_layers.WATER, false, true)
 	return velocity.y <= 0 && results.size() == 0
-
-func _update_swim_animations():
-	var animation = "swim_right" if facing > 0 else "swim_left"
-	var input = -int(Input.is_action_pressed("move_up") or Input.is_action_pressed("jump")) \
-			+ int(Input.is_action_pressed("move_down"))
-#	if input < 0:
-#		animation += "_up"
-	if abs(velocity.x) < 1 * tile_size and can_jump_out_of_water():
-		animation += "tread"
-	
-	if anim_player.assigned_animation != animation:
-		anim_player.play(animation)
 
 func _check_is_grounded(raycasts = self.raycasts):
 	# Loop through ground raycasts to determine if they're colliding with the ground

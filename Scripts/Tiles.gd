@@ -18,6 +18,7 @@ var water_bottoms = []
 var pit_tops = []
 var pit_bottoms = []
 var lava_line = []
+var water_filter = preload("res://Scenes/WaterFilter.tscn")
 var tile_ground = preload("res://Scenes/Tiles/Ground.tscn")
 var tile_water_surface = preload("res://Scenes/Tiles/WaterSurface.tscn")
 var tile_water_fill = preload("res://Scenes/Tiles/WaterFill.tscn")
@@ -35,6 +36,7 @@ var tile_spike_w_01 = preload("res://Scenes/Tiles/SpikeW_01.tscn")
 var tile_spike_w_02 = preload("res://Scenes/Tiles/SpikeW_02.tscn")
 var tile_spike_w_03a = preload("res://Scenes/Tiles/SpikeW_03a.tscn")
 var tile_spike_w_03b = preload("res://Scenes/Tiles/SpikeW_03b.tscn")
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -144,6 +146,13 @@ func add_water_and_pits():
 						matrix[i][j] = TILE.WATER if is_strip_water else TILE.NONE
 					# add spike to bottom of water or pit
 					add_spike(Vector2(i,new_depth),Vector2.UP,is_strip_water)
+				# if water, add water filter over designated area
+				if is_strip_water:
+					var filter = water_filter.instance()
+					filter.scale = Vector2(new_len + 0.5, new_depth + 0.5)
+					filter.set_shader_scale()
+					filter.position = Vector2((strip_start + start_padding - 0.5) * 16, (strip_height - 0.5) * 16)
+					add_child(filter)
 			strip_start = x
 			strip_height = floor_line[x]
 
