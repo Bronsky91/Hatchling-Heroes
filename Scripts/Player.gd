@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 signal grounded_updated(is_grounded)
 
+var ideal_framerate = 60.0
 var tile_size = 16
 var gravity = 800
 var velocity = Vector2()
@@ -14,6 +15,13 @@ var max_jump_velocity
 var min_jump_velocity
 var facing = 1
 var wall_direction = 1
+var swim_up_speed = -3 * tile_size
+var passive_swim_up_speed = 1 * tile_size
+var swim_down_speed = 3 * tile_size
+var swim_speed_horizontal = 3 * tile_size
+var swim_jump_out_velocity = -5 * tile_size
+var overlapping_water = []
+var overlapping_water_surface = []
 
 var is_jumping = false
 var is_flying = false
@@ -26,8 +34,10 @@ var level_complete = false
 
 var score = 0
 
+onready var state_machine = $StateMachine
 onready var anim_player = $Body/AnimationPlayer
 onready var body = $Body
+onready var swim_level = $SwimLevel
 onready var left_wall_raycast = $LeftWallRaycast
 onready var right_wall_raycast = $RightWallRaycast
 onready var wall_slide_cooldown = $WallSlideCooldown
@@ -79,7 +89,7 @@ func _cap_gravity_wall_slide():
 	var max_velocity = tile_size * 10 if Input.is_action_pressed("move_down") else tile_size
 	velocity.y = min(velocity.y, max_velocity)
 
-func _apply_movement():
+func _apply_movement(delta):
 	var snap = Vector2.DOWN * (tile_size * 2) if !is_jumping and !is_flying else Vector2.ZERO
 	
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
@@ -94,10 +104,11 @@ func _update_move_direction():
 	move_direction = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
 
 func _handle_movement(var speed = self.move_speed):
+	var delta = get_physics_process_delta_time()
 	# Get movement keypresses, convert to integers, and then store in move_direction
 	move_input_speed = -Input.get_action_strength("move_left") + Input.get_action_strength("move_right")
 	# Lerp velocity.x towards the direction the player is pressing keys for, weighted based on if they're grounded or not
-	velocity.x = lerp(velocity.x, speed * move_input_speed, _get_h_weight())
+	velocity.x = lerp(velocity.x, speed * move_input_speed, _get_h_weight() * delta / (1/ideal_framerate))
 	# Set sprite facing based on the last movement key pressed
 	if move_direction != 0:
 		facing = move_direction
@@ -110,7 +121,9 @@ func _handle_wall_slide_sticking():
 		wall_slide_sticky_timer.stop()
 
 func _get_h_weight():
-	if is_on_floor():
+	if state_machine.is_swimming():
+		return 0.05
+	elif is_on_floor():
 		return 1
 	else:
 		if move_direction == 0:
@@ -136,6 +149,74 @@ func subsequent_jump():
 func wall_jump():
 	velocity.y = max_jump_velocity
 	velocity.x = (max_jump_velocity / 2) * wall_direction
+
+func swim_jump():
+	if is_in_water_surface():
+		velocity.y = max_jump_velocity * 2
+	elif is_in_water():
+		velocity.y = (max_jump_velocity / 3) * 2
+
+func _apply_vertical_swim_velocity(delta):
+	velocity.y = lerp(velocity.y, passive_swim_up_speed, 0.075 * delta / (1/ideal_framerate))
+	
+
+#func _handle_surfacing(delta):
+#	if velocity.y < 0:
+#		var space_state = get_world_2d().direct_space_state
+#		var surface_level = swim_level.global_position + Vector2.DOWN * velocity.y * delta
+#		var results = space_state.intersect_point(surface_level, 1, [], g.collision_layers.WATER, false, true)
+#		if !results:
+#			var ray_result = space_state.intersect_ray(surface_level, swim_level.global_position, [], g.collision_layers.WATER)
+#			if ray_result:
+#				velocity.y = (ray_result.position.y - swim_level.global_position.y) / delta
+
+func touching_water_surface(id: int):
+	if !overlapping_water_surface.has(id):
+		overlapping_water_surface.append(id)
+	touching_water(id)
+
+func touching_water(id: int):
+	if !overlapping_water.has(id):
+		overlapping_water.append(id)
+
+func stopped_touching_water(id: int):
+	if overlapping_water.has(id):
+		overlapping_water.erase(id)
+	if overlapping_water_surface.has(id):
+		overlapping_water_surface.erase(id)
+
+func is_in_water_surface():
+	return overlapping_water_surface.size() != 0
+
+func is_in_water():
+#	var space_state = get_world_2d().direct_space_state
+#	var results = space_state.intersect_point(swim_level.global_position, 32, [], 2147483647, true, true)
+#	print("water detected? " + str(results.size()))
+#	for i in results:
+#		print(i.collider)
+#		if i.shape:
+#			print (i.shape)
+#
+#	#return results.size() != 0
+#	return false
+	return overlapping_water.size() != 0
+
+func can_jump_out_of_water():
+	var space_state = get_world_2d().direct_space_state
+	var results = space_state.intersect_point(swim_level.global_position + Vector2.UP * 32.0, 1, [], g.collision_layers.WATER, false, true)
+	return velocity.y <= 0 && results.size() == 0
+
+func _update_swim_animations():
+	var animation = "swim_right" if facing > 0 else "swim_left"
+	var input = -int(Input.is_action_pressed("move_up") or Input.is_action_pressed("jump")) \
+			+ int(Input.is_action_pressed("move_down"))
+#	if input < 0:
+#		animation += "_up"
+	if abs(velocity.x) < 1 * tile_size and can_jump_out_of_water():
+		animation += "tread"
+	
+	if anim_player.assigned_animation != animation:
+		anim_player.play(animation)
 
 func _check_is_grounded(raycasts = self.raycasts):
 	# Loop through ground raycasts to determine if they're colliding with the ground

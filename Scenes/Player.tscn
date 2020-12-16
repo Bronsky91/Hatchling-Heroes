@@ -69,4 +69,7 @@ game_id = "565769"
 [node name="ScoreTimer" type="Timer" parent="."]
 wait_time = 0.01
 autostart = true
+
+[node name="SwimLevel" type="Position2D" parent="."]
+position = Vector2( 0, 5 )
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]

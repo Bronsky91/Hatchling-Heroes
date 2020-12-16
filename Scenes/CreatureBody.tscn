@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Resources/Materials/palette_swap.tres" type="Material" id=1]
 [ext_resource path="res://Assets/Character/Torso/Torso_001.png" type="Texture" id=2]
@@ -770,6 +770,66 @@ tracks/5/keys = {
 }
 
 [sub_resource type="Animation" id=11]
+resource_name = "sink_left"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Head:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 22 ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "sink_right"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Head:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "swim_left"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Head:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 22 ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "swim_right"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Head:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+
+[sub_resource type="Animation" id=15]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -845,8 +905,7 @@ tracks/5/keys = {
 "values": [ 22 ]
 }
 
-[sub_resource type="Animation" id=12]
-resource_name = "wall_slide_right"
+[sub_resource type="Animation" id=16]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Torso:frame")
@@ -928,36 +987,42 @@ material = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 6
 hframes = 7
+frame = 15
 
 [node name="Tail" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 3 )
 vframes = 6
 hframes = 7
+frame = 15
 
 [node name="Head" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 4 )
 vframes = 6
 hframes = 7
+frame = 23
 
 [node name="Legs" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 5 )
 vframes = 6
 hframes = 7
+frame = 15
 
 [node name="Arms" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 6 )
 vframes = 6
 hframes = 7
+frame = 15
 
 [node name="Back" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 7 )
 vframes = 6
 hframes = 7
+frame = 15
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/fall_left = SubResource( 1 )
@@ -970,5 +1035,9 @@ anims/jump_left = SubResource( 7 )
 anims/jump_right = SubResource( 8 )
 anims/run_left = SubResource( 9 )
 anims/run_right = SubResource( 10 )
-anims/wall_slide_left = SubResource( 11 )
-anims/wall_slide_right = SubResource( 12 )
+anims/sink_left = SubResource( 11 )
+anims/sink_right = SubResource( 12 )
+anims/swim_left = SubResource( 13 )
+anims/swim_right = SubResource( 14 )
+anims/wall_slide_left = SubResource( 15 )
+anims/wall_slide_right = SubResource( 16 )

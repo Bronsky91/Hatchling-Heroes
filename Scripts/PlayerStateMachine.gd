@@ -7,6 +7,8 @@ func _ready():
 	add_state("run")
 	add_state("jump")
 	add_state("fall")
+	add_state("swim")
+	add_state("sink")
 	add_state("fly")
 	add_state("wall_slide")
 	call_deferred("set_state", states.idle)
@@ -23,6 +25,9 @@ func _input(event):
 	elif state == states.fall:
 		if event.is_action_pressed("jump"):
 			parent.subsequent_jump()
+	elif state == states.swim or state == states.sink:
+		if event.is_action_pressed("jump"):
+			parent.swim_jump()
 	elif state == states.wall_slide:
 		if event.is_action_pressed("jump"):
 			parent.wall_jump()
@@ -30,21 +35,32 @@ func _input(event):
 
 func _state_logic(delta):
 	if not movement_disabled:
-		parent._update_move_direction()
-		parent._update_wall_direction()
-		if state != states.wall_slide:
-			parent._handle_movement()
-		parent._apply_gravity(delta)
-		if state == states.wall_slide:
-			parent._cap_gravity_wall_slide()
-			parent._handle_wall_slide_sticking()
-		parent._apply_movement()
+		if state == states.swim or state == states.sink:
+			parent._handle_movement(parent.swim_speed_horizontal)
+			parent._apply_vertical_swim_velocity(delta)
+#			parent._handle_surfacing(delta)
+#			parent._update_swim_animations()
+		else:
+			parent._update_move_direction()
+			parent._update_wall_direction()
+			if state != states.wall_slide:
+				parent._handle_movement()
+			parent._apply_gravity(delta)
+			if state == states.wall_slide:
+				parent._cap_gravity_wall_slide()
+				parent._handle_wall_slide_sticking()
+		parent._apply_movement(delta)
 
 func _get_transition(delta):
 	var direction = "_left" if parent.facing < 0 else "_right"
 	match state:
 		states.idle:
-			if !parent.is_on_floor():
+			if parent.is_in_water():
+				if parent.velocity.y < 0:
+					return states.swim
+				else:
+					return states.sink
+			elif !parent.is_on_floor():
 				if parent.velocity.y < 0:
 					return states.jump
 				else:
@@ -52,7 +68,12 @@ func _get_transition(delta):
 			elif parent.velocity.x != 0:
 				return states.run
 		states.run:
-			if !parent.is_on_floor():
+			if parent.is_in_water():
+				if parent.velocity.y < 0:
+					return states.swim
+				else:
+					return states.sink
+			elif !parent.is_on_floor():
 				if parent.velocity.y < 0:
 					return states.jump
 				else:
@@ -62,7 +83,12 @@ func _get_transition(delta):
 			elif !parent.anim_player.current_animation.ends_with(direction):
 				return states.run
 		states.jump:
-			if parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
+			if parent.is_in_water():
+				if parent.velocity.y < 0:
+					return states.swim
+				else:
+					return states.sink
+			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
 			elif parent.is_flying:
 				return states.fly
@@ -71,7 +97,12 @@ func _get_transition(delta):
 			elif parent.is_on_floor():
 				return states.idle
 		states.fly:
-			if parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
+			if parent.is_in_water():
+				if parent.velocity.y < 0:
+					return states.swim
+				else:
+					return states.sink
+			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
 			elif parent.velocity.y >= 0:
 				return states.fall
@@ -80,12 +111,42 @@ func _get_transition(delta):
 			elif !parent.anim_player.current_animation.ends_with(direction):
 				return states.fly
 		states.fall:
-			if parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
+			if parent.is_in_water():
+				if parent.velocity.y < 0:
+					return states.swim
+				else:
+					return states.sink 
+			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
 			elif parent.is_on_floor():
 				return states.idle
 			elif parent.velocity.y < 0:
 				return states.jump
+		states.swim:
+			if !parent.is_in_water():
+				if parent.velocity.y < 0:
+					return states.jump
+				else:
+					return states.fall
+			else:
+				if parent.velocity.y < 0:
+					return states.swim
+				else:
+					return states.sink
+			#elif (Input.is_action_pressed("move_up") or Input.is_action_pressed("jump")) and parent.can_jump_out_of_water():
+#				parent.velocity.y = parent.swim_jump_out_velocity
+#				return states.jump
+		states.sink:
+			if !parent.is_in_water():
+				if parent.velocity.y < 0:
+					return states.jump
+				else:
+					return states.fall
+			else:
+				if parent.velocity.y < 0:
+					return states.swim
+				else:
+					return states.sink
 		states.wall_slide:
 			if parent.is_on_floor():
 				return states.idle
@@ -105,6 +166,10 @@ func _enter_state(new_state, old_state):
 			parent.anim_player.play("jump" + direction)
 		states.fall:
 			parent.anim_player.play("fall" + direction)
+		states.swim:
+			parent.anim_player.play("swim" + direction)
+		states.sink:
+			parent.anim_player.play("sink" + direction)
 		states.fly:
 			parent.anim_player.play("fly" + direction)
 		states.wall_slide:
@@ -115,6 +180,8 @@ func _exit_state(old_state, new_state):
 		states.wall_slide:
 			parent.wall_slide_cooldown.start()
 
+func is_swimming():
+	return state == states.swim or state == states.sink
 
 func _on_WallSlideStickyTimer_timeout():
 	if state == states.wall_slide:
