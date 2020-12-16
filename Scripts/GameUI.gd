@@ -47,7 +47,10 @@ func move_arrow_up():
 
 func _on_StartOver_button_up():
 	g.starting_over = true
-	get_tree().change_scene("res://Scenes/Menu.tscn")
+	if OS.is_debug_build():
+		get_tree().reload_current_scene()
+	else:
+		get_tree().change_scene("res://Scenes/Menu.tscn")
 
 func _on_Exit_button_up():
 	g.starting_over = false

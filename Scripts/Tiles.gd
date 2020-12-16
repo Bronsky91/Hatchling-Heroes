@@ -75,8 +75,8 @@ func add_floor():
 				strip_buffer = rand_int(strip_min, strip_max)
 				current_height = rand_int(ground_min, ground_max)
 			floor_line.append(current_height)
-			# 1 in 3 chance to add a spike here if a valid spot
-			if rand_int(1,3) == 1:
+			# 1 in 7 chance to add a spike here if a valid spot
+			if rand_int(1,7) == 1:
 				if can_spike_go_here(Vector2(x,current_height - 1)):
 					add_spike(Vector2(x,current_height - 1),Vector2.UP,false)
 			# fill in rest of floor with ground tiles

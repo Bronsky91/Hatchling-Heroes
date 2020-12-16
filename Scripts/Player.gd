@@ -30,7 +30,8 @@ var is_sliding = false
 var is_dead = false
 
 var lives = 1
-var can_fly = true
+var can_fly = false
+var can_double_jump = false
 var level_complete = false
 
 var score = 0
