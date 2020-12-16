@@ -51,11 +51,11 @@ func hide_tutorial(type, random=false):
 		$ButtonLabels.show_label('Random')
 	
 func calculate_nurture_percents(type):
-	var incr = 0.01
-	var max_percent = 0.30
+	var incr = 0.001
+	var max_percent = 0.60
 	var min_percent = 0.05
 	for nurture_type in nurture_percent_dict.keys():
-		if nurture_type != type and nurture_percent_dict[type] + incr <= max_percent and nurture_percent_dict[type] - incr >= min_percent:
+		if nurture_type != type and (nurture_percent_dict[type] + incr) <= max_percent and (nurture_percent_dict[type] - incr) >= min_percent:
 			nurture_percent_dict[type] += incr
 			nurture_percent_dict[nurture_type] -= incr
 
