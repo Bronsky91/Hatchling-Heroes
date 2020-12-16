@@ -2,9 +2,7 @@
 
 [ext_resource path="res://Assets/Cave/Tiles/spike_w_02.png" type="Texture" id=1]
 
-[node name="SpikeW_02" type="StaticBody2D" groups=[
-"spikes",
-]]
+[node name="SpikeW_02" type="StaticBody2D"]
 collision_layer = 32
 collision_mask = 8
 

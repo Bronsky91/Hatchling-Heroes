@@ -239,12 +239,7 @@ func wall_dir():
 	return "none"
 
 func take_damage():
-	print('player took damage')
 	lives -= 1
 	if lives < 1:
-		if facing == 1:
-			$Body/AnimationPlayer.play('death_right')
-		else:
-			$Body/AnimationPlayer.play('death_left')
-		complete_level("GAME OVER")
+		get_tree().reload_current_scene()
 
