@@ -11,6 +11,7 @@ func _ready():
 	add_state("sink")
 	add_state("fly")
 	add_state("wall_slide")
+	add_state("death")
 	call_deferred("set_state", states.idle)
 
 func _input(event):
@@ -53,6 +54,8 @@ func _state_logic(delta):
 
 func _get_transition(delta):
 	var direction = "_left" if parent.facing < 0 else "_right"
+	if parent.is_dead and state != states.death:
+		return states.death
 	match state:
 		states.idle:
 			if parent.is_in_water():
@@ -176,6 +179,8 @@ func _enter_state(new_state, old_state):
 			parent.anim_player.play("fly" + direction)
 		states.wall_slide:
 			parent.anim_player.play("wall_slide" + direction)
+		states.death:
+			parent.anim_player.play("death" + direction)
 
 func _exit_state(old_state, new_state):
 	match old_state:

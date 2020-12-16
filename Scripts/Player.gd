@@ -27,6 +27,7 @@ var is_jumping = false
 var is_flying = false
 var is_grounded = false
 var is_sliding = false
+var is_dead = false
 
 var lives = 1
 var can_fly = true
@@ -58,10 +59,11 @@ func _physics_process(delta):
 		# When dead complete_level('GAME OVER')
 		
 func complete_level(text):
+	z_index = 1
 	level_complete = true
+	$StateMachine.movement_disabled = true
 	add_score_to_board()
 	$ScoreTimer.stop()
-	$StateMachine.movement_disabled = true
 	$Body.z_index = 2
 	UI.game_over(text)
 	
@@ -241,5 +243,5 @@ func wall_dir():
 func take_damage():
 	lives -= 1
 	if lives < 1:
-		get_tree().reload_current_scene()
-
+		is_dead = true
+		complete_level("GAME OVER")
