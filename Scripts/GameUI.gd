@@ -46,11 +46,12 @@ func move_arrow_up():
 
 
 func _on_StartOver_button_up():
-	print('start over')
+	g.starting_over = true
 	get_tree().change_scene("res://Scenes/Menu.tscn")
 
 func _on_Exit_button_up():
-	get_tree().quit()
+	g.starting_over = false
+	get_tree().change_scene("res://Scenes/Menu.tscn")
 
 
 func _on_StartOver_mouse_entered():

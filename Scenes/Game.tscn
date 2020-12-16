@@ -165,7 +165,7 @@ focus_mode = 0
 custom_fonts/font = ExtResource( 8 )
 disabled = true
 enabled_focus_mode = 0
-text = "Exit Game"
+text = "Main Menu"
 flat = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -174,6 +174,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 11 )
+frame = 2
 speed_scale = 1.5
 playing = true
 

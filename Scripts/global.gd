@@ -2,6 +2,8 @@ extends Node
 
 enum collision_layers {GROUND, WATER, LAVA, PLAYER, PLAYER_PROJECTILE, SPIKE, ENEMY, SPAWNER}
 
+var starting_over = false
+
 func _ready():
 	#OS.set_window_maximized(true)
 	pass
