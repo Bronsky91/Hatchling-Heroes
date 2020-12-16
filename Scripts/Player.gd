@@ -92,7 +92,7 @@ func _cap_gravity_wall_slide():
 func _apply_movement(delta):
 	var snap = Vector2.DOWN * (tile_size * 2) if !is_jumping and !is_flying else Vector2.ZERO
 	
-	velocity = move_and_slide_with_snapvelocity, snap, Vector2.UP)
+	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
 	
 	var was_grounded = is_grounded
 	is_grounded = is_on_floor()
