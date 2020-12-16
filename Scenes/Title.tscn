@@ -125,7 +125,6 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="Options"]
 position = Vector2( -55, 10 )
 frames = SubResource( 9 )
-frame = 1
 speed_scale = 1.5
 playing = true
 
