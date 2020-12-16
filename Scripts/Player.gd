@@ -54,16 +54,16 @@ func _ready():
 	
 func _physics_process(delta):
 	if position.x > map_size_x and not level_complete:
-		complete_level()
+		complete_level('COMPLETED')
+		# When dead complete_level('GAME OVER')
 		
-func complete_level():
+func complete_level(text):
 	level_complete = true
 	add_score_to_board()
 	$ScoreTimer.stop()
 	$StateMachine.movement_disabled = true
 	$Body.z_index = 2
-	UI.game_over()
-	# TODO: Game Success Screen -> Egg Creation
+	UI.game_over(text)
 	
 func _on_ScoreTimer_timeout():
 	score += 0.01

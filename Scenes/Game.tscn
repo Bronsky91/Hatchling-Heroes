@@ -130,11 +130,10 @@ __meta__ = {
 }
 
 [node name="GameOverLabel" type="Label" parent="UI"]
-visible = false
-margin_left = 119.716
-margin_top = 52.6722
-margin_right = 282.716
-margin_bottom = 104.672
+margin_left = 120.0
+margin_top = 53.0
+margin_right = 283.0
+margin_bottom = 105.0
 custom_fonts/font = SubResource( 4 )
 text = "GAME OVER"
 __meta__ = {
@@ -174,7 +173,6 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 11 )
-frame = 2
 speed_scale = 1.5
 playing = true
 
