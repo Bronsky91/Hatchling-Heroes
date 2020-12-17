@@ -6,9 +6,8 @@
 [ext_resource path="res://addons/gamejolt_api_v2/main.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Black.png" type="Texture" id=5]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 8.34519
-height = 10.2228
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5, 8 )
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 8
@@ -36,16 +35,16 @@ __meta__ = {
 }
 
 [node name="LeftWallRaycast" type="RayCast2D" parent="."]
-position = Vector2( -8, 5 )
+position = Vector2( -5, 0 )
 rotation = 1.5708
 enabled = true
-cast_to = Vector2( 0, 4 )
+cast_to = Vector2( 0, 7 )
 
 [node name="RightWallRaycast" type="RayCast2D" parent="."]
-position = Vector2( 7, 5 )
+position = Vector2( 5, 0 )
 rotation = -1.5708
 enabled = true
-cast_to = Vector2( 0, 4 )
+cast_to = Vector2( 0, 7 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
 wait_time = 0.2
