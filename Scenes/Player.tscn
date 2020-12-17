@@ -7,7 +7,7 @@
 [ext_resource path="res://Assets/Black.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5, 8 )
+extents = Vector2( 4, 13 )
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 8
@@ -23,6 +23,7 @@ script = ExtResource( 2 )
 [node name="Body" parent="." instance=ExtResource( 3 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1, 1 )
 shape = SubResource( 1 )
 
 [node name="StateLabel" type="Label" parent="."]
