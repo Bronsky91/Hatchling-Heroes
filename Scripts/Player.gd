@@ -44,6 +44,8 @@ onready var body = $Body
 onready var swim_level = $SwimLevel
 onready var left_wall_raycast = $LeftWallRaycast
 onready var right_wall_raycast = $RightWallRaycast
+onready var floor_raycast = $FloorRaycast
+onready var enemy_raycast = $EnemyRaycast
 onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 onready var map_size_x = get_node('../Tiles').map_size.x * 16
@@ -100,7 +102,7 @@ func _apply_movement(delta):
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
 	
 	var was_grounded = is_grounded
-	is_grounded = is_on_floor()
+	is_grounded = _check_is_grounded()
 	
 	if was_grounded == null || is_grounded != was_grounded:
 		emit_signal("grounded_updated", is_grounded)
@@ -128,7 +130,7 @@ func _handle_wall_slide_sticking():
 func _get_h_weight():
 	if state_machine.is_swimming():
 		return 0.05
-	elif is_on_floor():
+	elif _check_is_grounded():
 		return 1
 	else:
 		if move_direction == 0:
@@ -214,13 +216,11 @@ func can_jump_out_of_water():
 	var results = space_state.intersect_point(swim_level.global_position + Vector2.UP * 32.0, 1, [], g.collision_layers.WATER, false, true)
 	return velocity.y <= 0 && results.size() == 0
 
-func _check_is_grounded(raycasts = self.raycasts):
-	# Loop through ground raycasts to determine if they're colliding with the ground
-	for raycast in raycasts.get_children():
-		if raycast.is_colliding():
-			return true
-	# If loop completes then raycast was not detected
-	return false
+func _check_is_grounded():
+	if floor_raycast.is_colliding() or enemy_raycast.is_colliding():
+		return true
+	else:
+		return false
 
 func _update_wall_direction():
 	var is_near_wall_left = _check_is_valid_wall(left_wall_raycast)

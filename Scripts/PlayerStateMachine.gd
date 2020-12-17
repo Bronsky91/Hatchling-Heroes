@@ -63,7 +63,7 @@ func _get_transition(delta):
 					return states.swim
 				else:
 					return states.sink
-			elif !parent.is_on_floor():
+			elif !parent._check_is_grounded():
 				if parent.velocity.y < 0:
 					return states.jump
 				else:
@@ -76,7 +76,7 @@ func _get_transition(delta):
 					return states.swim
 				else:
 					return states.sink
-			elif !parent.is_on_floor():
+			elif !parent._check_is_grounded():
 				if parent.velocity.y < 0:
 					return states.jump
 				else:
@@ -97,7 +97,7 @@ func _get_transition(delta):
 				return states.fly
 			elif parent.velocity.y >= 0:
 				return states.fall
-			elif parent.is_on_floor():
+			elif parent._check_is_grounded():
 				return states.idle
 		states.fly:
 			if parent.is_in_water():
@@ -109,7 +109,7 @@ func _get_transition(delta):
 				return states.wall_slide
 			elif parent.velocity.y >= 0:
 				return states.fall
-			elif parent.is_on_floor():
+			elif parent._check_is_grounded():
 				return states.idle
 			elif !parent.anim_player.current_animation.ends_with(direction):
 				return states.fly
@@ -121,7 +121,7 @@ func _get_transition(delta):
 					return states.sink 
 			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
-			elif parent.is_on_floor():
+			elif parent._check_is_grounded():
 				return states.idle
 			elif parent.velocity.y < 0:
 				return states.jump
@@ -153,7 +153,7 @@ func _get_transition(delta):
 				else:
 					return states.fall
 		states.wall_slide:
-			if parent.is_on_floor():
+			if parent._check_is_grounded():
 				return states.idle
 			elif parent.wall_direction == 0:
 				return states.fall

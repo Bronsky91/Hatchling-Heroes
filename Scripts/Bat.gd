@@ -6,6 +6,7 @@ var velocity
 var freq = 5
 var amplitude = g.rand_int(5,25)
 var is_dead = false
+var has_killed = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -26,15 +27,16 @@ func _physics_process(delta):
 func _on_Face_body_entered(body):
 	if body.name == "Player" and !is_dead:
 		body.take_damage()
+		has_killed = true
 		disable_collision()
 
 func _on_Back_body_entered(body):
-	if body.name == "Player" and !is_dead:
+	if body.name == "Player" and !is_dead and !has_killed:
 		body.bounce_off_enemy()
 		die()
 
 func _on_Belly_body_entered(body):
-	if body.name == "Player" and !is_dead:
+	if body.name == "Player" and !is_dead and !has_killed:
 		print("player in belly!")
 
 func die():
