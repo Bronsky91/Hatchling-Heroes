@@ -5,7 +5,7 @@ signal nurture_pressed
 var particle = preload("res://Scenes/ParticleIcon.tscn")
 var thrown_icon = preload('res://Scenes/ThrownIcon.tscn')
 
-var countdown: int = 15
+export(int) var countdown: int = 15
 
 var first_run = true
 
@@ -155,7 +155,7 @@ func save_creature_name(name):
 	f.close()
 	
 func save_creature():
-	## NOTE: Torsa and Arms are the SAME
+	## NOTE: Torso and Arms are the SAME
 	var creature_parts = ['Torso', 'Tail', 'Head', 'Legs', 'Back']
 	#001 - Cat
 	#002 - Mole
@@ -167,44 +167,79 @@ func save_creature():
 	#008 - Frog
 	#009 - Duck
 	#010 - Scorpion
+	#011 - Turtle
+	#012 - Porcupine
+	#013 - Monkey
 	
 	var nurture_options = {
-		"Dark": ['002', '003', '007'],
-		"Cold": ['006', '008', '009'],
-		"Hate": ['002', '003', '005', '007'],
-		"Love": ['001', '009'],
-		"Crystal": ['002', '007'],
-		"Heat": ['001', '004', '010'],
-		"Light": ['001', '008', '009'],
-		"Slime": ['004', '005', '006', '008'],
+		"Dark": ['002', '003', '007', '012'],
+		"Cold": ['006', '008', '009', '011'],
+		"Hate": ['002', '003', '005', '007', '010'],
+		"Love": ['001', '009', '012', '013'],
+		"Crystal": ['002', '007', '011', '012'],
+		"Heat": ['001', '004', '010', '013'],
+		"Light": ['001', '008', '009', '013'],
+		"Slime": ['004', '005', '006', '008', '010'],
+	}
+	
+	var power_part_index = {
+		"Head": {
+			"001": g.power_parts.EXTRA_LIFE,
+			"003": g.power_parts.BAT_PROTECTION,
+			"006": g.power_parts.GILLS,
+			"007": g.power_parts.RAT_PROTECTION,
+			"008": g.power_parts.EXTRA_AIR
+		},
+		"Back": {
+			"003": g.power_parts.FLYING,
+			"009": g.power_parts.FLYING,
+			"011": g.power_parts.TOP_SHIELD,
+			"012": g.power_parts.TOP_ATTACK
+		},
+		"Legs": {
+			"008": g.power_parts.DOUBLE_JUMP
+		},
+		"Tail": {
+			"008": g.power_parts.SWIM,
+			"010": g.power_parts.FORWARD_ATTACK
+		},
+		"Torso": {
+			"013": g.power_parts.FORWARD_ATTACK
+		}
 	}
 	
 	var data = {
 	"Name": "",
 	"Arms": {
 		"palette_name": "",
-		"texture_num": ""
-	  },
-	  "Back": {
+		"texture_num": "",
+		"power_part": ""
+	 },
+	"Back": {
 		"palette_name": "",
-		"texture_num": ""
-	  },
-	  "Head": {
+		"texture_num": "",
+		"power_part": ""
+	 },
+	 "Head": {
 		"palette_name": "",
-		"texture_num": ""
-	  },
-	  "Legs": {
+		"texture_num": "",
+		"power_part": ""
+	 },
+	 "Legs": {
 		"palette_name": "",
-		"texture_num": ""
-	  },
-	  "Tail": {
+		"texture_num": "",
+		"power_part": ""
+	 },
+	 "Tail": {
 		"palette_name": "",
-		"texture_num": ""
-	  },
-	  "Torso": {
+		"texture_num": "",
+		"power_part": ""
+	 },
+	 "Torso": {
 		"palette_name": "",
-		"texture_num": ""
-	  }
+		"texture_num": "",
+		"power_part": ""
+	 }
 	}
 	
 	## Same palette for each part
@@ -217,12 +252,15 @@ func save_creature():
 		## Different palette for each part
 		var random_part_color = get_random_palette()
 		##
+		var power = power_part_index[part][creature_base] if power_part_index[part].has(creature_base) else g.power_parts.NOTHING
 		if part == 'Torso':
 			# Do same for Arms
 			data['Arms'].texture_num = creature_base
 			data['Arms'].palette_name = random_part_color
+			data['Arms'].power_part = power
 		data[part].texture_num = creature_base
 		data[part].palette_name = random_part_color
+		data[part].power_part = power
 	
 	var f = File.new()
 	f.open("res://SaveData/character_state.json", File.WRITE)

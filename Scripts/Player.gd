@@ -34,6 +34,8 @@ var can_fly = false
 var can_double_jump = false
 var level_complete = false
 
+var powers = [] # Powers the creatures has from body parts (Ex: Flying)
+
 var score = 0
 
 onready var state_machine = $StateMachine
@@ -50,7 +52,7 @@ onready var UI = get_node('../../UI')
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	g.load_creature(body)
+	powers = g.load_creature(body)
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
 	

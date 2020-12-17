@@ -2,6 +2,21 @@ extends Node
 
 enum collision_layers {GROUND, WATER, LAVA, PLAYER, PLAYER_PROJECTILE, SPIKE, ENEMY, SPAWNER}
 
+enum power_parts {
+	EXTRA_LIFE,
+	FLYING,
+	SWIM,
+	GILLS,
+	EXTRA_AIR,
+	DOUBLE_JUMP,
+	TOP_ATTACK,
+	FORWARD_ATTACK,
+	TOP_SHIELD,
+	RAT_PROTECTION,
+	BAT_PROTECTION,
+	NOTHING
+}
+
 var starting_over = false
 
 func _ready():
@@ -44,6 +59,14 @@ func load_creature(parent_node: Node2D, json_data=""):
 			part.material.set_shader_param("palette_swap", load("res://Assets/Character/Palettes/"+data[part.name].palette_name))
 			part.material.set_shader_param("greyscale_palette", load("res://Assets/Character/Palettes/Bodycolor_000.png"))
 			make_shaders_unique(part)
+			
+	var powers = []
+	for d in data.keys():
+		if d == "Name":
+			continue
+		if data[d].power_part != g.power_parts.NOTHING:
+			powers.append(data[d].power_part)
+	return powers # Array of power parts for loaded creature
 
 func is_bit_enabled(mask, index):
 	return mask & (1 << index) != 0
