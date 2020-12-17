@@ -163,7 +163,10 @@ func swim_jump():
 
 func _apply_vertical_swim_velocity(delta):
 	velocity.y = lerp(velocity.y, passive_swim_y_speed, 0.075 * delta / (1/ideal_framerate))
-	
+
+func bounce_off_enemy():
+	velocity.y = max_jump_velocity / 2
+	is_jumping = true
 
 #func _handle_surfacing(delta):
 #	if velocity.y < 0:

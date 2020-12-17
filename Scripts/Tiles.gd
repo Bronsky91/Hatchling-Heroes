@@ -278,7 +278,6 @@ func add_platform(x: int, y: int, width: int):
 	var counter = 0
 	for i in range(x, x + width):
 		counter += 1
-		print("adding platform: " + sprite_set + " " + str(i) + "," + str(y))
 		platform_sprites[i][y] = sprite_set
 		matrix[i][y] = TILE.PLATFORM
 		if (counter == 2 or counter == 3) and sprite_set == "04":
@@ -439,7 +438,6 @@ func render_platform_spike(x: int, y: int):
 		suffix = "_middle_spike"
 	var tile_platform_spike_path = "res://Scenes/Tiles/platform_" + platform_sprites[x][y] + suffix + ".tscn"
 	var tile_platform_spike = load(tile_platform_spike_path)
-	print("x:" + str(x) + ",y:" + str(y) + ",tile_spike_path: " + tile_platform_spike_path)
 	return tile_platform_spike.instance()
 
 func render_ground(tile: Node2D, x: int, y: int, is_floor: bool):
