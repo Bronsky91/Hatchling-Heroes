@@ -30,12 +30,14 @@ var is_sliding = false
 var is_dead = false
 
 var lives = 1
+var air_max = 5
 var can_double_jump = false
 var level_complete = false
 var previous_pos_x: int
 var distance_score: int
 
 var powers = [] # Powers the creatures has from body parts (Ex: Flying)
+
 
 var seconds = 0
 var score: int
@@ -63,6 +65,10 @@ func _ready():
 	
 	if has_power(g.power_parts.EXTRA_LIFE):
 		lives += 1 
+	if has_power(g.power_parts.EXTRA_AIR):
+		air_max = 10
+		UI.get_node("AirMeter").max_value = air_max
+		UI.get_node("AirMeter").value = air_max
 
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
@@ -74,7 +80,7 @@ func _physics_process(delta):
 	if position.x > map_size_x and not level_complete:
 		complete_level('COMPLETED')
 		# When dead complete_level('GAME OVER')
-	if is_in_water() and $AirTimer.is_stopped():
+	if is_in_water() and $AirTimer.is_stopped() and not has_power(g.power_parts.GILLS):
 		$AirTimer.start()
 		UI.get_node("AirMeter").show()
 		
@@ -274,8 +280,7 @@ func take_damage():
 		complete_level("GAME OVER")
 
 func _on_AirTimer_timeout():
-	if UI.get_node('AirMeter').value == 5:
-		print('100')
+	if UI.get_node('AirMeter').value == air_max:
 		UI.get_node('AirMeter').hide()
 		$AirTimer.stop()
 	if is_in_water():
