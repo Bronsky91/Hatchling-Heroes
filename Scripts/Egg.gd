@@ -248,7 +248,7 @@ func save_creature():
 	for part in creature_parts:
 		var nurture_for_part = find_nurture_based_on_thres()
 		randomize()
-		var creature_base = '003'#nurture_options[nurture_for_part][randi() % nurture_options[nurture_for_part].size()]
+		var creature_base = nurture_options[nurture_for_part][randi() % nurture_options[nurture_for_part].size()]
 		## Different palette for each part
 		var random_part_color = get_random_palette()
 		##
