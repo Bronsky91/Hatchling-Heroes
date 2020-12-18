@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Tiles.gd" type="Script" id=2]
@@ -71,6 +71,25 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.462745, 0.729412, 0.854902, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_bottom = 3
+border_color = Color( 0.027451, 0.0980392, 0.533333, 1 )
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.027451, 0.0980392, 0.533333, 1 )
 
 [node name="Game" type="Node"]
 
@@ -236,12 +255,15 @@ position = Vector2( 30, 133 )
 [node name="AirMeter" type="ProgressBar" parent="UI"]
 visible = false
 margin_left = 148.636
-margin_top = 50.4983
+margin_top = 50.9438
 margin_right = 234.636
-margin_bottom = 64.4983
+margin_bottom = 64.9438
+custom_styles/fg = SubResource( 14 )
+custom_styles/bg = SubResource( 15 )
 max_value = 5.0
 step = 0.1
 value = 5.0
+percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
