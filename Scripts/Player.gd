@@ -30,13 +30,15 @@ var is_sliding = false
 var is_dead = false
 
 var lives = 1
-var can_fly = false
 var can_double_jump = false
 var level_complete = false
+var previous_pos_x: int
+var distance_score: int
 
 var powers = [] # Powers the creatures has from body parts (Ex: Flying)
 
 var seconds = 0
+var score: int
 
 onready var state_machine = $StateMachine
 onready var anim_player = $Body/AnimationPlayer
@@ -58,14 +60,24 @@ func _ready():
 	if not OS.is_debug_build():
 		music_player.play()
 	powers = g.load_creature(body)
+	
+	if has_power(g.power_parts.EXTRA_LIFE):
+		lives += 1 
+
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
 	
 func _physics_process(delta):
+	if int(position.x) > previous_pos_x:
+		distance_score += 1
+		previous_pos_x = int(position.x)
 	if position.x > map_size_x and not level_complete:
 		complete_level('COMPLETED')
 		# When dead complete_level('GAME OVER')
 		
+func has_power(power):
+	return power in powers
+	
 func complete_level(text):
 	z_index = 1
 	level_complete = true
@@ -76,14 +88,14 @@ func complete_level(text):
 	UI.game_over(text)
 	
 func _on_ScoreTimer_timeout():
-	seconds += 0.01
+	seconds += 0.1
 	seconds_timer_label.text = str(seconds).pad_decimals(1)
 
 func add_score_to_board(text):
+	score = distance_score / 10
+	if text == "COMPLETED":
+		score += 300 - int(seconds)
 	if not OS.is_debug_build():
-		var score = int(seconds) * 10
-		if text == "COMPLETED":
-			score += 1000
 		var f = File.new()
 		f.open("user://character_state.save", File.READ)
 		var json = JSON.parse(f.get_as_text())
@@ -155,7 +167,7 @@ func minimize_jump():
 		velocity.y = min_jump_velocity
 
 func subsequent_jump():
-	if can_fly:
+	if has_power(g.power_parts.FLYING):
 		velocity.y = max_jump_velocity
 		is_flying = true
 
@@ -254,6 +266,6 @@ func wall_dir():
 
 func take_damage():
 	lives -= 1
-	if lives < 1:
+	if lives < 1 and not level_complete:
 		is_dead = true
 		complete_level("GAME OVER")

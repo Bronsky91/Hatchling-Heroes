@@ -248,7 +248,7 @@ func save_creature():
 	for part in creature_parts:
 		var nurture_for_part = find_nurture_based_on_thres()
 		randomize()
-		var creature_base = nurture_options[nurture_for_part][randi() % nurture_options[nurture_for_part].size()]
+		var creature_base = '003'#nurture_options[nurture_for_part][randi() % nurture_options[nurture_for_part].size()]
 		## Different palette for each part
 		var random_part_color = get_random_palette()
 		##
@@ -263,14 +263,9 @@ func save_creature():
 		data[part].power_part = power
 	
 	var f = File.new()
-	print('new file save creature')
-	var error = f.open("user://character_state.save", File.WRITE)
-	print(error)
-	print('opened save creature')
+	f.open("user://character_state.save", File.WRITE)
 	f.store_string(JSON.print(data, "  ", true))
-	print('store string save creature')
 	f.close()
-	print('closed save creature')
 
 func get_random_palette():
 	var palettes = g.files_in_dir('res://Assets/Character/Palettes')

@@ -84,7 +84,7 @@ private_key = "1cd3d9b8d85b27277ff44f7167c7094e"
 game_id = "565769"
 
 [node name="ScoreTimer" type="Timer" parent="."]
-wait_time = 0.01
+wait_time = 0.1
 autostart = true
 
 [node name="SwimLevel" type="Position2D" parent="."]

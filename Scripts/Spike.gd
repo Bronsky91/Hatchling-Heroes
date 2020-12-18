@@ -1,10 +1,15 @@
 extends Area2D
 
+var avail_to_dmg = true
 
 func _ready():
 	connect('body_entered', self, '_on_body_entered')
+	connect('body_entered', self, '_on_body_exited')
 
 func _on_body_entered(body):
-	if body.name == "Player":
+	if body.name == "Player" and avail_to_dmg:
 		body.take_damage()
-	
+		avail_to_dmg = false
+
+func _on_body_exited(body):
+	avail_to_dmg = true

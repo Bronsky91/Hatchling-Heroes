@@ -5,7 +5,7 @@ var disabled_input = true
 
 onready var arrow_positions = $GameOverLabel/ArrowPositions.get_children()
 onready var button_options = [$GameOverLabel/StartOver, $GameOverLabel/Exit]
-
+onready var player = get_node('../Level/Player')
 
 signal index_update
 
@@ -16,7 +16,8 @@ func game_over(text):
 	$GameOverLabel.show()
 	$GameOverLabel/StartOver.disabled = false
 	$GameOverLabel/Exit.disabled = false
-	get_node("../Level/Player/Camera2D/BlackBG").show()
+	player.get_node("Camera2D/BlackBG").show()
+	$GameOverLabel/ScoreLabel.text += str(player.score)
 	disabled_input = false
 	
 func _on_index_update(new_index):

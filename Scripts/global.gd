@@ -49,14 +49,9 @@ func load_creature(parent_node: Node2D, json_data=""):
 		data = JSON.parse(json_data).result
 	else:
 		var f = File.new()
-		print('file new load_creature')
-		var error = f.open("user://character_state.save", File.READ)
-		print(error)
-		print('opened load_creature')
+		f.open("user://character_state.save", File.READ)
 		var json = JSON.parse(f.get_as_text())
-		print('load_creature get_as_text')
 		f.close()
-		print('load_creature close')
 		data = json.result
 	for part in parent_node.get_children():
 		if part is Sprite:
