@@ -18,17 +18,9 @@
 antialiased = false
 font_path = "res://Resources/Fonts/jupiterc.ttf"
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=2]
 size = 64
 font_data = SubResource( 1 )
-
-[sub_resource type="DynamicFontData" id=13]
-antialiased = false
-font_path = "res://Resources/Fonts/Pixel NES.otf"
-
-[sub_resource type="DynamicFont" id=2]
-size = 18
-font_data = SubResource( 13 )
 
 [sub_resource type="DynamicFontData" id=3]
 antialiased = false
@@ -38,33 +30,41 @@ font_path = "res://Resources/Fonts/Pixel NES.otf"
 size = 18
 font_data = SubResource( 3 )
 
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 9 )
-region = Rect2( 0, 0, 32, 32 )
+[sub_resource type="DynamicFontData" id=5]
+antialiased = false
+font_path = "res://Resources/Fonts/Pixel NES.otf"
 
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 9 )
-region = Rect2( 32, 0, 32, 32 )
+[sub_resource type="DynamicFont" id=6]
+size = 18
+font_data = SubResource( 5 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 9 )
-region = Rect2( 64, 0, 32, 32 )
+region = Rect2( 0, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 9 )
-region = Rect2( 64, 0, 32, 32 )
+region = Rect2( 32, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 9 )
-region = Rect2( 32, 0, 32, 32 )
+region = Rect2( 64, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 9 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 9 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 32, 32 )
 
-[sub_resource type="SpriteFrames" id=11]
+[sub_resource type="SpriteFrames" id=13]
 animations = [ {
-"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -105,7 +105,7 @@ margin_left = 37.0587
 margin_top = 23.0632
 margin_right = 363.059
 margin_bottom = 91.0632
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 2 )
 text = "Hatchling Heroes"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -129,7 +129,7 @@ margin_top = 0.49
 margin_right = 33.019
 margin_bottom = -39.01
 focus_mode = 0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 enabled_focus_mode = 0
 text = "Start Game"
 flat = true
@@ -145,7 +145,7 @@ margin_top = 38.3223
 margin_right = 69.627
 margin_bottom = 36.3223
 focus_mode = 0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 enabled_focus_mode = 0
 text = "High Scores"
 flat = true
@@ -155,8 +155,7 @@ __meta__ = {
 
 [node name="Arrow" type="AnimatedSprite" parent="Title/Options"]
 position = Vector2( -55, 10 )
-frames = SubResource( 11 )
-frame = 3
+frames = SubResource( 13 )
 speed_scale = 1.5
 playing = true
 

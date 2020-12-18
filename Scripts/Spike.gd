@@ -7,7 +7,7 @@ func _ready():
 	connect('body_entered', self, '_on_body_exited')
 
 func _on_body_entered(body):
-	if body.name == "Player" and avail_to_dmg:
+	if body.name == "Player" and avail_to_dmg and not 'U_03b' in name: #U_03b is a combo spike with 03a
 		body.take_damage()
 		avail_to_dmg = false
 
