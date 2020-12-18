@@ -91,6 +91,7 @@ position = Vector2( 199.821, 119.735 )
 texture = ExtResource( 6 )
 
 [node name="Title" type="Node2D" parent="."]
+visible = false
 
 [node name="Label" type="Label" parent="Title"]
 margin_left = 76.8972
@@ -183,16 +184,15 @@ position = Vector2( -32.5, 71 )
 visible = false
 
 [node name="HighScores" type="Node2D" parent="."]
-visible = false
 script = ExtResource( 11 )
 
 [node name="Label" type="Label" parent="HighScores"]
-margin_left = 118.42
-margin_top = 0.159105
-margin_right = 278.42
-margin_bottom = 52.1591
+margin_left = 73.2301
+margin_top = -2.81392
+margin_right = 358.23
+margin_bottom = 49.1861
 custom_fonts/font = ExtResource( 7 )
-text = "Highscores"
+text = "Top 100 Highscores"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -203,9 +203,9 @@ private_key = "1cd3d9b8d85b27277ff44f7167c7094e"
 game_id = "565769"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HighScores"]
-margin_left = 95.0
+margin_left = 70.0
 margin_top = 59.0
-margin_right = 395.0
+margin_right = 370.0
 margin_bottom = 199.0
 __meta__ = {
 "_edit_use_anchors_": false

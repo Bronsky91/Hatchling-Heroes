@@ -1,6 +1,7 @@
 extends Node2D
 
 var score_row = preload("res://Scenes/ScoreRow.tscn")
+var top_hundred = 0
 
 func _ready():
 	$GameJoltAPI.connect("api_scores_fetched", self, '_on_scores_fetched')
@@ -14,3 +15,6 @@ func _on_scores_fetched(data):
 		new_score_row.get_node("CreatureName").text = score.guest
 		g.load_creature(new_score_row.get_node("BodyContainer/Body"), score.extra_data)
 		$ScrollContainer/VBoxContainer.add_child(new_score_row)
+		top_hundred += 1
+		if top_hundred == 100:
+			break
