@@ -282,4 +282,6 @@ func _on_AirTimer_timeout():
 		UI.get_node('AirMeter').value -= 0.1
 	else:
 		UI.get_node('AirMeter').value += 0.2
+	if UI.get_node('AirMeter').value == 0:
+		take_damage()
 	
