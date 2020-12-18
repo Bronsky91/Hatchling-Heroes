@@ -27,15 +27,15 @@ func files_in_dir(path: String, keyword: String = "") -> Array:
 	var files = []
 	var dir = Directory.new()
 	dir.open(path)
-	dir.list_dir_begin()
+	dir.list_dir_begin(true, true)
 	while true:
 		var file = dir.get_next()
 		if file == "":
 			break
-		elif keyword != "" and file.find(keyword) == -1:
+		if keyword != "" and file.find(keyword) == -1:
 			continue
-		elif not file.begins_with(".") and not file.ends_with(".import"):
-			files.append(file)
+		if not file.begins_with(".") and file.ends_with(".import"):
+			files.append(file.replace(".import", ""))
 	dir.list_dir_end()
 	return files
 
@@ -49,9 +49,14 @@ func load_creature(parent_node: Node2D, json_data=""):
 		data = JSON.parse(json_data).result
 	else:
 		var f = File.new()
-		f.open("res://SaveData/character_state.json", File.READ)
+		print('file new load_creature')
+		var error = f.open("user://character_state.save", File.READ)
+		print(error)
+		print('opened load_creature')
 		var json = JSON.parse(f.get_as_text())
+		print('load_creature get_as_text')
 		f.close()
+		print('load_creature close')
 		data = json.result
 	for part in parent_node.get_children():
 		if part is Sprite:

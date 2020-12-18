@@ -51,9 +51,12 @@ onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 onready var map_size_x = get_node('../Tiles').map_size.x * 16
 onready var score_timer_label = get_node('../../UI/TimerLabel')
 onready var UI = get_node('../../UI')
+onready var music_player = get_node("../../AudioStreamPlayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if not OS.is_debug_build():
+		music_player.play()
 	powers = g.load_creature(body)
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
@@ -79,7 +82,7 @@ func _on_ScoreTimer_timeout():
 func add_score_to_board():
 	if not OS.is_debug_build():
 		var f = File.new()
-		f.open("res://SaveData/character_state.json", File.READ)
+		f.open("user://character_state.save", File.READ)
 		var json = JSON.parse(f.get_as_text())
 		f.close()
 		var data = json.result

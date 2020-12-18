@@ -161,7 +161,10 @@ func _get_transition(delta):
 
 func _enter_state(new_state, old_state):
 	var direction = "_left" if parent.facing < 0 else "_right"
-	parent.get_node("StateLabel").text = states.keys()[new_state].to_lower() + direction
+	if OS.is_debug_build():
+		parent.get_node("StateLabel").text = states.keys()[new_state].to_lower() + direction
+	else:
+		parent.get_node("StateLabel").hide()
 	match new_state:
 		states.idle:
 			parent.anim_player.play("idle" + direction)

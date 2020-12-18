@@ -84,25 +84,25 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=18]
 radius = 2.13864
 
-[sub_resource type="DynamicFontData" id=20]
+[sub_resource type="DynamicFontData" id=19]
 antialiased = false
 font_path = "res://Resources/Fonts/Pixel NES.otf"
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=20]
 size = 10
-font_data = SubResource( 20 )
+font_data = SubResource( 19 )
 
 [sub_resource type="DynamicFont" id=21]
 size = 10
-font_data = SubResource( 20 )
+font_data = SubResource( 19 )
 
-[sub_resource type="DynamicFontData" id=23]
+[sub_resource type="DynamicFontData" id=22]
 antialiased = false
 font_path = "res://Resources/Fonts/jupiterc.ttf"
 
-[sub_resource type="DynamicFont" id=24]
+[sub_resource type="DynamicFont" id=23]
 size = 32
-font_data = SubResource( 23 )
+font_data = SubResource( 22 )
 
 [node name="Egg" type="Node2D"]
 script = ExtResource( 6 )
@@ -135,7 +135,7 @@ margin_left = 3.16304
 margin_top = 2.47938
 margin_right = 189.163
 margin_bottom = 29.4794
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 20 )
 text = "Click on nurture buttons
 to influence your egg"
 __meta__ = {
@@ -351,7 +351,7 @@ margin_left = 128.282
 margin_top = -0.200111
 margin_right = 274.282
 margin_bottom = 33.7999
-custom_fonts/font = SubResource( 24 )
+custom_fonts/font = SubResource( 23 )
 text = "It's Hatching!"
 __meta__ = {
 "_edit_use_anchors_": false

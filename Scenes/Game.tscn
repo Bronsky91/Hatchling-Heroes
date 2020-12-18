@@ -181,7 +181,7 @@ focus_mode = 0
 custom_fonts/font = ExtResource( 8 )
 disabled = true
 enabled_focus_mode = 0
-text = "Exit Game"
+text = "Main Menu"
 flat = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -190,6 +190,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 11 )
+frame = 5
 speed_scale = 1.5
 playing = true
 
@@ -206,6 +207,7 @@ position = Vector2( 30, 133 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
+volume_db = -15.0
 [connection signal="timeout" from="Level/EnemySpawner/Timer" to="Level/EnemySpawner" method="_on_Timer_timeout"]
 [connection signal="button_up" from="UI/GameOverLabel/StartOver" to="UI" method="_on_StartOver_button_up"]
 [connection signal="mouse_entered" from="UI/GameOverLabel/StartOver" to="UI" method="_on_StartOver_mouse_entered"]

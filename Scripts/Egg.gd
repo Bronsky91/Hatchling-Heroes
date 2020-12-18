@@ -5,7 +5,7 @@ signal nurture_pressed
 var particle = preload("res://Scenes/ParticleIcon.tscn")
 var thrown_icon = preload('res://Scenes/ThrownIcon.tscn')
 
-export(int) var countdown: int = 15
+export(int) var countdown: int = 10
 
 var first_run = true
 
@@ -147,7 +147,7 @@ func _on_EggSprite_frame_changed():
 
 func save_creature_name(name):
 	var f = File.new()
-	f.open("res://SaveData/character_state.json", File.READ_WRITE)
+	f.open("user://character_state.save", File.READ_WRITE)
 	var json = JSON.parse(f.get_as_text())
 	var data = json.result
 	data['Name'] = name
@@ -263,9 +263,14 @@ func save_creature():
 		data[part].power_part = power
 	
 	var f = File.new()
-	f.open("res://SaveData/character_state.json", File.WRITE)
+	print('new file save creature')
+	var error = f.open("user://character_state.save", File.WRITE)
+	print(error)
+	print('opened save creature')
 	f.store_string(JSON.print(data, "  ", true))
+	print('store string save creature')
 	f.close()
+	print('closed save creature')
 
 func get_random_palette():
 	var palettes = g.files_in_dir('res://Assets/Character/Palettes')
