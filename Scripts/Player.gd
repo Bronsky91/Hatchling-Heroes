@@ -126,7 +126,7 @@ func _apply_gravity(delta):
 
 func _cap_gravity_wall_slide():
 	var max_velocity = tile_size * 10 if Input.is_action_pressed("move_down") else tile_size
-	velocity.y = min(velocity.y, max_velocity)
+	velocity.y = 0 if has_power(g.power_parts.WALL_STICK) else min(velocity.y, max_velocity) 
 
 func _apply_movement(delta):
 	var snap = Vector2.DOWN * (tile_size * 2) if !is_jumping and !is_flying else Vector2.ZERO
