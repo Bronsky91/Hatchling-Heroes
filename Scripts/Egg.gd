@@ -222,12 +222,14 @@ func save_creature():
 			"007": g.power_parts.RAT_PROTECTION,
 			"010": g.power_parts.TOP_ATTACK,
 			"011": g.power_parts.SWIM,
+			"001": g.power_parts.DOUBLE_JUMP,
 		},
 		"Torso": {
 			"005": g.power_parts.RAT_PROTECTION,
 			"003": g.power_parts.BAT_PROTECTION,
 			"010": g.power_parts.EXTRA_LIFE,
-			"013": g.power_parts.WALL_STICK
+			"013": g.power_parts.WALL_STICK,
+			"008": g.power_parts.WALL_STICK
 		}
 	}
 	
