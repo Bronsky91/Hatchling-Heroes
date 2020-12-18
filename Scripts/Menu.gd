@@ -27,9 +27,6 @@ func _on_HighScores_button_up():
 	$Title/Options.disable_input = true
 	$HighScores.show()
 
-func _on_Options_button_up():
-	get_node("Title/Options").emit_signal("index_update", 2)
-
 
 func _on_Back_button_up():
 	$HighScores.hide()

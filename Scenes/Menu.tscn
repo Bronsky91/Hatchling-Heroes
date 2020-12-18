@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scripts/Menu.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Cave/Sky_Color.png" type="Texture" id=2]
@@ -16,11 +16,19 @@
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
+font_path = "res://Resources/Fonts/jupiterc.ttf"
+
+[sub_resource type="DynamicFont" id=12]
+size = 64
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=13]
+antialiased = false
 font_path = "res://Resources/Fonts/Pixel NES.otf"
 
 [sub_resource type="DynamicFont" id=2]
 size = 18
-font_data = SubResource( 1 )
+font_data = SubResource( 13 )
 
 [sub_resource type="DynamicFontData" id=3]
 antialiased = false
@@ -91,24 +99,23 @@ position = Vector2( 199.821, 119.735 )
 texture = ExtResource( 6 )
 
 [node name="Title" type="Node2D" parent="."]
-visible = false
 
 [node name="Label" type="Label" parent="Title"]
-margin_left = 76.8972
-margin_top = 14.7387
-margin_right = 327.897
-margin_bottom = 82.7387
-custom_fonts/font = ExtResource( 7 )
+margin_left = 37.0587
+margin_top = 23.0632
+margin_right = 363.059
+margin_bottom = 91.0632
+custom_fonts/font = SubResource( 12 )
 text = "Hatchling Heroes"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Options" type="Control" parent="Title"]
-margin_left = 168.0
-margin_top = 115.0
-margin_right = 229.0
-margin_bottom = 145.0
+margin_left = 156.108
+margin_top = 128.676
+margin_right = 217.108
+margin_bottom = 158.676
 script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -134,9 +141,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -32.373
-margin_top = 29.4032
-margin_right = 47.667
-margin_bottom = -10.0968
+margin_top = 38.3223
+margin_right = 69.627
+margin_bottom = 36.3223
 focus_mode = 0
 custom_fonts/font = SubResource( 4 )
 enabled_focus_mode = 0
@@ -146,26 +153,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Options" type="Button" parent="Title/Options"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -10.7656
-margin_top = 58.5971
-margin_right = 14.2744
-margin_bottom = 19.0971
-focus_mode = 0
-custom_fonts/font = SubResource( 4 )
-enabled_focus_mode = 0
-text = "Options"
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Arrow" type="AnimatedSprite" parent="Title/Options"]
 position = Vector2( -55, 10 )
 frames = SubResource( 11 )
-frame = 3
 speed_scale = 1.5
 playing = true
 
@@ -175,21 +165,19 @@ playing = true
 position = Vector2( -55, 10 )
 
 [node name="ArrowPosition2" type="Position2D" parent="Title/Options/ArrowPositions"]
-position = Vector2( -55, 41 )
-
-[node name="ArrowPosition3" type="Position2D" parent="Title/Options/ArrowPositions"]
-position = Vector2( -32.5, 71 )
+position = Vector2( -55, 49.9191 )
 
 [node name="Egg" parent="." instance=ExtResource( 10 )]
 visible = false
 
 [node name="HighScores" type="Node2D" parent="."]
+visible = false
 script = ExtResource( 11 )
 
 [node name="Label" type="Label" parent="HighScores"]
-margin_left = 73.2301
+margin_left = 66.0948
 margin_top = -2.81392
-margin_right = 358.23
+margin_right = 351.095
 margin_bottom = 49.1861
 custom_fonts/font = ExtResource( 7 )
 text = "Top 100 Highscores"
@@ -238,6 +226,4 @@ volume_db = -15.0
 [connection signal="mouse_entered" from="Title/Options/Start" to="Title/Options" method="_on_Start_mouse_entered"]
 [connection signal="button_up" from="Title/Options/HighScores" to="." method="_on_HighScores_button_up"]
 [connection signal="mouse_entered" from="Title/Options/HighScores" to="Title/Options" method="_on_HighScores_mouse_entered"]
-[connection signal="button_up" from="Title/Options/Options" to="." method="_on_Options_button_up"]
-[connection signal="mouse_entered" from="Title/Options/Options" to="Title/Options" method="_on_Options_mouse_entered"]
 [connection signal="button_up" from="HighScores/Back" to="." method="_on_Back_button_up"]
