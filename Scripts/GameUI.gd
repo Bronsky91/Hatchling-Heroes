@@ -16,6 +16,7 @@ func game_over(text):
 	$GameOverLabel.show()
 	$GameOverLabel/StartOver.disabled = false
 	$GameOverLabel/Exit.disabled = false
+	$AirMeter.hide()
 	player.get_node("Camera2D/BlackBG").show()
 	$GameOverLabel/ScoreLabel.text += str(player.score)
 	disabled_input = false

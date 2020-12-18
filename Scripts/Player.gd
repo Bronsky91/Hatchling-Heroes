@@ -74,6 +74,9 @@ func _physics_process(delta):
 	if position.x > map_size_x and not level_complete:
 		complete_level('COMPLETED')
 		# When dead complete_level('GAME OVER')
+	if is_in_water() and $AirTimer.is_stopped():
+		$AirTimer.start()
+		UI.get_node("AirMeter").show()
 		
 func has_power(power):
 	return power in powers
@@ -269,3 +272,14 @@ func take_damage():
 	if lives < 1 and not level_complete:
 		is_dead = true
 		complete_level("GAME OVER")
+
+func _on_AirTimer_timeout():
+	if UI.get_node('AirMeter').value == 5:
+		print('100')
+		UI.get_node('AirMeter').hide()
+		$AirTimer.stop()
+	if is_in_water():
+		UI.get_node('AirMeter').value -= 0.1
+	else:
+		UI.get_node('AirMeter').value += 0.2
+	

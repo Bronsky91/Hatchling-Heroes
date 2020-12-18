@@ -26,6 +26,8 @@ func _physics_process(delta):
 
 func _on_Face_body_entered(body):
 	if body.name == "Player" and !is_dead:
+		if body.has_power(g.power_parts.BAT_PROTECTION):
+			return 
 		body.take_damage()
 		has_killed = true
 		disable_collision()

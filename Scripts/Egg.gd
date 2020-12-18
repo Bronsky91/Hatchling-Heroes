@@ -197,14 +197,17 @@ func save_creature():
 			"012": g.power_parts.TOP_ATTACK
 		},
 		"Legs": {
-			"008": g.power_parts.DOUBLE_JUMP
+			"008": g.power_parts.DOUBLE_JUMP,
+			"007": g.power_parts.RAT_PROTECTION,
 		},
 		"Tail": {
 			"008": g.power_parts.SWIM,
-			"010": g.power_parts.FORWARD_ATTACK
+			"010": g.power_parts.FORWARD_ATTACK,
+			"007": g.power_parts.RAT_PROTECTION,
 		},
 		"Torso": {
-			"013": g.power_parts.FORWARD_ATTACK
+			"013": g.power_parts.FORWARD_ATTACK,
+			"003": g.power_parts.BAT_PROTECTION,
 		}
 	}
 	
