@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/PowerUpRow.gd" type="Script" id=1]
+
+[sub_resource type="DynamicFontData" id=1]
+antialiased = false
+font_path = "res://Resources/Fonts/Pixel NES.otf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 10
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=24]
+antialiased = false
+font_path = "res://Resources/Fonts/Pixel NES.otf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 10
+font_data = SubResource( 24 )
+
+[node name="PowerUpRow" type="HBoxContainer"]
+anchor_right = 1.172
+anchor_bottom = 0.571
+margin_right = -324.8
+margin_bottom = -125.04
+rect_min_size = Vector2( 131, 0 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BodyPart" type="Label" parent="."]
+margin_right = 33.0
+margin_bottom = 12.0
+custom_fonts/font = SubResource( 2 )
+text = "Head:"
+
+[node name="PowerUp" type="Label" parent="."]
+margin_left = 37.0
+margin_right = 144.0
+margin_bottom = 12.0
+custom_fonts/font = SubResource( 4 )
+text = "Rat Protection"
+align = 2

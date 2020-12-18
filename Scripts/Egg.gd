@@ -4,6 +4,7 @@ signal nurture_pressed
 
 var particle = preload("res://Scenes/ParticleIcon.tscn")
 var thrown_icon = preload('res://Scenes/ThrownIcon.tscn')
+var power_row = preload('res://Scenes/PowerUpRow.tscn')
 
 export(int) var countdown: int = 10
 
@@ -25,8 +26,6 @@ var nurture_percent_dict = {
 func _ready():
 	connect("nurture_pressed", self, "_on_nurture_pressed")
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
-	#start()
-	# disable_nurture()
 	
 func start():
 	show()
@@ -133,8 +132,19 @@ func enable_nurture():
 		button.disabled = false
 
 func _on_EggSprite_animation_finished():
+	$EggSprite.stop()
 	$EggSprite.hide()
 	$NameLabel.show()
+	add_powers_to_container()
+	
+func add_powers_to_container():
+	for power in powers:
+		var new_row = power_row.instance()
+		new_row.get_node('BodyPart').text = power.keys()[0]  + ":"
+		new_row.get_node('PowerUp').text = g.power_parts_dict[power[power.keys()[0]]]
+		$PowersTitle.show()
+		$PowersContainer.show()
+		$PowersContainer.add_child(new_row)
 
 func _on_NameEdit_text_changed():
 		$EscapeButton.show()
@@ -267,6 +277,7 @@ func save_creature():
 		data[part].power_part = power
 	
 	powers = g.get_powers_from_data(data)
+	print(powers)
 	var f = File.new()
 	f.open("user://character_state.save", File.WRITE)
 	f.store_string(JSON.print(data, "  ", true))

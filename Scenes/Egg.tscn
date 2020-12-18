@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Assets/UI/RandomIcon.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Egg/Egg_001.png" type="Texture" id=2]
@@ -103,6 +103,14 @@ font_path = "res://Resources/Fonts/jupiterc.ttf"
 [sub_resource type="DynamicFont" id=23]
 size = 32
 font_data = SubResource( 22 )
+
+[sub_resource type="DynamicFontData" id=24]
+antialiased = false
+font_path = "res://Resources/Fonts/Pixel NES.otf"
+
+[sub_resource type="DynamicFont" id=25]
+size = 12
+font_data = SubResource( 24 )
 
 [node name="Egg" type="Node2D"]
 script = ExtResource( 6 )
@@ -353,6 +361,28 @@ margin_right = 274.282
 margin_bottom = 33.7999
 custom_fonts/font = SubResource( 23 )
 text = "It's Hatching!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PowersTitle" type="Label" parent="."]
+visible = false
+margin_left = 227.716
+margin_top = 70.5673
+margin_right = 395.716
+margin_bottom = 85.5673
+custom_fonts/font = SubResource( 25 )
+text = "Powers by Bodypart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PowersContainer" type="VBoxContainer" parent="."]
+visible = false
+margin_left = 246.0
+margin_top = 92.0
+margin_right = 395.0
+margin_bottom = 191.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
