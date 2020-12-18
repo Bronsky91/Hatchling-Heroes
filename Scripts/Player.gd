@@ -36,7 +36,7 @@ var level_complete = false
 
 var powers = [] # Powers the creatures has from body parts (Ex: Flying)
 
-var score = 0
+var seconds = 0
 
 onready var state_machine = $StateMachine
 onready var anim_player = $Body/AnimationPlayer
@@ -49,7 +49,7 @@ onready var enemy_raycast = $EnemyRaycast
 onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 onready var map_size_x = get_node('../Tiles').map_size.x * 16
-onready var score_timer_label = get_node('../../UI/TimerLabel')
+onready var seconds_timer_label = get_node('../../UI/TimerLabel')
 onready var UI = get_node('../../UI')
 onready var music_player = get_node("../../AudioStreamPlayer")
 
@@ -70,23 +70,26 @@ func complete_level(text):
 	z_index = 1
 	level_complete = true
 	$StateMachine.movement_disabled = true
-	add_score_to_board()
+	add_score_to_board(text)
 	$ScoreTimer.stop()
 	$Body.z_index = 2
 	UI.game_over(text)
 	
 func _on_ScoreTimer_timeout():
-	score += 0.01
-	score_timer_label.text = str(score).pad_decimals(1)
+	seconds += 0.01
+	seconds_timer_label.text = str(seconds).pad_decimals(1)
 
-func add_score_to_board():
+func add_score_to_board(text):
 	if not OS.is_debug_build():
+		var score = int(seconds) * 10
+		if text == "COMPLETED":
+			score += 1000
 		var f = File.new()
 		f.open("user://character_state.save", File.READ)
 		var json = JSON.parse(f.get_as_text())
 		f.close()
 		var data = json.result
-		$GameJoltAPI.add_score(str(score).pad_decimals(2), score, '', '', data['Name'], '', JSON.print(data))
+		$GameJoltAPI.add_score(str(score), score, '', '', data['Name'], '', JSON.print(data))
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
