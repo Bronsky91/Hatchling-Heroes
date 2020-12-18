@@ -9,12 +9,15 @@ export var ceiling_max: int = 8
 export var ground_min: int = 15
 export var ground_max: int = 22
 
+enum PIT_TYPE {WATER, LAVA, SPIKE = -1}
 enum TILE {NONE, GROUND_FLOOR, GROUND_CEIL, WATER, LAVA, SPIKE_UP, SPIKE_UP_A, SPIKE_UP_B, SPIKE_DOWN, SPIKE_DOWN_A, SPIKE_DOWN_B, SPIKE_WATER, SPIKE_WATER, SPIKE_WATER_A, SPIKE_WATER_B, PLATFORM, PLATFORM_SPIKE = -1}
 var matrix = []
 var ceiling_line = []
 var floor_line = []
 var water_tops = []
 var water_bottoms = []
+var lava_tops = []
+var lava_bottoms = []
 var pit_tops = []
 var pit_bottoms = []
 var lava_line = []
@@ -23,6 +26,8 @@ var water_filter = preload("res://Scenes/WaterFilter.tscn")
 var tile_ground = preload("res://Scenes/Tiles/Ground.tscn")
 var tile_water_surface = preload("res://Scenes/Tiles/WaterSurface.tscn")
 var tile_water_fill = preload("res://Scenes/Tiles/WaterFill.tscn")
+var tile_lava_surface = preload("res://Scenes/Tiles/LavaSurface.tscn")
+var tile_lava_fill = preload("res://Scenes/Tiles/LavaFill.tscn")
 var tile_lava = preload("res://Scenes/Tiles/Lava.tscn")
 var tile_spike_u_01 = preload("res://Scenes/Tiles/SpikeU_01.tscn")
 var tile_spike_u_02 = preload("res://Scenes/Tiles/SpikeU_02.tscn")
@@ -47,9 +52,9 @@ func generate_map():
 	prepare_matrix()
 	add_floor()
 	add_ceiling()
-	add_water_and_pits()
+	add_pits()
 	add_platforms()
-	add_lava()
+	#add_lava()
 	render_matrix()
 
 func prepare_matrix():
@@ -57,6 +62,8 @@ func prepare_matrix():
 		matrix.append([])
 		water_tops.append(int(0))
 		water_bottoms.append(int(0))
+		lava_tops.append(int(0))
+		lava_bottoms.append(int(0))
 		pit_tops.append(int(0))
 		pit_bottoms.append(int(0))
 		platform_sprites.append([])
@@ -108,11 +115,11 @@ func add_ceiling():
 			matrix[x][y] = TILE.GROUND_CEIL
 		strip_buffer -= 1
 
-func add_water_and_pits():
+func add_pits():
 	var strip_start: int = 0
 	var strip_height: int = floor_line[0]
-	var is_strip_water: bool
 	var is_first_strip: bool = true
+	var pit_type: int = -1
 	for x in range(1, map_size.x):
 		# if floor elevation has changed, check how long the past strip was
 		if floor_line[x] != strip_height:
@@ -123,7 +130,7 @@ func add_water_and_pits():
 				is_first_strip = false
 			elif strip_len >= 4 and rand_int(1,2) == 1:
 				# calculate water / pit dimensions
-				is_strip_water = rand_int(1,2) == 1 # 50% chance to make this either water or a spike pit
+				pit_type = rand_int(0,2) # 33.3% chance to make this pit either water, lava, or spikes
 				var new_len_min = strip_len - 4 if strip_len - 4 > 2 else 2
 				var new_len = rand_int(new_len_min, strip_len - 2)
 				var new_depth = rand_int(strip_height + 4, strip_height + 8)
@@ -137,19 +144,28 @@ func add_water_and_pits():
 					# bump floor line down below bottom of new water or pit
 					floor_line[i] = new_depth + 1
 					# make note of top and bottom heights of new water or pit
-					if is_strip_water:
-						water_tops[i] = strip_height
-						water_bottoms[i] = new_depth
-					else:
-						pit_tops[i] = strip_height
-						pit_bottoms[i] = new_depth
-					# fill in tiles as water or none to make a pit
+					var tile: int
+					match pit_type:
+						PIT_TYPE.WATER:
+							water_tops[i] = strip_height
+							water_bottoms[i] = new_depth
+							tile = TILE.WATER
+						PIT_TYPE.LAVA:
+							lava_tops[i] = strip_height
+							lava_bottoms[i] = new_depth
+							tile = TILE.LAVA
+						PIT_TYPE.SPIKE:
+							pit_tops[i] = strip_height
+							pit_bottoms[i] = new_depth
+							tile = TILE.NONE
+					# fill pit with water, lava, or air
 					for j in range(strip_height, new_depth):
-						matrix[i][j] = TILE.WATER if is_strip_water else TILE.NONE
-					# add spike to bottom of water or pit
-					add_spike(Vector2(i,new_depth),Vector2.UP,is_strip_water)
+						matrix[i][j] = tile
+					# add spike to bottom of water or spike pit
+					if pit_type == PIT_TYPE.WATER or pit_type == PIT_TYPE.SPIKE:
+						add_spike(Vector2(i, new_depth), Vector2.UP, pit_type == PIT_TYPE.WATER)
 				# if water, add water filter over designated area
-				if is_strip_water:
+				if pit_type == PIT_TYPE.WATER:
 					var filter = water_filter.instance()
 					filter.scale = Vector2(new_len + 0.5, new_depth + 0.5)
 					filter.set_shader_scale()
@@ -163,6 +179,10 @@ func add_platforms():
 	var water_strip_height: int = 0
 	var water_strip_end: int = 0
 	var in_water_strip: bool = false
+	var lava_strip_start: int = 0
+	var lava_strip_height: int = 0
+	var lava_strip_end: int = 0
+	var in_lava_strip: bool = false
 	var pit_strip_start: int = 0
 	var pit_strip_height: int = 0
 	var pit_strip_end: int = 0
@@ -178,6 +198,17 @@ func add_platforms():
 			in_water_strip = false
 			water_strip_end = x - 1
 			cover_gap_with_platforms(water_strip_start, water_strip_end, water_strip_height)
+		
+		# if not processing lava strip, seek the next one out
+		if !in_lava_strip and lava_tops[x] != 0:
+			in_lava_strip = true
+			lava_strip_start = x
+			lava_strip_height = lava_tops[x]
+		# otherwise if processing lava strip, seek its end and cover it in platforms
+		elif in_lava_strip and lava_tops[x] == 0:
+			in_lava_strip = false
+			lava_strip_end = x - 1
+			cover_gap_with_platforms(lava_strip_start, lava_strip_end, lava_strip_height)
 		
 		# if not processing spike pit strip, seek the next one out
 		if !in_pit_strip and pit_tops[x] != 0:
@@ -371,7 +402,7 @@ func render_matrix():
 				TILE.WATER:
 					t = tile_water_surface.instance() if water_tops[x] == y else tile_water_fill.instance()
 				TILE.LAVA:
-					t = tile_lava.instance()
+					t = tile_lava_surface.instance() if lava_tops[x] == y else tile_lava_fill.instance()
 				TILE.SPIKE_UP:
 					t = tile_spike_u_01.instance() if rand_int(1,2) == 1 else tile_spike_u_02.instance()
 				TILE.SPIKE_UP_A:
@@ -486,7 +517,7 @@ func render_ground(tile: Node2D, x: int, y: int, is_floor: bool):
 				neighbors_bitmask[9] = "1" # falling if prev is higher
 		tile.set_ground_sprite(is_floor, neighbors_bitmask)
 
-func has_neighbor(x: int, y: int, neighbor: int, match_water: bool = false, match_lava: bool = true):
+func has_neighbor(x: int, y: int, neighbor: int, match_water: bool = false, match_lava: bool = false):
 	if matrix[x][y] == neighbor:
 		return true
 	elif matrix[x][y] == TILE.WATER and match_water:

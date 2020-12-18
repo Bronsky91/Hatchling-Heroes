@@ -37,6 +37,7 @@ var starting_over = false
 
 func _ready():
 	#OS.set_window_maximized(true)
+	randomize()
 	pass
 
 func files_in_dir(path: String, keyword: String = "") -> Array:
