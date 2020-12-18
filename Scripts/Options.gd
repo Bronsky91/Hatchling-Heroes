@@ -2,7 +2,7 @@ extends Control
 
 var current_index = 0
 onready var arrow_positions = $ArrowPositions.get_children()
-onready var button_options = [$Start, $HighScores, $Options]
+onready var button_options = [$Start, $HighScores]
 
 var disable_input = false
 
