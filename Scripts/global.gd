@@ -10,7 +10,6 @@ enum power_parts {
 	EXTRA_AIR,
 	DOUBLE_JUMP,
 	TOP_ATTACK,
-	FORWARD_ATTACK,
 	TOP_SHIELD,
 	RAT_PROTECTION,
 	BAT_PROTECTION,
@@ -60,6 +59,9 @@ func load_creature(parent_node: Node2D, json_data=""):
 			part.material.set_shader_param("greyscale_palette", load("res://Assets/Character/Palettes/Bodycolor_000.png"))
 			make_shaders_unique(part)
 			
+	return get_powers_from_data(data)
+	
+func get_powers_from_data(data):
 	var powers = []
 	for d in data.keys():
 		if d == "Name":

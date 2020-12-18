@@ -7,6 +7,8 @@ var thrown_icon = preload('res://Scenes/ThrownIcon.tscn')
 
 export(int) var countdown: int = 10
 
+var powers = []
+
 var first_run = true
 
 var nurture_percent_dict = {
@@ -203,11 +205,9 @@ func save_creature():
 		},
 		"Tail": {
 			"008": g.power_parts.SWIM,
-			"010": g.power_parts.FORWARD_ATTACK,
 			"007": g.power_parts.RAT_PROTECTION,
 		},
 		"Torso": {
-			"013": g.power_parts.FORWARD_ATTACK,
 			"003": g.power_parts.BAT_PROTECTION,
 		}
 	}
@@ -266,6 +266,7 @@ func save_creature():
 		data[part].palette_name = random_part_color
 		data[part].power_part = power
 	
+	powers = g.get_powers_from_data(data)
 	var f = File.new()
 	f.open("user://character_state.save", File.WRITE)
 	f.store_string(JSON.print(data, "  ", true))

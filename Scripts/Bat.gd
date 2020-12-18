@@ -26,7 +26,9 @@ func _physics_process(delta):
 
 func _on_Face_body_entered(body):
 	if body.name == "Player" and !is_dead:
-		if body.has_power(g.power_parts.BAT_PROTECTION):
+		if body.has_power(g.power_parts.BAT_PROTECTION) and not 'Rat' in name:
+			return 
+		if body.has_power(g.power_parts.RAT_PROTECTION) and not 'Bat' in name:
 			return 
 		body.take_damage()
 		has_killed = true
@@ -39,8 +41,13 @@ func _on_Back_body_entered(body):
 
 func _on_Belly_body_entered(body):
 	if body.name == "Player" and !is_dead and !has_killed:
-		print("player in belly!")
-
+		if body.has_power(g.power_parts.TOP_ATTACK):
+			return die()
+		if not body.has_power(g.power_parts.TOP_SHIELD) or not body.has_power(g.power_parts.BAT_PROTECTION) and not 'Rat' in name or body.has_power(g.power_parts.RAT_PROTECTION) and not 'Bat' in name:
+			body.take_damage()
+			has_killed = true
+			disable_collision()
+			
 func die():
 	is_dead = true
 	z_index = 10
