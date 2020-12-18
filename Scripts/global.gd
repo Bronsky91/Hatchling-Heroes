@@ -4,8 +4,10 @@ enum collision_layers {GROUND, WATER, LAVA, PLAYER, PLAYER_PROJECTILE, SPIKE, EN
 
 enum power_parts {
 	EXTRA_LIFE,
+	WALL_STICK,
 	FLYING,
 	SWIM,
+	WATER_WALK,
 	GILLS,
 	EXTRA_AIR,
 	DOUBLE_JUMP,
@@ -20,13 +22,15 @@ const power_parts_dict = {
 	power_parts.EXTRA_LIFE: "Extra Life",
 	power_parts.FLYING: "Flying",
 	power_parts.SWIM: "Swim Speed",
+	power_parts.WATER_WALK: "Water Walking",
 	power_parts.GILLS: "Breath Water",
 	power_parts.EXTRA_AIR: "Longer Breath",
 	power_parts.DOUBLE_JUMP: "Double Jump",
 	power_parts.TOP_ATTACK: "Attack Upwards",
 	power_parts.TOP_SHIELD: "Shielded Top",
 	power_parts.RAT_PROTECTION: "Rat Protection",
-	power_parts.BAT_PROTECTION: "Bat Protection"
+	power_parts.BAT_PROTECTION: "Bat Protection",
+	power_parts.WALL_STICK: "Stick to Walls"
 }
 
 var starting_over = false
@@ -72,13 +76,7 @@ func load_creature(parent_node: Node2D, json_data=""):
 			part.material.set_shader_param("greyscale_palette", load("res://Assets/Character/Palettes/Bodycolor_000.png"))
 			make_shaders_unique(part)
 			
-	var powers = []
-	for d in data.keys():
-		if d == "Name":
-			continue
-		if data[d].power_part != g.power_parts.NOTHING:
-			powers.append(data[d].power_part)
-	return powers # Array of power parts for loaded creature
+	return get_powers_from_data(data)
 	
 func get_powers_from_data(data):
 	var powers = []
@@ -86,8 +84,23 @@ func get_powers_from_data(data):
 		if d == "Name":
 			continue
 		if data[d].power_part != g.power_parts.NOTHING:
-			powers.append({d: data[d].power_part})
+			if not data[d].power_part in powers:
+				powers.append(data[d].power_part)
+	return powers # Array of power parts for loaded creature
+	
+	
+func get_powers_for_egg(data):
+	var powers_enum_array = []
+	var powers = []
+	for d in data.keys():
+		if d == "Name":
+			continue
+		if data[d].power_part != g.power_parts.NOTHING and d != "Arms":
+			if not data[d].power_part in powers_enum_array:
+				powers_enum_array.append(data[d].power_part)
+				powers.append({d: data[d].power_part})
 	return powers
+
 
 func is_bit_enabled(mask, index):
 	return mask & (1 << index) != 0

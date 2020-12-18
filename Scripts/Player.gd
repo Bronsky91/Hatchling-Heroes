@@ -16,7 +16,7 @@ var min_jump_velocity
 var facing = 1
 var wall_direction = 1
 var swim_up_speed = -3 * tile_size
-var passive_swim_y_speed = 2 * tile_size
+var passive_swim_y_speed = 2 * tile_size # Boyancy
 var swim_down_speed = 3 * tile_size
 var swim_speed_horizontal = 3 * tile_size
 var swim_jump_out_velocity = -5 * tile_size
@@ -34,13 +34,13 @@ var air_max = 5
 var can_double_jump = false
 var level_complete = false
 var previous_pos_x: int
-var distance_score: int
 
 var powers = [] # Powers the creatures has from body parts (Ex: Flying)
 
-
 var seconds = 0
-var score: int
+var distance_score: int
+var enemy_score: int
+var score: int = 0
 
 onready var state_machine = $StateMachine
 onready var anim_player = $Body/AnimationPlayer
@@ -53,8 +53,9 @@ onready var enemy_raycast = $EnemyRaycast
 onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 onready var map_size_x = get_node('../Tiles').map_size.x * 16
-onready var seconds_timer_label = get_node('../../UI/TimerLabel')
 onready var UI = get_node('../../UI')
+onready var timer_label = get_node('../../UI/TimerLabel')
+onready var score_label = get_node('../../UI/ScoreLabel')
 onready var music_player = get_node("../../AudioStreamPlayer")
 
 # Called when the node enters the scene tree for the first time.
@@ -62,7 +63,10 @@ func _ready():
 	if not OS.is_debug_build():
 		music_player.play()
 	powers = g.load_creature(body)
-	
+	if has_power(g.power_parts.SWIM):
+		swim_up_speed = -10 * tile_size
+		swim_down_speed = 10 * tile_size
+		swim_speed_horizontal = 10 * tile_size
 	if has_power(g.power_parts.EXTRA_LIFE):
 		lives += 1 
 	if has_power(g.power_parts.EXTRA_AIR):
@@ -98,10 +102,11 @@ func complete_level(text):
 	
 func _on_ScoreTimer_timeout():
 	seconds += 0.1
-	seconds_timer_label.text = str(seconds).pad_decimals(1)
+	score = (distance_score / 10) + enemy_score
+	score_label.text = str(score)
+	timer_label.text = str(seconds).pad_decimals(1)
 
 func add_score_to_board(text):
-	score = distance_score / 10
 	if text == "COMPLETED":
 		score += 300 - int(seconds)
 	if not OS.is_debug_build():

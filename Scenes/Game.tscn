@@ -153,13 +153,49 @@ script = ExtResource( 14 )
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 10 )
 
-[node name="TimerLabel" type="Label" parent="UI"]
-margin_left = 323.205
-margin_top = 0.855843
-margin_right = 389.205
-margin_bottom = 15.8558
+[node name="Time" type="Label" parent="UI"]
+margin_left = 321.0
+margin_top = 3.0
+margin_right = 360.0
+margin_bottom = 18.0
 custom_fonts/font = SubResource( 2 )
-text = "103"
+text = "Time: "
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimerLabel" type="Label" parent="UI"]
+margin_left = 362.0
+margin_top = 2.0
+margin_right = 395.0
+margin_bottom = 17.0
+custom_fonts/font = SubResource( 2 )
+text = "30"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="UI"]
+margin_left = 318.891
+margin_top = 16.0
+margin_right = 359.891
+margin_bottom = 31.0
+custom_fonts/font = SubResource( 2 )
+text = "Score:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+margin_left = 361.109
+margin_top = 15.2182
+margin_right = 397.109
+margin_bottom = 30.2182
+custom_fonts/font = SubResource( 2 )
+text = "200"
 align = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -237,7 +273,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 13 )
-frame = 2
+frame = 5
 speed_scale = 1.5
 playing = true
 

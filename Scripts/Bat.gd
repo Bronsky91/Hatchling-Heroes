@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 export var speed : int = 100
+export var score_worth : int = 10
 var time = 0
 var velocity
 var freq = 5
@@ -11,7 +12,7 @@ var has_killed = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	$ScoreLabel.text = "+"+str(score_worth)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -37,20 +38,23 @@ func _on_Face_body_entered(body):
 func _on_Back_body_entered(body):
 	if body.name == "Player" and !is_dead and !has_killed:
 		body.bounce_off_enemy()
-		die()
+		die(body)
 
 func _on_Belly_body_entered(body):
 	if body.name == "Player" and !is_dead and !has_killed:
 		if body.has_power(g.power_parts.TOP_ATTACK):
-			return die()
+			return die(body)
 		if not body.has_power(g.power_parts.TOP_SHIELD) or not body.has_power(g.power_parts.BAT_PROTECTION) and not 'Rat' in name or body.has_power(g.power_parts.RAT_PROTECTION) and not 'Bat' in name:
 			body.take_damage()
 			has_killed = true
 			disable_collision()
 			
-func die():
+func die(player):
 	is_dead = true
 	z_index = 10
+	$ScoreLabel.show()
+	$AnimationPlayer.play("Score_Fly")
+	player.enemy_score += score_worth
 	$Sprite.play("die")
 	$DeathTimer.start()
 	disable_collision()
@@ -65,3 +69,7 @@ func disable_collision():
 func enable_collision():
 	set_collision_mask_bit(g.collision_layers.PLAYER, true)
 	set_collision_mask_bit(g.collision_layers.PLAYER_PROJECTILE, true)
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	$AnimationPlayer.stop()

@@ -13,6 +13,7 @@ func _ready():
 	connect("index_update", self, "_on_index_update")
 	
 func game_over(text):
+	$GameOverLabel.text = text
 	$GameOverLabel.show()
 	$GameOverLabel/StartOver.disabled = false
 	$GameOverLabel/Exit.disabled = false
