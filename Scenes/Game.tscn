@@ -1,7 +1,8 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Tiles.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/PauseLabel.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Cave/Background_002.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Cave/Middleground_002.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Cave/Sky_Color.png" type="Texture" id=6]
@@ -9,7 +10,6 @@
 [ext_resource path="res://Resources/Fonts/ButtonFont.tres" type="DynamicFont" id=8]
 [ext_resource path="res://Assets/UI/ArrowRight.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/GameUI.gd" type="Script" id=10]
-[ext_resource path="res://Assets/Black.png" type="Texture" id=11]
 [ext_resource path="res://Assets/Music/Cave Music Game Jam1.wav" type="AudioStream" id=12]
 [ext_resource path="res://Scenes/Fog.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scripts/Fog.gd" type="Script" id=14]
@@ -23,6 +23,14 @@ font_path = "res://Resources/Fonts/Pixel NES.otf"
 [sub_resource type="DynamicFont" id=2]
 size = 10
 font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=12]
+antialiased = false
+font_path = "res://Resources/Fonts/jupiterc.ttf"
+
+[sub_resource type="DynamicFont" id=13]
+size = 48
+font_data = SubResource( 12 )
 
 [sub_resource type="DynamicFontData" id=3]
 antialiased = false
@@ -126,13 +134,6 @@ script = ExtResource( 14 )
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 10 )
 
-[node name="BlackBG" type="Sprite" parent="UI"]
-visible = false
-self_modulate = Color( 1, 1, 1, 0.733333 )
-position = Vector2( 199.342, 120.417 )
-scale = Vector2( 1.00295, 1.00393 )
-texture = ExtResource( 11 )
-
 [node name="TimerLabel" type="Label" parent="UI"]
 margin_left = 323.205
 margin_top = 0.855843
@@ -141,6 +142,22 @@ margin_bottom = 15.8558
 custom_fonts/font = SubResource( 2 )
 text = "103"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseLabel" type="Label" parent="UI"]
+pause_mode = 2
+visible = false
+anchor_right = 0.184
+anchor_bottom = 0.203
+margin_left = 141.991
+margin_top = 98.2154
+margin_right = 170.391
+margin_bottom = 101.495
+custom_fonts/font = SubResource( 13 )
+text = "Paused"
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -190,7 +207,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 11 )
-frame = 5
+frame = 2
 speed_scale = 1.5
 playing = true
 
