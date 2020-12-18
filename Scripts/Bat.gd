@@ -30,7 +30,9 @@ func _on_Face_body_entered(body):
 		if body.has_power(g.power_parts.BAT_PROTECTION) and not 'Rat' in name:
 			return 
 		if body.has_power(g.power_parts.RAT_PROTECTION) and not 'Bat' in name:
-			return 
+			return
+		if body.has_power(g.power_parts.RAT_PROTECTION) and body.has_power(g.power_parts.BAT_PROTECTION):
+			return
 		body.take_damage()
 		has_killed = true
 		disable_collision()
@@ -44,10 +46,17 @@ func _on_Belly_body_entered(body):
 	if body.name == "Player" and !is_dead and !has_killed:
 		if body.has_power(g.power_parts.TOP_ATTACK):
 			return die(body)
-		if not body.has_power(g.power_parts.TOP_SHIELD) or not body.has_power(g.power_parts.BAT_PROTECTION) and not 'Rat' in name or body.has_power(g.power_parts.RAT_PROTECTION) and not 'Bat' in name:
-			body.take_damage()
-			has_killed = true
-			disable_collision()
+		if body.has_power(g.power_parts.TOP_SHIELD):
+			return
+		if body.has_power(g.power_parts.BAT_PROTECTION) and not 'Rat' in name:
+			return 
+		if body.has_power(g.power_parts.RAT_PROTECTION) and not 'Bat' in name:
+			return
+		if body.has_power(g.power_parts.RAT_PROTECTION) and body.has_power(g.power_parts.BAT_PROTECTION):
+			return
+		body.take_damage()
+		has_killed = true
+		disable_collision()
 			
 func die(player):
 	is_dead = true

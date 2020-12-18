@@ -306,7 +306,6 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 13 )
-frame = 4
 speed_scale = 1.5
 playing = true
 
