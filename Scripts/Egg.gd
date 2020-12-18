@@ -200,8 +200,9 @@ func save_creature():
 			"003": g.power_parts.BAT_PROTECTION,
 			"006": g.power_parts.GILLS,
 			"007": g.power_parts.RAT_PROTECTION,
-			"008": g.power_parts.EXTRA_AIR,
-			"011": g.power_parts.EXTRA_AIR
+			"008": g.power_parts.TOP_ATTACK,
+			"011": g.power_parts.EXTRA_AIR,
+			"012": g.power_parts.TOP_ATTACK
 		},
 		"Back": {
 			"003": g.power_parts.FLYING,
