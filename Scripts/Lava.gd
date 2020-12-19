@@ -11,14 +11,7 @@ func _ready():
 	elif "LavaFill" in name:
 		sprite_path = "res://Assets/Cave/Tiles/lava_fill_0" + str(g.rand_int(1,2)) + ".png"
 	$Sprite.set_texture(load(sprite_path))
-	
-	if !can_lava_walk:
-		$StaticBody2D.queue_free()
-		connect('body_entered', self, '_on_body_entered')
-		connect('body_entered', self, '_on_body_exited')
 
 func _on_body_entered(body):
 	if body.name == "Player" and !can_lava_walk:
-		if body.lives > 1: # GET OUT
-			body.position = Vector2(32, 16)
 		body.take_damage()

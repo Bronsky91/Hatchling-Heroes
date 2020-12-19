@@ -27,6 +27,8 @@ var is_jumping = false
 var is_flying = false
 var is_grounded = false
 var is_sliding = false
+var is_invulnerable = false
+var is_flashing = false
 var is_dead = false
 
 var lives = 2
@@ -61,6 +63,7 @@ onready var music_player = get_node("../../AudioStreamPlayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print("red: " + str(modulate.r))
 	if not OS.is_debug_build():
 		music_player.play()
 	powers = g.load_creature(body)
@@ -74,8 +77,6 @@ func _ready():
 		air_max = 10
 		UI.get_node("AirMeter").max_value = air_max
 		UI.get_node("AirMeter").value = air_max
-	if has_power(g.power_parts.LAVA_WALK):
-		floor_raycast.set_collision_mask_bit(g.collision_layers.LAVA, true)
 	if has_power(g.power_parts.WATER_WALK):
 		floor_raycast.set_collision_mask_bit(g.collision_layers.WATER, true)
 
@@ -300,12 +301,17 @@ func wall_dir():
 	return "none"
 
 func take_damage():
-	lives -= 1
-	if lives >= 0:
+	if !is_invulnerable:
+		jump()
+		lives -= 1
 		lives_container.get_children()[-1].queue_free()
-	if lives < 1 and not level_complete:
-		is_dead = true
-		complete_level("GAME OVER")
+		if lives < 1 and not level_complete:
+			is_dead = true
+			complete_level("GAME OVER")
+		else:
+			is_invulnerable = true
+			$InvulnerabilityTimer.start()
+			$FlashTimer.start()
 
 func _on_AirTimer_timeout():
 	if UI.get_node('AirMeter').value == air_max:
@@ -318,3 +324,19 @@ func _on_AirTimer_timeout():
 	if UI.get_node('AirMeter').value == 0:
 		take_damage()
 	
+
+
+func _on_InvulnerabilityTimer_timeout():
+	is_invulnerable = false
+
+
+func _on_FlashTimer_timeout():
+	if is_invulnerable:
+		if is_flashing:
+			modulate = Color(1,1,1,1) # normal
+		else:
+			modulate = Color(1,0,0,0.5) # red
+		is_flashing = !is_flashing
+		$FlashTimer.start()
+	else:
+		modulate = Color(1,1,1,1) # normal
