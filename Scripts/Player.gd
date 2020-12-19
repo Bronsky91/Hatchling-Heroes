@@ -59,7 +59,7 @@ onready var UI = get_node('../../UI')
 onready var lives_container = get_node('../../UI/LivesContainer')
 onready var timer_label = get_node('../../UI/TimerLabel')
 onready var score_label = get_node('../../UI/ScoreLabel')
-onready var music_player = get_node("../../AudioStreamPlayer")
+onready var music_player = get_node("../../MusicPlayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -105,7 +105,7 @@ func _physics_process(delta):
 	if position.x > map_size_x and not level_complete:
 		complete_level('COMPLETED')
 		# When dead complete_level('GAME OVER')
-	if is_in_water() and $AirTimer.is_stopped() and not has_power(g.power_parts.GILLS):
+	if (is_in_water() and not is_in_water_surface()) and $AirTimer.is_stopped() and not has_power(g.power_parts.GILLS):
 		$AirTimer.start()
 		UI.get_node("AirMeter").show()
 		
@@ -258,11 +258,12 @@ func is_in_water_surface():
 # jumped into water
 func entered_water():
 	velocity.y = passive_swim_y_speed * 4
-	#TODO: add water splash SFX
+	$SFX.stream = load('res://Assets/SFX/enter_water.wav')
+	$SFX.play()
 
 func exited_water():
-	#TODO: add water splash SFX
-	pass
+	$SFX.stream = load('res://Assets/SFX/enter_water.wav')
+	$SFX.play()
 
 func is_in_water():
 #	var space_state = get_world_2d().direct_space_state
@@ -330,13 +331,12 @@ func _on_AirTimer_timeout():
 	if UI.get_node('AirMeter').value == air_max:
 		UI.get_node('AirMeter').hide()
 		$AirTimer.stop()
-	if is_in_water():
-		UI.get_node('AirMeter').value -= 0.1
-	else:
+	if is_in_water_surface() or not is_in_water():
 		UI.get_node('AirMeter').value += 0.2
+	elif is_in_water():
+		UI.get_node('AirMeter').value -= 0.1
 	if UI.get_node('AirMeter').value == 0:
 		take_damage()
-	
 
 
 func _on_InvulnerabilityTimer_timeout():

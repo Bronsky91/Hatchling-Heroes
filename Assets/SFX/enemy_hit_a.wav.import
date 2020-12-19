@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/enemy_hit_a.wav-5a45e55e63f1788dda5adb6331c9d010.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/enemy_hit_a.wav"
+dest_files=[ "res://.import/enemy_hit_a.wav-5a45e55e63f1788dda5adb6331c9d010.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

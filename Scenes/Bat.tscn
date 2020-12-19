@@ -137,6 +137,8 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Score_Fly = ExtResource( 3 )
+
+[node name="SFX" type="AudioStreamPlayer2D" parent="."]
 [connection signal="body_entered" from="Face" to="." method="_on_Face_body_entered"]
 [connection signal="body_entered" from="Back" to="." method="_on_Back_body_entered"]
 [connection signal="body_entered" from="Belly" to="." method="_on_Belly_body_entered"]

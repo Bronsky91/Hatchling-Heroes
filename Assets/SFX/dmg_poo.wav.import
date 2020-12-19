@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/dmg_poo.wav-505fa307de3756f8a5c8c18adda8d6f9.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/dmg_poo.wav"
+dest_files=[ "res://.import/dmg_poo.wav-505fa307de3756f8a5c8c18adda8d6f9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

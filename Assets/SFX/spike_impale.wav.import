@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/spike_impale.wav-31a59406cbbda5db5decce98dc081f73.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/spike_impale.wav"
+dest_files=[ "res://.import/spike_impale.wav-31a59406cbbda5db5decce98dc081f73.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

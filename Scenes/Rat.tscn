@@ -138,6 +138,9 @@ anims/Score_Fly = ExtResource( 3 )
 
 [node name="DeathTimer" type="Timer" parent="."]
 wait_time = 2.0
+
+[node name="SFX" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( -5.05132, 3.98011 )
 [connection signal="body_entered" from="Face" to="." method="_on_Face_body_entered"]
 [connection signal="body_entered" from="Back" to="." method="_on_Back_body_entered"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
