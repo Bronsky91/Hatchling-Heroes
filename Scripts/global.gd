@@ -77,7 +77,9 @@ func load_creature(parent_node: Node2D, json_data=""):
 		data = json.result
 	for part in parent_node.get_children():
 		if part is Sprite:
-			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + data[part.name].texture_num + ".png")
+			if part.name == 'Hat':
+				continue
+			part.texture = load("res://Assets/Character/" + part.name + "/" + part.name + "_" + data[part.name].texture_num + ".png")			
 			part.material.set_shader_param("palette_swap", load("res://Assets/Character/Palettes/"+data[part.name].palette_name))
 			part.material.set_shader_param("greyscale_palette", load("res://Assets/Character/Palettes/Bodycolor_000.png"))
 			make_shaders_unique(part)

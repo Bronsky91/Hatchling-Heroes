@@ -34,7 +34,7 @@ __meta__ = {
 }
 
 [node name="Body" parent="BodyContainer" instance=ExtResource( 2 )]
-position = Vector2( 1.78585, 11.7859 )
+position = Vector2( 2.00858, 14.904 )
 
 [node name="CreatureName" type="Label" parent="."]
 margin_left = 135.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Resources/Materials/palette_swap.tres" type="Material" id=1]
 [ext_resource path="res://Assets/Character/Torso/Torso_001.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Character/Legs/Legs_001.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Character/Arms/Arms_001.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Character/Back/Back_001.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Crown.png" type="Texture" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "death_left"
@@ -1415,6 +1416,10 @@ texture = ExtResource( 7 )
 vframes = 6
 hframes = 7
 frame = 27
+
+[node name="Hat" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 8 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/death_left = SubResource( 1 )

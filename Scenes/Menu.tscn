@@ -99,6 +99,7 @@ position = Vector2( 199.821, 119.735 )
 texture = ExtResource( 6 )
 
 [node name="Title" type="Node2D" parent="."]
+visible = false
 
 [node name="Label" type="Label" parent="Title"]
 margin_left = 37.0587
@@ -156,7 +157,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="Title/Options"]
 position = Vector2( -55, 10 )
 frames = SubResource( 13 )
-frame = 3
+frame = 1
 speed_scale = 1.5
 playing = true
 
@@ -172,7 +173,6 @@ position = Vector2( -55, 49.9191 )
 visible = false
 
 [node name="HighScores" type="Node2D" parent="."]
-visible = false
 script = ExtResource( 11 )
 
 [node name="Label" type="Label" parent="HighScores"]
