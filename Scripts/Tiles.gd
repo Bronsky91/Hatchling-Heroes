@@ -494,12 +494,12 @@ func render_platform_spike(x: int, y: int):
 	return tile_platform_spike.instance()
 
 func render_ground_entry(tile: Node2D, y: int):
-	if matrix[1][y] == ceiling_line[1]:
+	if y == ceiling_line[1]:
 		tile.set_sprite("ground_outer_01") # T into ceiling ## LIES
-	elif matrix[1][y] == floor_line[1]:
-		tile.set_sprite("ground_outer_01") # T into floor ## LIES
+	elif y == floor_line[1]:
+		tile.set_sprite("ground_outer_03") # T into floor ## LIES
 	elif matrix[1][y] == TILE.NONE:
-		tile.set_sprite("ground_outer_01") # between ceiling and floor
+		tile.set_sprite("ground_outer_02") # between ceiling and floor
 	else:
 		tile.set_sprite("ground") # beside solid ground
 
