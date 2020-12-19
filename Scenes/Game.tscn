@@ -110,6 +110,7 @@ position = Vector2( 32, 16 )
 script = ExtResource( 16 )
 
 [node name="Timer" type="Timer" parent="Level/EnemySpawner"]
+wait_time = 4.0
 autostart = true
 
 [node name="Tiles" type="Node2D" parent="Level"]
@@ -281,7 +282,6 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 13 )
-frame = 2
 speed_scale = 1.5
 playing = true
 

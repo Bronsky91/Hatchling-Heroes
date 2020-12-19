@@ -38,7 +38,6 @@ const power_parts_dict = {
 var starting_over = false
 
 func _ready():
-	#OS.set_window_maximized(true)
 	randomize()
 	pass
 

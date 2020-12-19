@@ -9,8 +9,8 @@ export var ceiling_max: int = 8
 export var ground_min: int = 15
 export var ground_max: int = 22
 
-enum PIT_TYPE {WATER, LAVA, SPIKE = -1}
-enum TILE {NONE, GROUND_FLOOR, GROUND_CEIL, WATER, LAVA, SPIKE_UP, SPIKE_UP_A, SPIKE_UP_B, SPIKE_DOWN, SPIKE_DOWN_A, SPIKE_DOWN_B, SPIKE_WATER, SPIKE_WATER, SPIKE_WATER_A, SPIKE_WATER_B, PLATFORM, PLATFORM_SPIKE = -1}
+enum PIT_TYPE {WATER, LAVA, SPIKE}
+enum TILE {NONE, GROUND_FLOOR, GROUND_CEIL, WATER, LAVA, SPIKE_UP, SPIKE_UP_A, SPIKE_UP_B, SPIKE_DOWN, SPIKE_DOWN_A, SPIKE_DOWN_B, SPIKE_WATER, SPIKE_WATER, SPIKE_WATER_A, SPIKE_WATER_B, PLATFORM, PLATFORM_SPIKE}
 var matrix = []
 var ceiling_line = []
 var floor_line = []
@@ -53,6 +53,7 @@ func generate_map():
 	add_floor()
 	add_ceiling()
 	add_pits()
+	add_spikes()
 	add_platforms()
 	#add_lava()
 	render_matrix()
@@ -85,10 +86,7 @@ func add_floor():
 				strip_buffer = rand_int(strip_min, strip_max)
 				current_height = rand_int(ground_min, ground_max)
 			floor_line.append(current_height)
-			# 1 in 8 chance to add a spike here if a valid spot
-			if rand_int(1,8) == 1:
-				if can_spike_go_here(Vector2(x,current_height - 1)):
-					add_spike(Vector2(x,current_height - 1),Vector2.UP,false)
+
 			# fill in rest of floor with ground tiles
 			for y in range(current_height,map_size.y):
 				matrix[x][y] = TILE.GROUND_FLOOR
@@ -135,7 +133,7 @@ func add_pits():
 				var new_len = rand_int(new_len_min, strip_len - 2)
 				var new_depth = rand_int(strip_height + 4, strip_height + 8)
 				var start_padding = rand_int(1, strip_len - new_len - 1)
-				
+				print(pit_type)
 				# process calculated water / pit dimensions
 				for i in range(strip_start + start_padding, strip_start + new_len):
 					# cleanup any spikes floating above where this new water or pit is
@@ -155,6 +153,7 @@ func add_pits():
 							lava_bottoms[i] = new_depth
 							tile = TILE.LAVA
 						PIT_TYPE.SPIKE:
+							print('spike pit time')
 							pit_tops[i] = strip_height
 							pit_bottoms[i] = new_depth
 							tile = TILE.NONE
@@ -358,18 +357,30 @@ func add_lava():
 			matrix[x][y] = TILE.LAVA
 		strip_buffer -= 1
 
+func add_spikes():
+	print(spawn_width)
+	for x in range(map_size.x):
+		if x > spawn_width:
+			# 1 in 3 chance to add a spike here if a valid spot
+			if rand_int(1,3) == 1:
+				if can_spike_go_here(Vector2(x, floor_line[x] - 1)):
+					add_spike(Vector2(x, floor_line[x] - 1),Vector2.UP,false)
+
 func can_spike_go_here(coord: Vector2):
+	if coord.x + 1 > map_size.x - 1:
+		return false
 	# flag invalid if too close to existing tile
-	for i in range(1,3):
+	var mid_strip = floor_line[coord.x] == floor_line[coord.x - 1] and floor_line[coord.x] == floor_line[coord.x + 1]
+	var above_pit = lava_tops[coord.x] != 0 or water_tops[coord.x] != 0 or pit_tops[coord.x] != 0
+	if not mid_strip or above_pit:
+		return false
+	for i in range(1,4):
 		if coord.x - i > 0 and matrix[coord.x - i][coord.y] != TILE.NONE:
 			return false
 		if coord.x + i < map_size.x - 1 and matrix[coord.x + i][coord.y] != TILE.NONE:
 			return false
 		if coord.y - i > 0 and matrix[coord.x][coord.y - i] != TILE.NONE:
 			return false
-	#  or if first tile after climb
-	if coord.x > 0 and floor_line[coord.x - 1] - (coord.y + 1) > 1:
-		return false
 	return true
 
 func add_spike(coord: Vector2, facing: Vector2, submerged: bool):

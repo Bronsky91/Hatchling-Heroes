@@ -301,7 +301,7 @@ func wall_dir():
 	return "none"
 
 func take_damage():
-	if !is_invulnerable:
+	if !is_invulnerable and !level_complete:
 		jump()
 		lives -= 1
 		if lives >= 0:
