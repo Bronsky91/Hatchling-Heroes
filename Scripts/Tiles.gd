@@ -135,7 +135,6 @@ func add_pits():
 			elif strip_len >= 4 and rand_int(1,2) == 1:
 				# calculate water / pit dimensions
 				pit_type = rand_int(0,2) # 33.3% chance to make this pit either water, lava, or spikes
-				pit_type = PIT_TYPE.WATER # TEMP FOR DEBUGGING PURPOSES
 				var new_len_min = strip_len - 4 if strip_len - 4 > 2 else 2
 				var new_len = rand_int(new_len_min, strip_len - 2)
 				var new_depth = rand_int(strip_height + 4, strip_height + 8)
@@ -465,8 +464,6 @@ func render_platform(x: int, y: int):
 		suffix = "_middle"
 	var tile_path = "res://Scenes/Tiles/platform_" + platform_sprites[x][y] + suffix + ".tscn"
 	var tile_platform = load(tile_path)
-	if suffix == "_small" and platform_sprites[x][y] != "01":
-		print("x:" + str(x) + ",y:" + str(y) + ",tile_path: " + tile_path)
 	return tile_platform.instance()
 
 func render_platform_spike(x: int, y: int):
@@ -504,7 +501,12 @@ func render_ground(tile: Node2D, x: int, y: int, is_floor: bool):
 	var neighbors_bitmask: String = "0000000000"
 	var neighbor: int = TILE.GROUND_FLOOR if is_floor else TILE.GROUND_CEIL
 	
-	# if tile is near edge of map, keep its default fill tile
+	# if tile is final floor or ceiling, manually fill it in
+	if x == map_size.x - 1 and y == floor_line[x]:
+		tile.set_sprite("ground_floor_1100011100")
+	elif x == map_size.x - 1 and y == ceiling_line[x]:
+		tile.set_sprite("ground_ceil_0111110000")
+	# otherwise, if tile is near edge of map, keep its default fill tile
 	if x - 1 < 0 or y - 1 < 0 or x + 1 > map_size.x - 1 or y + 1 > map_size.y - 1:
 		return
 	

@@ -79,11 +79,11 @@ func _ready():
 		UI.get_node("AirMeter").value = air_max
 	if has_power(g.power_parts.WATER_WALK):
 		floor_raycast.set_collision_mask_bit(g.collision_layers.WATER, true)
-
 	add_lives_to_container()
-	
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+	# Set camera limit based on map size
+	$Camera2D.limit_right = map_size_x - (tile_size / 2)
 	
 func add_lives_to_container():
 	var lives_array = range(lives)
