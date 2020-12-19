@@ -1,12 +1,21 @@
 extends Area2D
 
+var can_water_walk
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	can_water_walk = get_node("../../Player").has_power(g.power_parts.WATER_WALK)
+	if !can_water_walk:
+		$StaticBody2D.queue_free()
+		connect('body_entered', self, '_on_body_entered')
+		connect('body_entered', self, '_on_body_exited')
+
 func _on_body_entered(body):
 	if body.name == "Player":
 		if name == "WaterSurface":
 			body.touching_water_surface(self.get_instance_id())
 		else:
 			body.touching_water(self.get_instance_id())
-
 
 func _on_body_exited(body):
 	if body.name == "Player":
