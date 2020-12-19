@@ -129,6 +129,7 @@ func add_pits():
 			elif strip_len >= 4 and rand_int(1,2) == 1:
 				# calculate water / pit dimensions
 				pit_type = rand_int(0,2) # 33.3% chance to make this pit either water, lava, or spikes
+				pit_type = PIT_TYPE.WATER # TEMP FOR DEBUGGING PURPOSES
 				var new_len_min = strip_len - 4 if strip_len - 4 > 2 else 2
 				var new_len = rand_int(new_len_min, strip_len - 2)
 				var new_depth = rand_int(strip_height + 4, strip_height + 8)

@@ -240,6 +240,8 @@ func touching_water_surface(id: int):
 
 func touching_water(id: int):
 	if !overlapping_water.has(id):
+		if overlapping_water.size() == 0:
+			entered_water()
 		overlapping_water.append(id)
 
 func stopped_touching_water(id: int):
@@ -247,9 +249,20 @@ func stopped_touching_water(id: int):
 		overlapping_water_surface.erase(id)
 	if overlapping_water.has(id):
 		overlapping_water.erase(id)
+	if overlapping_water.size() == 0:
+		exited_water()
 
 func is_in_water_surface():
 	return overlapping_water_surface.size() != 0
+
+# jumped into water
+func entered_water():
+	velocity.y = passive_swim_y_speed * 4
+	#TODO: add water splash SFX
+
+func exited_water():
+	#TODO: add water splash SFX
+	pass
 
 func is_in_water():
 #	var space_state = get_world_2d().direct_space_state
