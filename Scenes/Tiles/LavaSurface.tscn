@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/Lava.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 8 )
+extents = Vector2( 8, 7 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 8, 7 )
@@ -16,6 +16,7 @@ script = ExtResource( 2 )
 [node name="Sprite" type="Sprite" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 1 )
 shape = SubResource( 1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -25,4 +26,3 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 0, 1 )
 shape = SubResource( 2 )
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

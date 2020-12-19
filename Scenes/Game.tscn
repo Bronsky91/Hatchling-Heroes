@@ -91,13 +91,13 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.027451, 0.0980392, 0.533333, 1 )
 
-[sub_resource type="DynamicFontData" id=18]
+[sub_resource type="DynamicFontData" id=16]
 antialiased = false
 font_path = "res://Resources/Fonts/Pixel NES.otf"
 
-[sub_resource type="DynamicFont" id=19]
+[sub_resource type="DynamicFont" id=17]
 size = 12
-font_data = SubResource( 18 )
+font_data = SubResource( 16 )
 
 [node name="Game" type="Node"]
 
@@ -110,7 +110,6 @@ position = Vector2( 32, 16 )
 script = ExtResource( 16 )
 
 [node name="Timer" type="Timer" parent="Level/EnemySpawner"]
-wait_time = 5.0
 autostart = true
 
 [node name="Tiles" type="Node2D" parent="Level"]
@@ -318,7 +317,7 @@ margin_left = 130.856
 margin_top = 1.99639
 margin_right = 176.856
 margin_bottom = 16.9964
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 17 )
 text = "Lives:"
 __meta__ = {
 "_edit_use_anchors_": false

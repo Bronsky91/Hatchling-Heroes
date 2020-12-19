@@ -67,6 +67,7 @@ score_worth = 20
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
 animation = "left"
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -110,7 +111,7 @@ visible = false
 margin_left = -7.43301
 margin_top = -19.9393
 margin_right = 32.567
-margin_bottom = -5.93935
+margin_bottom = -5.9393
 __meta__ = {
 "_edit_use_anchors_": false
 }

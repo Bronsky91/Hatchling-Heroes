@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 export var speed : int = 100
 export var score_worth : int = 10
+
 var time = 0
 var velocity
 var freq = 5
@@ -69,7 +70,7 @@ func die(player):
 	disable_collision()
 
 func _on_DeathTimer_timeout():
-	self.queue_free()
+	queue_free()
 
 func disable_collision():
 	set_collision_mask_bit(g.collision_layers.PLAYER, false)

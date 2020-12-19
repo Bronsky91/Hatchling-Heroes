@@ -304,7 +304,8 @@ func take_damage():
 	if !is_invulnerable:
 		jump()
 		lives -= 1
-		lives_container.get_children()[-1].queue_free()
+		if lives >= 0:
+			lives_container.get_children()[-1].queue_free()
 		if lives < 1 and not level_complete:
 			is_dead = true
 			complete_level("GAME OVER")

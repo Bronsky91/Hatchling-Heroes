@@ -1,47 +1,71 @@
-extends Area2D
+extends KinematicBody2D
 
 export var speed : int = 100
-export var moveDist : int = 100
+export var score_worth : int = 5
 
-onready var startX : float = position.x
-onready var targetX : float = position.x + moveDist
+var gravity = 800
+var velocity
+var is_dead = false
+var has_killed = false
+var facing = -1
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$ScoreLabel.text = "+"+str(score_worth)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	# move to the "targetX" position
-	position.x = move_to(position.x, targetX, speed * delta)
+	if !is_dead:
+		# If hitting wall move the other way
+		if !$FloorRayCast.is_colliding() or $WallRayCast.is_colliding():
+			turn_around()
 	
-	# if we're at our target, move in the other direction
-	if position.x == targetX:
-		if targetX == startX:
-			targetX = position.x + moveDist
-		else:
-			targetX = startX
+		velocity = Vector2(64 * facing, 0)
+		velocity.y += gravity * delta
+		var collision = move_and_collide(velocity * delta)
 
+func turn_around():
+	facing *= -1
+	$WallRayCast.cast_to.x = 20 * facing
+	$FloorRayCast.position.x = 20 * facing
+	$Sprite.play('right') if facing == 1 else $Sprite.play('left')
 
-
-# moves "current" towards "to" in an increment of "step"
-func move_to (current, to, step):
-	var new = current
-	
-	if new < to: # are we moving positive?
-		new += step
-		if new > to:
-			new = to
-	else: # are we moving negative?
-		new -= step
-		if new < to:
-			new = to
-	
-	return new
-
-
-func _on_Rat_body_entered(body):
-	if body.name == "Player":
+func _on_Face_body_entered(body):
+	if body.name == "Player" and !is_dead:
+		if body.has_power(g.power_parts.RAT_PROTECTION):
+			return
 		body.take_damage()
+		has_killed = true
+		disable_collision()
+
+func _on_Back_body_entered(body):
+	if body.name == "Player" and !is_dead and !has_killed:
+		body.bounce_off_enemy()
+		die(body)
+
+func die(player):
+	is_dead = true
+	z_index = 10
+	$ScoreLabel.show()
+	$AnimationPlayer.play("Score_Fly")
+	player.enemy_score += score_worth
+	$Sprite.play("die_right") if facing == 1 else $Sprite.play('die_left')
+	$DeathTimer.start()
+	disable_collision()
+
+func _on_DeathTimer_timeout():
+	queue_free()
+
+func disable_collision():
+	set_collision_mask_bit(g.collision_layers.PLAYER, false)
+	set_collision_mask_bit(g.collision_layers.PLAYER_PROJECTILE, false)
+
+func enable_collision():
+	set_collision_mask_bit(g.collision_layers.PLAYER, true)
+	set_collision_mask_bit(g.collision_layers.PLAYER_PROJECTILE, true)
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	$AnimationPlayer.stop()
