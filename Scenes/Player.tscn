@@ -101,6 +101,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="SFX" type="AudioStreamPlayer2D" parent="."]
+volume_db = -10.0
 [connection signal="timeout" from="AirTimer" to="." method="_on_AirTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_InvulnerabilityTimer_timeout"]

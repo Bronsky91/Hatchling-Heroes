@@ -82,7 +82,7 @@ script = ExtResource( 1 )
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 9 )
 animation = "left"
-frame = 2
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -139,6 +139,7 @@ __meta__ = {
 anims/Score_Fly = ExtResource( 3 )
 
 [node name="SFX" type="AudioStreamPlayer2D" parent="."]
+volume_db = -10.0
 [connection signal="body_entered" from="Face" to="." method="_on_Face_body_entered"]
 [connection signal="body_entered" from="Back" to="." method="_on_Back_body_entered"]
 [connection signal="body_entered" from="Belly" to="." method="_on_Belly_body_entered"]

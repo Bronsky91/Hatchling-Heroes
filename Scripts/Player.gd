@@ -64,6 +64,7 @@ onready var music_player = get_node("../../MusicPlayer")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if not OS.is_debug_build():
+		music_player.stream = load('res://Assets/Music/Cave Music Game Jam1.wav')
 		music_player.play()
 	powers = g.load_creature(body)
 	if has_power(g.power_parts.SWIM):
@@ -113,6 +114,11 @@ func has_power(power):
 	return power in powers
 	
 func complete_level(text):
+	if text == 'COMPLETED':
+		music_player.stream = load('res://Assets/Music/level_complete_game_jam_01.wav')
+	else:
+		music_player.stream = load('res://Assets/Music/Game_Over_Game_jam_1.wav')
+	music_player.play()
 	z_index = 1
 	level_complete = true
 	$StateMachine.movement_disabled = true
