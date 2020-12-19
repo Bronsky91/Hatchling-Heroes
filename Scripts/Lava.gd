@@ -19,6 +19,6 @@ func _ready():
 
 func _on_body_entered(body):
 	if body.name == "Player" and !can_lava_walk:
-		if body.lives > 1:
+		if body.lives > 1: # GET OUT
 			body.position = Vector2(32, 16)
 		body.take_damage()

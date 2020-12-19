@@ -62,6 +62,10 @@ func make_shaders_unique(sprite: Sprite):
 	var mat = sprite.get_material().duplicate()
 	sprite.set_material(mat)
 	
+func giveth_shaders_to_new_sprite(giveth_sprite, taketh_sprite):
+	var mat = giveth_sprite.get_material().duplicate()
+	taketh_sprite.set_material(mat)
+	
 func load_creature(parent_node: Node2D, json_data=""):
 	var data
 	if json_data:

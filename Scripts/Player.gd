@@ -90,6 +90,7 @@ func add_lives_to_container():
 		var control = Control.new()
 		control.rect_position.y = 10
 		var sprite = Sprite.new()
+		g.giveth_shaders_to_new_sprite($Body/Head, sprite)
 		sprite.texture = $Body/Head.texture
 		sprite.vframes = 6
 		sprite.hframes = 7
