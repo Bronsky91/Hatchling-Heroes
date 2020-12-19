@@ -50,7 +50,12 @@ cast_to = Vector2( 0, 7 )
 [node name="FloorRaycast" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 0, 15 )
-collision_mask = 2147483649
+collision_mask = 2147483653
+
+[node name="LavaRaycast" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, 15 )
+collision_mask = 2147483652
 
 [node name="EnemyRaycast" type="RayCast2D" parent="."]
 enabled = true

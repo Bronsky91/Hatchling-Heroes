@@ -51,6 +51,7 @@ onready var swim_level = $SwimLevel
 onready var left_wall_raycast = $LeftWallRaycast
 onready var right_wall_raycast = $RightWallRaycast
 onready var floor_raycast = $FloorRaycast
+onready var lava_raycast = $LavaRaycast
 onready var enemy_raycast = $EnemyRaycast
 onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
@@ -109,7 +110,9 @@ func _physics_process(delta):
 	if (is_in_water() and not is_in_water_surface()) and $AirTimer.is_stopped() and not has_power(g.power_parts.GILLS):
 		$AirTimer.start()
 		UI.get_node("AirMeter").show()
-		
+	if !has_power(g.power_parts.LAVA_WALK) and !is_invulnerable and lava_raycast.is_colliding():
+		take_damage()
+
 func has_power(power):
 	return power in powers
 	
