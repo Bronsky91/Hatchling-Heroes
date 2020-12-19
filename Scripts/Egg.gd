@@ -155,6 +155,7 @@ func _on_EscapeButton_button_up():
 
 func _on_EggSprite_frame_changed():
 	if $EggSprite.frame == 14:
+		$AudioStreamPlayer2D.play()
 		$CreatureBody.show()
 
 func save_creature_name(name):
