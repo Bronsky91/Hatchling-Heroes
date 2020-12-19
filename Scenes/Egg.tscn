@@ -115,7 +115,6 @@ font_data = SubResource( 24 )
 
 [node name="Egg" type="Node2D"]
 script = ExtResource( 6 )
-countdown = 1
 
 [node name="CreatureBody" parent="." instance=ExtResource( 3 )]
 visible = false

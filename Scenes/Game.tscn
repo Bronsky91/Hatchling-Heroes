@@ -104,7 +104,7 @@ font_data = SubResource( 16 )
 [node name="Level" type="Node2D" parent="."]
 
 [node name="Player" parent="Level" instance=ExtResource( 1 )]
-position = Vector2( 32, 48 )
+position = Vector2( 32, 32 )
 
 [node name="EnemySpawner" type="Node2D" parent="Level"]
 script = ExtResource( 16 )
@@ -282,7 +282,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 13 )
-frame = 4
+frame = 3
 speed_scale = 1.5
 playing = true
 

@@ -24,6 +24,8 @@ var nurture_percent_dict = {
 }
 
 func _ready():
+	if OS.is_debug_build():
+		countdown = 1
 	connect("nurture_pressed", self, "_on_nurture_pressed")
 	$CountdownLabel.text = "Seconds Remaining: " + str(countdown)
 	
