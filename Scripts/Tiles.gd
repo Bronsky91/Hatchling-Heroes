@@ -133,7 +133,6 @@ func add_pits():
 				var new_len = rand_int(new_len_min, strip_len - 2)
 				var new_depth = rand_int(strip_height + 4, strip_height + 8)
 				var start_padding = rand_int(1, strip_len - new_len - 1)
-				print(pit_type)
 				# process calculated water / pit dimensions
 				for i in range(strip_start + start_padding, strip_start + new_len):
 					# cleanup any spikes floating above where this new water or pit is
@@ -153,7 +152,6 @@ func add_pits():
 							lava_bottoms[i] = new_depth
 							tile = TILE.LAVA
 						PIT_TYPE.SPIKE:
-							print('spike pit time')
 							pit_tops[i] = strip_height
 							pit_bottoms[i] = new_depth
 							tile = TILE.NONE
@@ -358,7 +356,6 @@ func add_lava():
 		strip_buffer -= 1
 
 func add_spikes():
-	print(spawn_width)
 	for x in range(map_size.x):
 		if x > spawn_width:
 			# 1 in 3 chance to add a spike here if a valid spot
