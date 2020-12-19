@@ -206,15 +206,10 @@ func _get_h_weight():
 		else:
 			return 0.1
 
-func play_jump_sfx():
-	$SFX.stream = load('res://Assets/SFX/arcade/jump.wav')
-	$SFX.play()
-
 func jump():
 	velocity.y = max_jump_velocity
 	is_jumping = true
 	is_double_jumping = false
-	play_jump_sfx()
 
 func minimize_jump():
 	if velocity.y < min_jump_velocity:
@@ -224,12 +219,10 @@ func subsequent_jump():
 	if has_power(g.power_parts.DOUBLE_JUMP) and !is_double_jumping:
 		velocity.y = max_jump_velocity
 		is_double_jumping = true
-		play_jump_sfx()
 	elif has_power(g.power_parts.FLYING):
 		velocity.y = max_jump_velocity + (fly_count * 2 * tile_size)
 		is_flying = true
 		fly_count += 1
-		play_jump_sfx()
 
 func wall_jump():
 	velocity.y = max_jump_velocity
@@ -283,7 +276,7 @@ func is_in_water_surface():
 # jumped into water
 func entered_water():
 	velocity.y = passive_swim_y_speed * 4
-	$SFX.stream = load('res://Assets/SFX/arcade/splash.wav')
+	$SFX.stream = load('res://Assets/SFX/enter_water.wav')
 	$SFX.play()
 
 func exited_water():
@@ -351,8 +344,6 @@ func take_damage(type = ""):
 		if lives < 1 and not level_complete:
 			if type == 'spike':
 				play_impale_sfx()
-			else:
-				play_death_sfx()
 			is_dead = true
 			complete_level("GAME OVER")
 		else:
@@ -370,17 +361,11 @@ func play_lava_sfx():
 	
 func play_damaged_sfx():
 	randomize()
-	var n = randi() % 5
-	var variations = ['1', '2', '3', '4', '5']
-	$SFX.stream = load('res://Assets/SFX/arcade/player_damage'+ variations[n] +'.wav')
+	var n = randi() % 4
+	var variations = ['a', 'b', 'c', 'poo']
+	$SFX.stream = load('res://Assets/SFX/dmg_'+ variations[n] +'.wav')
 	$SFX.play()
 
-func play_death_sfx():
-	randomize()
-	var n = randi() % 7
-	var variations = ['1', '2', '3', '4', '5', '6','7']
-	$SFX.stream = load('res://Assets/SFX/arcade/player_death'+ variations[n] +'.wav')
-	$SFX.play()
 
 func _on_AirTimer_timeout():
 	if UI.get_node('AirMeter').value == air_max:

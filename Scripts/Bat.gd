@@ -72,18 +72,9 @@ func die(player):
 	
 func play_die_sfx():
 	randomize()
-	var n
-	var variations
-	var enemy_name
-	if "BatRat" in name:
-		n = randi() % 2
-		variations = ['1', '2']
-		enemy_name = "batrat_"
-	else:
-		n = randi() % 3
-		variations = ['1', '2', '3']
-		enemy_name = "bat_"
-	$SFX.stream = load('res://Assets/SFX/arcade/' + enemy_name + 'death'+ variations[n] +'.wav')
+	var n = randi() % 4
+	var variations = ['a', 'b', 'c', 'd']
+	$SFX.stream = load('res://Assets/SFX/enemy_hit_'+ variations[n] +'.wav')
 	$SFX.play()
 	
 func _on_DeathTimer_timeout():

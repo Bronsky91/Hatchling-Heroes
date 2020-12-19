@@ -46,9 +46,9 @@ func _on_Back_body_entered(body):
 		
 func play_die_sfx():
 	randomize()
-	var n = randi() % 2
-	var variations = ['1', '2']
-	$SFX.stream = load('res://Assets/SFX/arcade/rat_death'+ variations[n] +'.wav')
+	var n = randi() % 4
+	var variations = ['a', 'b', 'c', 'd']
+	$SFX.stream = load('res://Assets/SFX/enemy_hit_'+ variations[n] +'.wav')
 	$SFX.play()
 	
 func die(player):
