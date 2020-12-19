@@ -6,6 +6,7 @@ func _ready():
 	add_state("idle")
 	add_state("run")
 	add_state("jump")
+	add_state("double_jump")
 	add_state("fall")
 	add_state("swim")
 	add_state("sink")
@@ -93,11 +94,30 @@ func _get_transition(delta):
 					return states.sink
 			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
+			elif parent.is_double_jumping:
+				return states.double_jump
 			elif parent.is_flying:
 				return states.fly
 			elif parent.velocity.y >= 0:
 				return states.fall
 			elif parent._check_is_grounded():
+				return states.idle
+		states.double_jump:
+			if parent.is_in_water():
+				parent.is_double_jumping = false
+				if parent.velocity.y < 0:
+					return states.swim
+				else:
+					return states.sink
+			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
+				parent.is_double_jumping = false
+				return states.wall_slide
+			elif parent.is_flying:
+				return states.fly
+			elif parent.velocity.y >= 0:
+				return states.fall
+			elif parent._check_is_grounded():
+				parent.is_double_jumping = false
 				return states.idle
 		states.fly:
 			if parent.is_in_water():
@@ -115,13 +135,16 @@ func _get_transition(delta):
 				return states.fly
 		states.fall:
 			if parent.is_in_water():
+				parent.is_double_jumping = false
 				if parent.velocity.y < 0:
 					return states.swim
 				else:
 					return states.sink 
 			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
+				parent.is_double_jumping = false
 				return states.wall_slide
 			elif parent._check_is_grounded():
+				parent.is_double_jumping = false
 				return states.idle
 			elif parent.velocity.y < 0:
 				return states.jump
@@ -175,6 +198,8 @@ func _enter_state(new_state, old_state):
 		states.run:
 			parent.anim_player.play("run" + direction)
 		states.jump:
+			parent.anim_player.play("jump" + direction)
+		states.double_jump:
 			parent.anim_player.play("jump" + direction)
 		states.fall:
 			parent.anim_player.play("fall" + direction)

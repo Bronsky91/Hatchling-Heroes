@@ -24,6 +24,7 @@ var overlapping_water = []
 var overlapping_water_surface = []
 
 var is_jumping = false
+var is_double_jumping = false
 var is_flying = false
 var is_grounded = false
 var is_sliding = false
@@ -80,6 +81,8 @@ func _ready():
 		UI.get_node("AirMeter").value = air_max
 	if has_power(g.power_parts.WATER_WALK):
 		floor_raycast.set_collision_mask_bit(g.collision_layers.WATER, true)
+	if has_power(g.power_parts.DOUBLE_JUMP):
+		can_double_jump = true
 	add_lives_to_container()
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
@@ -205,13 +208,17 @@ func _get_h_weight():
 func jump():
 	velocity.y = max_jump_velocity
 	is_jumping = true
+	is_double_jumping = false
 
 func minimize_jump():
 	if velocity.y < min_jump_velocity:
 		velocity.y = min_jump_velocity
 
 func subsequent_jump():
-	if has_power(g.power_parts.FLYING):
+	if has_power(g.power_parts.DOUBLE_JUMP) and !is_double_jumping:
+		velocity.y = max_jump_velocity
+		is_double_jumping = true
+	elif has_power(g.power_parts.FLYING):
 		velocity.y = max_jump_velocity
 		is_flying = true
 
