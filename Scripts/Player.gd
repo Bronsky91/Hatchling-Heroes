@@ -212,7 +212,7 @@ func wall_jump():
 
 func swim_jump():
 	if is_in_water_surface():
-		velocity.y = max_jump_velocity * 2
+		velocity.y = max_jump_velocity
 	elif is_in_water():
 		velocity.y = (max_jump_velocity / 3) * 2
 
@@ -234,23 +234,19 @@ func bounce_off_enemy():
 #				velocity.y = (ray_result.position.y - swim_level.global_position.y) / delta
 
 func touching_water_surface(id: int):
-	if not id in overlapping_water_surface:
-		print('touch water surface ' + str(id))
+	if !overlapping_water_surface.has(id):
 		overlapping_water_surface.append(id)
 	touching_water(id)
 
 func touching_water(id: int):
-	if not id in overlapping_water:
-		print('touch water ' + str(id))
+	if !overlapping_water.has(id):
 		overlapping_water.append(id)
 
 func stopped_touching_water(id: int):
-	if not id in overlapping_water:
-		print('stop touching overlapping water '+ str(id))
-		overlapping_water.erase(id)
-	if not id in overlapping_water_surface:
-		print('stop touching water surface '+ str(id))
+	if overlapping_water_surface.has(id):
 		overlapping_water_surface.erase(id)
+	if overlapping_water.has(id):
+		overlapping_water.erase(id)
 
 func is_in_water_surface():
 	return overlapping_water_surface.size() != 0

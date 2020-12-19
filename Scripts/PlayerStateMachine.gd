@@ -137,8 +137,10 @@ func _get_transition(delta):
 			else:
 				if parent.velocity.y < 0:
 					return states.jump
-				else:
+				elif parent.velocity.y > 0:
 					return states.fall
+				elif parent.velocity.y == 0:
+					return states.idle
 		states.sink:
 			if parent.is_in_water():
 				if parent.velocity.y < 0:
@@ -150,8 +152,10 @@ func _get_transition(delta):
 			else:
 				if parent.velocity.y < 0:
 					return states.jump
-				else:
+				elif parent.velocity.y > 0:
 					return states.fall
+				elif parent.velocity.y == 0:
+					return states.idle
 		states.wall_slide:
 			if parent._check_is_grounded():
 				return states.idle
