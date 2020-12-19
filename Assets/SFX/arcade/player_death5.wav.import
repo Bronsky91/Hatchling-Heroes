@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/player_death5.wav-0ea5be77bc6a2807892ab05b09e6b2d1.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/arcade/player_death5.wav"
+dest_files=[ "res://.import/player_death5.wav-0ea5be77bc6a2807892ab05b09e6b2d1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

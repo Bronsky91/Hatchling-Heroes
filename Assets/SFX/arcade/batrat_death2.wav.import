@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/batrat_death2.wav-459a9209a705bd634c12ed8d90c11b4c.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/arcade/batrat_death2.wav"
+dest_files=[ "res://.import/batrat_death2.wav-459a9209a705bd634c12ed8d90c11b4c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
