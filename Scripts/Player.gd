@@ -146,7 +146,7 @@ func _apply_gravity(delta):
 		is_flying = false
 
 func _cap_gravity_wall_slide():
-	var max_velocity = tile_size * 10 if Input.is_action_pressed("move_down") else tile_size * 2
+	var max_velocity = tile_size * 10 if Input.is_action_pressed("move_down") else tile_size
 	velocity.y = 0 if has_power(g.power_parts.WALL_STICK) else min(velocity.y, max_velocity) 
 
 func _apply_movement(delta):
@@ -301,7 +301,8 @@ func wall_dir():
 
 func take_damage():
 	lives -= 1
-	lives_container.get_children()[-1].queue_free()
+	if lives >= 0:
+		lives_container.get_children()[-1].queue_free()
 	if lives < 1 and not level_complete:
 		is_dead = true
 		complete_level("GAME OVER")
