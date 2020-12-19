@@ -9,3 +9,7 @@ func set_ground_sprite(is_floor: bool, mask: String):
 	var surface = "_floor_" if is_floor else "_ceil_"
 	var sprite_path = "res://Assets/Cave/Tiles/ground" + surface + mask + ".png"
 	$Sprite.set_texture(load(sprite_path))
+
+func set_sprite(sprite_name: String):
+	var sprite_path = "res://Assets/Cave/Tiles/" + sprite_name + ".png"
+	$Sprite.set_texture(load(sprite_path))

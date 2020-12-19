@@ -21,7 +21,7 @@ func _on_Timer_timeout():
 		enemy_type.RAT:
 			for x in range(25, 50):
 				var pos = ceil(player.position.x / 16) + x
-				if x < tiles.map_size.x - 1:
+				if pos - 1 > 0 and pos + 1 < tiles.map_size.x - 1:
 					var mid_strip = tiles.floor_line[pos] == tiles.floor_line[pos - 1] and tiles.floor_line[pos] == tiles.floor_line[pos + 1]
 					var not_above_pit = tiles.lava_tops[pos] == 0 and tiles.water_tops[pos] == 0 and tiles.pit_tops[pos] == 0
 					if not_above_pit and mid_strip:

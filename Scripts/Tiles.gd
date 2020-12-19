@@ -10,7 +10,7 @@ export var ground_min: int = 15
 export var ground_max: int = 22
 
 enum PIT_TYPE {WATER, LAVA, SPIKE}
-enum TILE {NONE, GROUND_FLOOR, GROUND_CEIL, WATER, LAVA, SPIKE_UP, SPIKE_UP_A, SPIKE_UP_B, SPIKE_DOWN, SPIKE_DOWN_A, SPIKE_DOWN_B, SPIKE_WATER, SPIKE_WATER, SPIKE_WATER_A, SPIKE_WATER_B, PLATFORM, PLATFORM_SPIKE}
+enum TILE {NONE, GROUND_ENTRY, GROUND_FLOOR, GROUND_CEIL, WATER, LAVA, SPIKE_UP, SPIKE_UP_A, SPIKE_UP_B, SPIKE_DOWN, SPIKE_DOWN_A, SPIKE_DOWN_B, SPIKE_WATER, SPIKE_WATER, SPIKE_WATER_A, SPIKE_WATER_B, PLATFORM, PLATFORM_SPIKE}
 var matrix = []
 var ceiling_line = []
 var floor_line = []
@@ -52,6 +52,7 @@ func generate_map():
 	prepare_matrix()
 	add_floor()
 	add_ceiling()
+	add_entry_wall()
 	add_pits()
 	add_spikes()
 	add_platforms()
@@ -71,6 +72,10 @@ func prepare_matrix():
 		for y in range(map_size.y):
 			matrix[x].append(TILE.NONE)
 			platform_sprites[x].append(int(0))
+
+func add_entry_wall():
+	for y in map_size.y:
+		matrix[0][y] = TILE.GROUND_ENTRY
 
 func add_floor():
 	var strip_buffer: int = rand_int(strip_min, strip_max)
@@ -98,8 +103,9 @@ func add_ceiling():
 	for x in range(map_size.x):
 		# fixed ceiling height above player spawn
 		if x < spawn_width:
-			ceiling_line.append(int(0))
+			ceiling_line.append(int(1))
 			matrix[x][0] = TILE.GROUND_CEIL
+			matrix[x][1] = TILE.GROUND_CEIL
 			continue
 		
 		if strip_buffer <= 0:
@@ -402,6 +408,9 @@ func render_matrix():
 		for y in range(map_size.y):
 			var t
 			match matrix[x][y]:
+				TILE.GROUND_ENTRY:
+					t = tile_ground.instance()
+					render_ground_entry(t,y)
 				TILE.GROUND_FLOOR:
 					t = tile_ground.instance()
 					render_ground(t,x,y,true)
@@ -480,6 +489,16 @@ func render_platform_spike(x: int, y: int):
 	var tile_platform_spike = load(tile_platform_spike_path)
 	return tile_platform_spike.instance()
 
+func render_ground_entry(tile: Node2D, y: int):
+	if matrix[1][y] == ceiling_line[1]:
+		tile.set_sprite("ground_outer_01") # T into ceiling
+	elif matrix[1][y] == floor_line[1]:
+		tile.set_sprite("ground_outer_01") # T into floor
+	elif matrix[1][y] == TILE.NONE:
+		tile.set_sprite("ground_outer_01") # between ceiling and floor
+	else:
+		tile.set_sprite("ground_outer_01") # beside solid ground
+
 func render_ground(tile: Node2D, x: int, y: int, is_floor: bool):
 	 # mask: bleft,left,uleft,up,uright,right,bright,bot,rising,falling
 	var neighbors_bitmask: String = "0000000000"
@@ -527,7 +546,7 @@ func render_ground(tile: Node2D, x: int, y: int, is_floor: bool):
 		tile.set_ground_sprite(is_floor, neighbors_bitmask)
 
 func has_neighbor(x: int, y: int, neighbor: int, match_water: bool = false, match_lava: bool = false):
-	if matrix[x][y] == neighbor:
+	if matrix[x][y] == neighbor or matrix[x][y] == TILE.GROUND_ENTRY:
 		return true
 	elif matrix[x][y] == TILE.WATER and match_water:
 		return true
