@@ -115,7 +115,7 @@ func _physics_process(delta):
 		$AirTimer.start()
 		UI.get_node("AirMeter").show()
 	if !has_power(g.power_parts.LAVA_WALK) and !is_invulnerable and lava_raycast.is_colliding():
-		take_damage()
+		take_damage('lava')
 
 func has_power(power):
 	return power in powers
@@ -333,7 +333,10 @@ func wall_dir():
 
 func take_damage(type = ""):
 	if !is_invulnerable and !level_complete:
-		play_damaged_sfx()
+		if type == 'lava':
+			play_lava_sfx()
+		else:
+			play_damaged_sfx()
 		jump()
 		lives -= 1
 		if lives >= 0:
@@ -341,6 +344,7 @@ func take_damage(type = ""):
 		if lives < 1 and not level_complete:
 			if type == 'spike':
 				play_impale_sfx()
+
 			is_dead = true
 			complete_level("GAME OVER")
 		else:
@@ -350,6 +354,10 @@ func take_damage(type = ""):
 			
 func play_impale_sfx():
 	$SFX.stream = load('res://Assets/SFX/spike_impale.wav')
+	$SFX.play()
+	
+func play_lava_sfx():
+	$SFX.stream = load('res://Assets/SFX/fire_entry_and_exit.wav')
 	$SFX.play()
 	
 func play_damaged_sfx():

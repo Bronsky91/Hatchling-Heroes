@@ -112,8 +112,8 @@ func add_ceiling():
 			strip_buffer = rand_int(strip_min, strip_max)
 			current_height = rand_int(ceiling_min, ceiling_max)
 		ceiling_line.append(current_height)
-		# 1 in 3 chance to add a spike here
-		if rand_int(1,3) == 1:
+		# 1 in 4 chance to add a spike here
+		if rand_int(1,4) == 1:
 			add_spike(Vector2(x,current_height),Vector2.DOWN,false)
 		for y in range(0, current_height):
 			matrix[x][y] = TILE.GROUND_CEIL
@@ -495,13 +495,13 @@ func render_platform_spike(x: int, y: int):
 
 func render_ground_entry(tile: Node2D, y: int):
 	if matrix[1][y] == ceiling_line[1]:
-		tile.set_sprite("ground_outer_01") # T into ceiling
+		tile.set_sprite("ground_outer_01") # T into ceiling ## LIES
 	elif matrix[1][y] == floor_line[1]:
-		tile.set_sprite("ground_outer_01") # T into floor
+		tile.set_sprite("ground_outer_01") # T into floor ## LIES
 	elif matrix[1][y] == TILE.NONE:
 		tile.set_sprite("ground_outer_01") # between ceiling and floor
 	else:
-		tile.set_sprite("ground_outer_01") # beside solid ground
+		tile.set_sprite("ground") # beside solid ground
 
 func render_ground(tile: Node2D, x: int, y: int, is_floor: bool):
 	 # mask: bleft,left,uleft,up,uright,right,bright,bot,rising,falling

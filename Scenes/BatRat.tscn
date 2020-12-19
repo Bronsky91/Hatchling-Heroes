@@ -6,19 +6,19 @@
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
-region = Rect2( 64, 0, 32, 48 )
+region = Rect2( 0, 0, 32, 48 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
-region = Rect2( 96, 0, 32, 48 )
+region = Rect2( 32, 0, 32, 48 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 32, 48 )
+region = Rect2( 64, 0, 32, 48 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
-region = Rect2( 32, 0, 32, 48 )
+region = Rect2( 96, 0, 32, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
@@ -32,12 +32,12 @@ region = Rect2( 160, 0, 32, 48 )
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
-"name": "right",
+"name": "left",
 "speed": 4.0
 }, {
 "frames": [ SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
-"name": "left",
+"name": "right",
 "speed": 4.0
 }, {
 "frames": [ SubResource( 5 ), SubResource( 6 ) ],
@@ -50,7 +50,7 @@ animations = [ {
 extents = Vector2( 8, 12 )
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 7.64994, 1.50748 )
+extents = Vector2( 10.6959, 1.50748 )
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 3.74096, 3.87974 )
@@ -67,6 +67,7 @@ score_worth = 20
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
 animation = "left"
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -84,7 +85,7 @@ collision_layer = 64
 collision_mask = 8
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="Belly"]
-position = Vector2( -0.3195, 11.4049 )
+position = Vector2( -0.3195, 9.8157 )
 shape = SubResource( 9 )
 
 [node name="Face" type="Area2D" parent="."]
