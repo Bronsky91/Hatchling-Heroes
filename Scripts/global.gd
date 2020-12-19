@@ -15,6 +15,7 @@ enum power_parts {
 	TOP_SHIELD,
 	RAT_PROTECTION,
 	BAT_PROTECTION,
+	LAVA_WALK,
 	NOTHING
 }
 
@@ -30,7 +31,8 @@ const power_parts_dict = {
 	power_parts.TOP_SHIELD: "Shielded Top",
 	power_parts.RAT_PROTECTION: "Rat Protection",
 	power_parts.BAT_PROTECTION: "Bat Protection",
-	power_parts.WALL_STICK: "Stick to Walls"
+	power_parts.WALL_STICK: "Stick to Walls",
+	power_parts.LAVA_WALK: "Lava Walking"
 }
 
 var starting_over = false

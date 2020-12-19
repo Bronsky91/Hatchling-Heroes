@@ -74,7 +74,8 @@ func _ready():
 		air_max = 10
 		UI.get_node("AirMeter").max_value = air_max
 		UI.get_node("AirMeter").value = air_max
-
+	if has_power(g.power_parts.LAVA_WALK):
+		floor_raycast.set_collision_mask_bit(g.collision_layers.LAVA, true)
 	health_bar.max_value = lives
 	health_bar.value = lives
 	
