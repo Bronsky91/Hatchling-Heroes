@@ -22,6 +22,7 @@ var swim_speed_horizontal = 3 * tile_size
 var swim_jump_out_velocity = -5 * tile_size
 var overlapping_water = []
 var overlapping_water_surface = []
+var fly_count = 0
 
 var is_jumping = false
 var is_double_jumping = false
@@ -219,8 +220,9 @@ func subsequent_jump():
 		velocity.y = max_jump_velocity
 		is_double_jumping = true
 	elif has_power(g.power_parts.FLYING):
-		velocity.y = max_jump_velocity
+		velocity.y = max_jump_velocity + (fly_count * 2 * tile_size)
 		is_flying = true
+		fly_count += 1
 
 func wall_jump():
 	velocity.y = max_jump_velocity

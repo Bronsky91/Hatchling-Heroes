@@ -121,30 +121,36 @@ func _get_transition(delta):
 				return states.idle
 		states.fly:
 			if parent.is_in_water():
+				parent.fly_count = 0
 				if parent.velocity.y < 0:
 					return states.swim
 				else:
 					return states.sink
 			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
+				parent.fly_count = 0
 				return states.wall_slide
 			elif parent.velocity.y >= 0:
 				return states.fall
 			elif parent._check_is_grounded():
+				parent.fly_count = 0
 				return states.idle
 			elif !parent.anim_player.current_animation.ends_with(direction):
 				return states.fly
 		states.fall:
 			if parent.is_in_water():
 				parent.is_double_jumping = false
+				parent.fly_count = 0
 				if parent.velocity.y < 0:
 					return states.swim
 				else:
 					return states.sink 
 			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
 				parent.is_double_jumping = false
+				parent.fly_count = 0
 				return states.wall_slide
 			elif parent._check_is_grounded():
 				parent.is_double_jumping = false
+				parent.fly_count = 0
 				return states.idle
 			elif parent.velocity.y < 0:
 				return states.jump
