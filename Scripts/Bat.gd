@@ -60,6 +60,7 @@ func _on_Belly_body_entered(body):
 		disable_collision()
 			
 func die(player):
+	play_die_sfx()
 	is_dead = true
 	z_index = 10
 	$ScoreLabel.show()
@@ -68,7 +69,14 @@ func die(player):
 	$Sprite.play("die")
 	$DeathTimer.start()
 	disable_collision()
-
+	
+func play_die_sfx():
+	randomize()
+	var n = randi() % 4
+	var variations = ['a', 'b', 'c', 'd']
+	$SFX.stream = load('res://Assets/SFX/enemy_hit_'+ variations[n] +'.wav')
+	$SFX.play()
+	
 func _on_DeathTimer_timeout():
 	queue_free()
 

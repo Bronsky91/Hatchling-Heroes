@@ -313,19 +313,33 @@ func wall_dir():
 			return "right"
 	return "none"
 
-func take_damage():
+func take_damage(type = ""):
 	if !is_invulnerable and !level_complete:
+		play_damaged_sfx()
 		jump()
 		lives -= 1
 		if lives >= 0:
 			lives_container.get_children()[-1].queue_free()
 		if lives < 1 and not level_complete:
+			if type == 'spike':
+				play_impale_sfx()
 			is_dead = true
 			complete_level("GAME OVER")
 		else:
 			is_invulnerable = true
 			$InvulnerabilityTimer.start()
 			$FlashTimer.start()
+			
+func play_impale_sfx():
+	$SFX.stream = load('res://Assets/SFX/spike_impale.wav')
+	$SFX.play()
+	
+func play_damaged_sfx():
+	randomize()
+	var n = randi() % 4
+	var variations = ['a', 'b', 'c', 'poo']
+	$SFX.stream = load('res://Assets/SFX/dmg_'+ variations[n] +'.wav')
+	$SFX.play()
 
 func _on_AirTimer_timeout():
 	if UI.get_node('AirMeter').value == air_max:

@@ -14,7 +14,6 @@ var facing = -1
 func _ready():
 	$ScoreLabel.text = "+"+str(score_worth)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if !is_dead:
@@ -44,8 +43,16 @@ func _on_Back_body_entered(body):
 	if body.name == "Player" and !is_dead and !has_killed:
 		body.bounce_off_enemy()
 		die(body)
-
+		
+func play_die_sfx():
+	randomize()
+	var n = randi() % 4
+	var variations = ['a', 'b', 'c', 'd']
+	$SFX.stream = load('res://Assets/SFX/enemy_hit_'+ variations[n] +'.wav')
+	$SFX.play()
+	
 func die(player):
+	play_die_sfx()
 	is_dead = true
 	z_index = 10
 	$ScoreLabel.show()
