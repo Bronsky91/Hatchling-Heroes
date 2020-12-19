@@ -23,6 +23,7 @@ var pit_bottoms = []
 var lava_line = []
 var platform_sprites = []
 var water_filter = preload("res://Scenes/WaterFilter.tscn")
+var lava_filter = preload("res://Scenes/LavaFilter.tscn")
 var tile_ground = preload("res://Scenes/Tiles/Ground.tscn")
 var tile_water_surface = preload("res://Scenes/Tiles/WaterSurface.tscn")
 var tile_water_fill = preload("res://Scenes/Tiles/WaterFill.tscn")
@@ -134,7 +135,7 @@ func add_pits():
 			elif strip_len >= 4 and rand_int(1,2) == 1:
 				# calculate water / pit dimensions
 				pit_type = rand_int(0,2) # 33.3% chance to make this pit either water, lava, or spikes
-				pit_type = PIT_TYPE.LAVA # TEMP FOR DEBUGGING PURPOSES
+				# pit_type = PIT_TYPE.LAVA # TEMP FOR DEBUGGING PURPOSES
 				var new_len_min = strip_len - 4 if strip_len - 4 > 2 else 2
 				var new_len = rand_int(new_len_min, strip_len - 2)
 				var new_depth = rand_int(strip_height + 4, strip_height + 8)
@@ -154,7 +155,6 @@ func add_pits():
 							water_bottoms[i] = new_depth
 							tile = TILE.WATER
 						PIT_TYPE.LAVA:
-							print('lava time')
 							lava_tops[i] = strip_height
 							lava_bottoms[i] = new_depth
 							tile = TILE.LAVA
@@ -175,6 +175,12 @@ func add_pits():
 					filter.set_shader_scale()
 					filter.position = Vector2((strip_start + start_padding - 0.5) * 16, (strip_height - 0.5) * 16)
 					add_child(filter)
+				# if water, add water filter over designated area
+				#if pit_type == PIT_TYPE.LAVA:
+				#	var filter = lava_filter.instance()
+				#	filter.scale = Vector2(new_len - 4, new_depth - strip_height)
+				#	filter.position = Vector2((strip_start + start_padding + 0.5) * 16, (strip_height - 0.3) * 16)
+				#	add_child(filter)
 			strip_start = x
 			strip_height = floor_line[x]
 
