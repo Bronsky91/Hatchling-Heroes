@@ -359,8 +359,8 @@ func add_lava():
 func add_spikes():
 	for x in range(map_size.x):
 		if x > spawn_width:
-			# 1 in 3 chance to add a spike here if a valid spot
-			if rand_int(1,3) == 1:
+			# 1 in 8 chance to add a spike here if a valid spot
+			if rand_int(1,4) == 1:
 				if can_spike_go_here(Vector2(x, floor_line[x] - 1)):
 					add_spike(Vector2(x, floor_line[x] - 1),Vector2.UP,false)
 
