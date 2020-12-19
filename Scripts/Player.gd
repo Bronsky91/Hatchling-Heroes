@@ -54,7 +54,7 @@ onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 onready var map_size_x = get_node('../Tiles').map_size.x * 16
 onready var UI = get_node('../../UI')
-onready var health_bar = get_node('../../UI/HealthBar')
+onready var lives_container = get_node('../../UI/LivesContainer')
 onready var timer_label = get_node('../../UI/TimerLabel')
 onready var score_label = get_node('../../UI/ScoreLabel')
 onready var music_player = get_node("../../AudioStreamPlayer")
@@ -78,11 +78,24 @@ func _ready():
 		floor_raycast.set_collision_mask_bit(g.collision_layers.LAVA, true)
 	if has_power(g.power_parts.WATER_WALK):
 		floor_raycast.set_collision_mask_bit(g.collision_layers.WATER, true)
-	health_bar.max_value = lives
-	health_bar.value = lives
+
+	add_lives_to_container()
 	
 	max_jump_velocity = -sqrt(2 * gravity * jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+	
+func add_lives_to_container():
+	var lives_array = range(lives)
+	for lives in lives_array:
+		var control = Control.new()
+		control.rect_position.y = 10
+		var sprite = Sprite.new()
+		sprite.texture = $Body/Head.texture
+		sprite.vframes = 6
+		sprite.hframes = 7
+		sprite.frame = 27
+		control.add_child(sprite)
+		lives_container.add_child(control)
 	
 func _physics_process(delta):
 	if int(position.x) > previous_pos_x:
@@ -287,7 +300,7 @@ func wall_dir():
 
 func take_damage():
 	lives -= 1
-	health_bar.value = lives
+	lives_container.get_children()[-1].queue_free()
 	if lives < 1 and not level_complete:
 		is_dead = true
 		complete_level("GAME OVER")

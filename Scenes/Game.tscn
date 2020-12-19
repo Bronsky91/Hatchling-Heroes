@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Tiles.gd" type="Script" id=2]
@@ -90,30 +90,6 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.027451, 0.0980392, 0.533333, 1 )
-
-[sub_resource type="StyleBoxFlat" id=16]
-bg_color = Color( 0.819608, 0.105882, 0.105882, 1 )
-border_color = Color( 0.47451, 0.0627451, 0.0627451, 1 )
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxFlat" id=17]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.819608, 0.105882, 0.105882, 1 )
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-expand_margin_left = 2.0
-expand_margin_right = 2.0
-expand_margin_top = 2.0
-expand_margin_bottom = 2.0
 
 [sub_resource type="DynamicFontData" id=18]
 antialiased = false
@@ -337,28 +313,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HealthBar" type="ProgressBar" parent="UI"]
-margin_left = 174.009
-margin_top = 6.55455
-margin_right = 231.009
-margin_bottom = 12.5546
-custom_styles/fg = SubResource( 16 )
-custom_styles/bg = SubResource( 17 )
-max_value = 3.0
-step = 1.0
-value = 2.0
-percent_visible = false
+[node name="Label" type="Label" parent="UI"]
+margin_left = 130.856
+margin_top = 1.99639
+margin_right = 176.856
+margin_bottom = 16.9964
+custom_fonts/font = SubResource( 19 )
+text = "Lives:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="UI/HealthBar"]
-margin_left = -26.2821
-margin_top = -4.8909
-margin_right = -3.28207
-margin_bottom = 10.1091
-custom_fonts/font = SubResource( 19 )
-text = "HP:"
+[node name="LivesContainer" type="HBoxContainer" parent="UI"]
+anchor_left = 0.00176773
+anchor_top = 0.00147314
+anchor_right = 0.00176773
+anchor_bottom = 0.00147314
+margin_left = 189.192
+margin_top = 15.5858
+margin_right = 238.192
+margin_bottom = 29.5858
+custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
