@@ -193,8 +193,6 @@ func _get_transition(delta):
 	return null
 
 func _enter_state(new_state, old_state):
-	print('old_state ' + str(old_state) + ' -> new_state ' + str(new_state))
-	print(parent._check_is_grounded())
 	var direction = "_left" if parent.facing < 0 else "_right"
 	if OS.is_debug_build():
 		parent.get_node("StateLabel").text = states.keys()[new_state].to_lower() + direction
