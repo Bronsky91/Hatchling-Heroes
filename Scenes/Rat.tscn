@@ -6,35 +6,35 @@
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 48, 16 )
+region = Rect2( 0, 16, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
-region = Rect2( 48, 0, 48, 16 )
+region = Rect2( 48, 16, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
-region = Rect2( 96, 0, 48, 16 )
+region = Rect2( 96, 16, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
-region = Rect2( 144, 0, 48, 16 )
+region = Rect2( 144, 16, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 16, 48, 16 )
+region = Rect2( 0, 0, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
-region = Rect2( 48, 16, 48, 16 )
+region = Rect2( 48, 0, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 2 )
-region = Rect2( 96, 16, 48, 16 )
+region = Rect2( 96, 0, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 2 )
-region = Rect2( 144, 16, 48, 16 )
+region = Rect2( 144, 0, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 2 )
@@ -48,12 +48,12 @@ region = Rect2( 48, 32, 48, 16 )
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
-"name": "left",
+"name": "right",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
-"name": "right",
+"name": "left",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 9 ) ],
@@ -74,7 +74,7 @@ extents = Vector2( 11.875, 6 )
 extents = Vector2( 12.8209, 3.75 )
 
 [sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 13.1645, 2.92587 )
+extents = Vector2( 11.8365, 0.673001 )
 
 [sub_resource type="DynamicFontData" id=15]
 antialiased = false
@@ -92,7 +92,6 @@ script = ExtResource( 1 )
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
 animation = "left"
-frame = 2
 speed_scale = 1.5
 playing = true
 
@@ -118,7 +117,7 @@ shape = SubResource( 13 )
 [node name="Back" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Back"]
-position = Vector2( -4.86933, -2.8722 )
+position = Vector2( -5.24271, -5.1395 )
 shape = SubResource( 14 )
 
 [node name="ScoreLabel" type="Label" parent="."]

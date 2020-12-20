@@ -295,7 +295,6 @@ func save_creature():
 		data[part].power_part = power
 	
 	powers = g.get_powers_for_egg(data)
-	print(powers)
 	var f = File.new()
 	f.open("user://character_state.save", File.WRITE)
 	f.store_string(JSON.print(data, "  ", true))

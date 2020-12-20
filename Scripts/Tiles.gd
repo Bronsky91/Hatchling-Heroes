@@ -507,7 +507,6 @@ func render_ground(tile: Node2D, x: int, y: int, is_floor: bool):
 	 # mask: bleft,left,uleft,up,uright,right,bright,bot,rising,falling
 	var neighbors_bitmask: String = "0000000000"
 	var neighbor: int = TILE.GROUND_FLOOR if is_floor else TILE.GROUND_CEIL
-	
 	# if tile is final floor or ceiling, manually fill it in
 	if x == map_size.x - 1 and y == floor_line[x]:
 		tile.set_sprite("ground_floor_1100011100")

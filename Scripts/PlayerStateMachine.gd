@@ -144,7 +144,7 @@ func _get_transition(delta):
 					return states.swim
 				else:
 					return states.sink 
-			elif parent.wall_direction != 0 and parent.wall_slide_cooldown.is_stopped():
+			elif (parent.wall_direction != 0 and parent.wall_direction == parent.facing) and parent.wall_slide_cooldown.is_stopped():
 				parent.is_double_jumping = false
 				parent.fly_count = 0
 				return states.wall_slide

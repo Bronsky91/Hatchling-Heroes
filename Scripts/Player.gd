@@ -163,10 +163,10 @@ func _cap_gravity_wall_slide():
 	velocity.y = 0 if has_power(g.power_parts.WALL_STICK) else min(velocity.y, max_velocity) 
 
 func _apply_movement(delta):
-	var snap = Vector2.DOWN * (tile_size * 2) if !is_jumping and !is_flying else Vector2.ZERO
+	var snap = Vector2.DOWN if !is_jumping and !is_flying else Vector2.ZERO
 	
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
-	
+
 	var was_grounded = is_grounded
 	is_grounded = _check_is_grounded()
 	
@@ -314,6 +314,8 @@ func _update_wall_direction():
 		wall_direction = move_direction
 	else:
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
+		
+		
 
 func _check_is_valid_wall(raycast):
 	if raycast.is_colliding():
