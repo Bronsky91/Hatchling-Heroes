@@ -33,7 +33,7 @@ var is_invulnerable = false
 var is_flashing = false
 var is_dead = false
 
-var lives = 2
+var lives = 6
 var air_max = 5
 var can_double_jump = false
 var level_complete = false

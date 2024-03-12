@@ -282,7 +282,7 @@ __meta__ = {
 [node name="Arrow" type="AnimatedSprite" parent="UI/GameOverLabel"]
 position = Vector2( 30, 108 )
 frames = SubResource( 13 )
-frame = 2
+frame = 5
 speed_scale = 1.5
 playing = true
 
@@ -320,9 +320,6 @@ margin_right = 176.856
 margin_bottom = 16.9964
 custom_fonts/font = SubResource( 17 )
 text = "Lives:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LivesContainer" type="HBoxContainer" parent="UI"]
 anchor_left = 0.00176773
@@ -341,6 +338,7 @@ __meta__ = {
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
 volume_db = -15.0
+
 [connection signal="timeout" from="Level/EnemySpawner/Timer" to="Level/EnemySpawner" method="_on_Timer_timeout"]
 [connection signal="button_up" from="UI/GameOverLabel/StartOver" to="UI" method="_on_StartOver_button_up"]
 [connection signal="mouse_entered" from="UI/GameOverLabel/StartOver" to="UI" method="_on_StartOver_mouse_entered"]

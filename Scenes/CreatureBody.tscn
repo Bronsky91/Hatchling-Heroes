@@ -1378,43 +1378,43 @@ tracks/5/keys = {
 [node name="Torso" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 2 )
-vframes = 6
 hframes = 7
+vframes = 6
 frame = 27
 
 [node name="Tail" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 3 )
-vframes = 6
 hframes = 7
+vframes = 6
 frame = 27
 
 [node name="Head" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 4 )
-vframes = 6
 hframes = 7
+vframes = 6
 frame = 27
 
 [node name="Legs" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 5 )
-vframes = 6
 hframes = 7
+vframes = 6
 frame = 27
 
 [node name="Arms" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 6 )
-vframes = 6
 hframes = 7
+vframes = 6
 frame = 27
 
 [node name="Back" type="Sprite" parent="."]
 material = ExtResource( 1 )
 texture = ExtResource( 7 )
-vframes = 6
 hframes = 7
+vframes = 6
 frame = 27
 
 [node name="Hat" type="Sprite" parent="."]

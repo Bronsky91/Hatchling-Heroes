@@ -6,8 +6,9 @@
 [ext_resource path="res://addons/gamejolt_api_v2/main.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Black.png" type="Texture" id=5]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 4, 13 )
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 5.0
+height = 14.0
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 8
@@ -31,9 +32,6 @@ margin_left = -16.0
 margin_top = -32.0
 margin_right = 16.0
 margin_bottom = -16.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LeftWallRaycast" type="RayCast2D" parent="."]
 position = Vector2( -5, 0 )
@@ -107,6 +105,7 @@ one_shot = true
 
 [node name="SFX" type="AudioStreamPlayer2D" parent="."]
 volume_db = -10.0
+
 [connection signal="timeout" from="AirTimer" to="." method="_on_AirTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_InvulnerabilityTimer_timeout"]

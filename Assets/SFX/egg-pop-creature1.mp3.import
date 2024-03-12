@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/egg-pop-creature1.mp3-072cc3936d322ba6bf4c5b65bb38b666.mp3str"
+
+[deps]
+
+source_file="res://Assets/SFX/egg-pop-creature1.mp3"
+dest_files=[ "res://.import/egg-pop-creature1.mp3-072cc3936d322ba6bf4c5b65bb38b666.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
